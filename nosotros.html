@@ -3,13 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nosotros | Inmobiliaria</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Sobre Nosotros | Inmobiliaria Prestige</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Variables de Color y Ajustes Generales --- */
+        :root {
+            --primary-color: #0f172a; /* Azul marino profundo */
+            --accent-color: #c5a059;  /* Dorado elegante */
+            --text-color: #334155;    /* Gris oscuro para textos */
+            --bg-light: #f8fafc;      /* Fondo muy claro */
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Cabecera / Navegación --- */
+        header {
+            background-color: var(--primary-color);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--accent-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            /* Imagen de cabecera oscura y elegante */
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
+                        url('https://images.unsplash.com/photo-1613490908578-7521199ed260?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #cbd5e1;
+        }
+
+        /* --- Contenedor General --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        /* --- Nuestra Historia --- */
+        .historia-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .historia-texto h2 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .historia-texto h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin-top: 10px;
+        }
+
+        .historia-texto p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: #475569;
+        }
+
+        .historia-img img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover; /* Evita que la foto se deforme */
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* --- Valores --- */
+        .valores {
+            background-color: var(--white);
+        }
+
+        .valores h2, .equipo h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 4rem;
+        }
+
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .valor-card {
+            background: var(--bg-light);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .valor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: var(--accent-color);
+        }
+
+        .valor-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .valor-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Equipo Directivo --- */
+        .equipo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .miembro {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .miembro:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* AQUÍ ESTÁ EL SECRETO PARA QUE LAS FOTOS NO SE VEAN MAL */
+        .miembro img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover; /* Rellena el espacio sin aplastar la foto */
+            object-position: center top; /* Enfoca las caras */
+        }
+
+        .miembro-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .miembro-info h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .cargo {
+            color: var(--accent-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .descripcion {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Design (Móviles) --- */
+        @media (max-width: 768px) {
+            .historia-grid {
+                grid-template-columns: 1fr;
+            }
+            .historia-img img {
+                height: 350px;
+            }
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">INMOBILIARIA PRESTIGE</div>
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -31,11 +309,11 @@
         <section class="historia-grid">
             <div class="historia-texto">
                 <h2>Nuestra Historia</h2>
-                <p>En Inmobiliaria Prestige, llevamos más de 15 años dedicados a conectar a las personas con sus hogares ideales. Fundada en 2005, comenzamos como una pequeña agencia local con un objetivo claro: ofrecer un servicio transparente, honesto y personalizado.</p>
-                <p>Hoy en día, somos líderes en el sector inmobiliario, contando con una amplia cartera de propiedades exclusivas y un equipo de profesionales apasionados por el mercado de bienes raíces. Entendemos que comprar o vender una propiedad es una de las decisiones más importantes de tu vida, y estamos aquí para acompañarte en cada paso del proceso.</p>
+                <p>En Inmobiliaria Prestige, llevamos más de 15 años dedicados a conectar a las personas con sus hogares ideales. Fundada en 2005, comenzamos como una pequeña agencia local con un objetivo claro: ofrecer un servicio transparente, honesto y sumamente personalizado.</p>
+                <p>Hoy en día, somos líderes en el sector inmobiliario de lujo, contando con una amplia cartera de propiedades exclusivas y un equipo de profesionales apasionados por el mercado de bienes raíces. Entendemos que adquirir una propiedad es una de las decisiones más importantes de tu vida, y estamos aquí para acompañarte con la máxima discreción y excelencia.</p>
             </div>
             <div class="historia-img">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fachada de una casa moderna con piscina">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Fachada de una espectacular casa moderna con piscina">
             </div>
         </section>
     </main>
@@ -46,18 +324,18 @@
             <div class="valores-grid">
                 <div class="valor-card">
                     <div class="valor-icon">🤝</div>
-                    <h3>Confianza</h3>
-                    <p>Operamos con total transparencia para que te sientas seguro en cada transacción. Tu tranquilidad es nuestra prioridad.</p>
+                    <h3>Confianza Absoluta</h3>
+                    <p>Operamos con total transparencia para que te sientas seguro en cada transacción. Protegemos tus intereses como si fueran los nuestros.</p>
                 </div>
                 <div class="valor-card">
                     <div class="valor-icon">🏆</div>
-                    <h3>Experiencia</h3>
-                    <p>Nuestros años en el mercado nos permiten conocer las mejores oportunidades y guiarte con precisión y profesionalismo.</p>
+                    <h3>Experiencia de Mercado</h3>
+                    <p>Nuestro profundo conocimiento del sector nos permite identificar las mejores oportunidades de inversión y guiarte con precisión técnica.</p>
                 </div>
                 <div class="valor-card">
-                    <div class="valor-icon">❤️</div>
-                    <h3>Atención Personalizada</h3>
-                    <p>No eres un cliente más. Escuchamos tus necesidades para encontrar la propiedad que se ajuste perfectamente a tu estilo de vida.</p>
+                    <div class="valor-icon">✨</div>
+                    <h3>Atención Exclusiva</h3>
+                    <p>Diseñamos un plan a medida para ti. Escuchamos tus necesidades para encontrar la propiedad que encaje perfectamente con tu estilo de vida.</p>
                 </div>
             </div>
         </div>
@@ -68,27 +346,27 @@
             <h2>Nuestro Equipo Directivo</h2>
             <div class="equipo-grid">
                 <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Retrato de Carlos Mendoza, Director General">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carlos Mendoza, Director General">
                     <div class="miembro-info">
                         <h3>Carlos Mendoza</h3>
                         <p class="cargo">Director General</p>
-                        <p class="descripcion">Con más de 20 años de experiencia en el sector de lujo.</p>
+                        <p class="descripcion">Con más de 20 años de experiencia liderando el sector de propiedades de alto standing.</p>
                     </div>
                 </div>
                 <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Retrato de Laura Torres, Directora de Ventas">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laura Torres, Directora de Ventas">
                     <div class="miembro-info">
                         <h3>Laura Torres</h3>
                         <p class="cargo">Directora de Ventas</p>
-                        <p class="descripcion">Especialista en negociaciones y atención al cliente.</p>
+                        <p class="descripcion">Especialista en negociaciones complejas y diseño de estrategias para clientes VIP.</p>
                     </div>
                 </div>
                 <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Retrato de Roberto Silva, Asesor Senior">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roberto Silva, Asesor Senior">
                     <div class="miembro-info">
                         <h3>Roberto Silva</h3>
                         <p class="cargo">Asesor Senior</p>
-                        <p class="descripcion">Experto en mercado local y valoraciones inmobiliarias.</p>
+                        <p class="descripcion">Experto en el mercado local, arquitectura contemporánea y valoraciones inmobiliarias exactas.</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +374,7 @@
     </section>
 
     <footer>
-        <div class="container">
+        <div class="container" style="padding: 2rem;">
             <p>&copy; 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
         </div>
     </footer>
