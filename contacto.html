@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto | Inmobiliaria</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="contacto.css">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">Inmobiliaria</div>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../nosotros.html">Nosotros</a></li>
+                <li><a href="../servicios.html">Servicios</a></li>
+                <li class="dropdown">
+                    <a href="contacto.html" class="active">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-contacto-premium">
+        <h1>Contacta con nosotros</h1>
+        <p>Visítanos en nuestras oficinas o envíanos un mensaje directo.</p>
+    </section>
+
+    <main class="contacto-wrapper-grid">
+        
+        <aside class="contacto-info-premium">
+            <div class="info-list">
+                <div class="item">
+                    <span class="icon-svg pin-icon"></span>
+                    <div>
+                        <strong>Nuestra Sede</strong>
+                        <p>Av. de la Innovación 45<br>Alcalá de Guadaíra, Sevilla</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon-svg phone-icon"></span>
+                    <div>
+                        <strong>Llámanos</strong>
+                        <p>+34 900 123 456</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon-svg email-icon"></span>
+                    <div>
+                        <strong>Correo Electrónico</strong>
+                        <p>info@inmobiliaria.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="border-radius: 8px; overflow: hidden; border: 1px solid #eaeaea;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50742.66826620593!2d-5.88566455!3d37.3364947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c0da4034aa3%3A0x6b29d9e602ea0396!2sAlcal%C3%A1%20de%20Guada%C3%ADra%2C%20Seville!5e0!3m2!1sen!2ses!4v1712668500000!5m2!1sen!2ses" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </aside>
+
+        <section class="contacto-form-premium">
+            <form action="#" method="POST">
+                <div class="grid-2-col">
+                    <div class="input-group-premium">
+                        <input type="text" id="nombre" required placeholder=" ">
+                        <label for="nombre">Nombre completo</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="email" id="email" required placeholder=" ">
+                        <label for="email">Correo electrónico</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="tel" id="telefono" required placeholder=" ">
+                        <label for="telefono">Teléfono de contacto</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="text" id="direccion" placeholder=" ">
+                        <label for="direccion">Asunto o Dirección</label>
+                    </div>
+                </div>
+                
+                <div class="input-group-premium">
+                    <textarea id="mensaje" required placeholder=" "></textarea>
+                    <label for="mensaje">Díganos detalladamente lo que necesita</label>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <label class="checkbox-group">
+                        <input type="checkbox" required> 
+                        <span>He leído y acepto la <strong>Política de Privacidad</strong></span>
+                    </label>
+                    
+                    <button type="submit" class="btn-submit-premium">Enviar Mensaje</button>
+                </div>
+            </form>
+        </section>
+        
+    </main>
+
+    <footer>
+        <p>© 2026 Inmobiliaria - Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>
