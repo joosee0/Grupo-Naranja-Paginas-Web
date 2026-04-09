@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | Inmobiliaria</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="contacto.css">
+    <title>Contacto General | Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
-            <div class="logo">Inmobiliaria</div>
-            <ul>
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="../nosotros.html">Nosotros</a></li>
-                <li><a href="../servicios.html">Servicios</a></li>
+            <ul class="nav-links">
+                <li><a href="index.html">INICIO</a></li>
+                <li><a href="nosotros.html">SOBRE NOSOTROS</a></li>
+                <li><a href="servicios.html">SERVICIOS</a></li>
+                
                 <li class="dropdown">
-                    <a href="contacto.html" class="active">Contacto ▾</a>
+                    <a href="contacto.html" class="active">CONTACTO ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="contacto.html">Contacto General</a></li>
                         <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
@@ -34,7 +37,6 @@
     </section>
 
     <main class="contacto-wrapper-grid">
-        
         <aside class="contacto-info-premium">
             <div class="info-list">
                 <div class="item">
@@ -55,12 +57,11 @@
                     <span class="icon-svg email-icon"></span>
                     <div>
                         <strong>Correo Electrónico</strong>
-                        <p>info@inmobiliaria.com</p>
+                        <p>info@inmobiliariaprestige.com</p>
                     </div>
                 </div>
             </div>
-            
-            <div style="border-radius: 8px; overflow: hidden; border: 1px solid #eaeaea;">
+            <div style="border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50742.66826620593!2d-5.88566455!3d37.3364947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c0da4034aa3%3A0x6b29d9e602ea0396!2sAlcal%C3%A1%20de%20Guada%C3%ADra%2C%20Seville!5e0!3m2!1sen!2ses!4v1712668500000!5m2!1sen!2ses" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </aside>
@@ -82,7 +83,7 @@
                     </div>
                     <div class="input-group-premium">
                         <input type="text" id="direccion" placeholder=" ">
-                        <label for="direccion">Asunto o Dirección</label>
+                        <label for="direccion">Asunto</label>
                     </div>
                 </div>
                 
@@ -94,18 +95,16 @@
                 <div style="text-align: center; margin-top: 20px;">
                     <label class="checkbox-group">
                         <input type="checkbox" required> 
-                        <span>He leído y acepto la <strong>Política de Privacidad</strong></span>
+                        <span>He leído y acepto la Política de Privacidad</span>
                     </label>
-                    
                     <button type="submit" class="btn-submit-premium">Enviar Mensaje</button>
                 </div>
             </form>
         </section>
-        
     </main>
 
-    <footer>
-        <p>© 2026 Inmobiliaria - Todos los derechos reservados</p>
+    <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2rem; border-top: 4px solid #c5a059;">
+        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
 </body>

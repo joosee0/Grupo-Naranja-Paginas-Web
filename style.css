@@ -175,3 +175,291 @@ footer {
         font-size: 2.2rem;
     }
 }
+
+
+
+
+/* ==========================================================================
+   INICIO MÓDULO DE CONTACTOS Y FORMULARIOS (MIGUEL)
+   ========================================================================== */
+
+/* --- ARREGLO DEL HEADER (Empuja el menú a la esquina derecha) --- */
+.header-prestige {
+    background-color: #0f172a;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between; /* Separa logo y menú a los extremos */
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-prestige .logo {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.header-prestige .logo span {
+    color: #c5a059;
+}
+
+.header-prestige nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.header-prestige nav ul.nav-links > li > a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.header-prestige nav ul.nav-links > li > a:hover,
+.header-prestige nav ul.nav-links > li > a.active {
+    color: #c5a059;
+}
+
+/* --- ARREGLO DEL DESPLEGABLE (Evita que se pongan en fila horizontal) --- */
+.dropdown { 
+    position: relative; 
+}
+
+.header-prestige nav ul.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 250px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 10px 0;
+    z-index: 1000;
+    border-top: 4px solid #c5a059;
+    
+    /* Forzamos dirección vertical para anular cualquier error global */
+    flex-direction: column !important; 
+    gap: 0;
+}
+
+.dropdown:hover .dropdown-menu { 
+    display: flex !important; /* Muestra en columna al pasar el ratón */
+}
+
+.header-prestige nav ul.dropdown-menu li { 
+    width: 100%; 
+    display: block;
+}
+
+.header-prestige nav ul.dropdown-menu li a {
+    display: block;
+    padding: 14px 22px;
+    color: #334155 !important;
+    font-size: 0.95rem !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+}
+
+.header-prestige nav ul.dropdown-menu li a:hover {
+    background-color: #f8fafc !important;
+    color: #c5a059 !important;
+    padding-left: 28px;
+}
+
+/* --- HERO PREMIUM --- */
+.hero-contacto-premium {
+    background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    text-align: center;
+    padding: 80px 20px;
+    border-radius: 12px;
+    max-width: 1200px;
+    margin: 40px auto 50px auto;
+    color: #ffffff;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+}
+.hero-contacto-premium h1 { 
+    font-size: 3.5rem; 
+    margin-bottom: 15px; 
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-family: 'Playfair Display', serif;
+}
+.hero-contacto-premium p { 
+    font-size: 1.2rem; 
+    color: #cbd5e1; 
+    font-weight: 300;
+}
+
+/* --- LAYOUTS Y PANELES --- */
+.contacto-wrapper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px; 
+    max-width: 1200px;
+    margin: 0 auto 80px auto;
+    padding: 0 20px;
+}
+.contacto-info-premium, .contacto-form-premium {
+    background-color: #ffffff;
+    padding: 50px; 
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f1f5f9;
+}
+.full-width-form { grid-column: 1 / -1; }
+
+.form-section-title {
+    font-size: 1.5rem;
+    color: #0f172a;
+    margin: 40px 0 25px 0;
+    position: relative;
+    padding-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+.form-section-title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: #c5a059;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.form-section-title:first-child { margin-top: 0; }
+
+.grid-2-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+.grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.grid-4-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+
+/* --- ICONOS E INFORMACIÓN --- */
+.info-list { display: flex; flex-direction: column; gap: 35px; margin-bottom: 40px; }
+.info-list .item { display: flex; align-items: flex-start; gap: 20px; }
+.info-list strong {
+    display: block; font-size: 1.2rem; color: #0f172a; margin-bottom: 5px; font-family: 'Playfair Display', serif;
+}
+.info-list p { color: #334155; line-height: 1.6; font-size: 1rem; }
+
+.icon-svg { width: 28px; height: 28px; background-color: #c5a059; mask-size: cover; -webkit-mask-size: cover; flex-shrink: 0; margin-top: 2px;}
+.pin-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3"/></svg>'); }
+.phone-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.26 1.12.32 2.33.5 3.57.5.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.24.18 2.45.5 3.57.1.35.01.74-.26 1.02l-2.22 2.22z"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.26 1.12.32 2.33.5 3.57.5.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.24.18 2.45.5 3.57.1.35.01.74-.26 1.02l-2.22 2.22z"/></svg>'); }
+.email-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'); }
+
+/* --- ETIQUETAS FLOTANTES Y CAMPOS DE TEXTO --- */
+.input-group-premium { position: relative; margin-bottom: 25px; }
+
+.input-group-premium input,
+.input-group-premium select,
+.input-group-premium textarea {
+    width: 100%;
+    height: 60px; 
+    padding: 26px 18px 8px 18px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    color: #0f172a;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.3s ease;
+    appearance: none;
+    box-sizing: border-box;
+}
+
+.input-group-premium textarea { height: auto; min-height: 140px; resize: vertical; }
+
+.input-group-premium select {
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23c5a059"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 24px;
+}
+
+.input-group-premium input[type=number]::-webkit-inner-spin-button { opacity: 1; margin-top: 14px; }
+
+.input-group-premium input:focus,
+.input-group-premium select:focus,
+.input-group-premium textarea:focus {
+    border-color: #c5a059;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.1);
+}
+
+.input-group-premium label {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    font-size: 1rem;
+    color: #64748b;
+    pointer-events: none;
+    transition: all 0.25s ease;
+}
+
+.input-group-premium input:focus ~ label,
+.input-group-premium input:not(:placeholder-shown) ~ label,
+.input-group-premium select:focus ~ label,
+.input-group-premium select:valid ~ label,
+.input-group-premium textarea:focus ~ label,
+.input-group-premium textarea:not(:placeholder-shown) ~ label {
+    top: 8px;
+    left: 16px;
+    font-size: 0.75rem;
+    color: #c5a059;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* --- CHECKBOX Y BOTONES --- */
+.checkbox-group {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    color: #334155; font-size: 0.95rem; cursor: pointer; margin-bottom: 25px;
+}
+.checkbox-group input[type="checkbox"] { accent-color: #c5a059; width: 18px; height: 18px; cursor: pointer; }
+
+.btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto; }
+
+.btn-submit-premium {
+    width: 100%;
+    background-color: #c5a059;
+    color: #ffffff;
+    padding: 16px 30px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.btn-submit-premium:hover { 
+    background-color: #a88445; 
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
+}
+
+.btn-secondary { background-color: #0f172a; }
+.btn-secondary:hover { background-color: #1e293b; box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2); }
+
+@media (max-width: 950px) {
+    .header-prestige { flex-direction: column; gap: 15px; }
+    .contacto-wrapper-grid { grid-template-columns: 1fr; gap: 30px; }
+    .grid-2-col, .grid-3-col, .grid-4-col, .btn-group { grid-template-columns: 1fr; }
+    .contacto-info-premium, .contacto-form-premium { padding: 30px; }
+    .hero-contacto-premium h1 { font-size: 2.5rem; }
+}
+/* ==========================================================================
+   FIN MÓDULO DE CONTACTOS Y FORMULARIOS (MIGUEL)
+   ========================================================================== */

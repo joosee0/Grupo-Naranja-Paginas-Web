@@ -1,23 +1,26 @@
-¡<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Díganos qué busca | Inmobiliaria</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="contacto.css">
+    <title>Díganos qué busca | Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
-            <div class="logo">Inmobiliaria</div>
-            <ul>
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="../nosotros.html">Nosotros</a></li>
-                <li><a href="../servicios.html">Servicios</a></li>
+            <ul class="nav-links">
+                <li><a href="index.html">INICIO</a></li>
+                <li><a href="nosotros.html">SOBRE NOSOTROS</a></li>
+                <li><a href="servicios.html">SERVICIOS</a></li>
+                
                 <li class="dropdown">
-                    <a href="contacto.html" class="active">Contacto ▾</a>
+                    <a href="contacto.html" class="active">CONTACTO ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="contacto.html">Contacto General</a></li>
                         <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
@@ -30,7 +33,7 @@
 
     <section class="hero-contacto-premium">
         <h1>Díganos qué busca</h1>
-        <p>Le ayudaremos a encontrar la mejor oferta adaptada a sus necesidades.</p>
+        <p>Le ayudaremos a encontrar la propiedad perfecta adaptada a sus necesidades.</p>
     </section>
 
     <main class="contacto-wrapper-grid">
@@ -57,11 +60,11 @@
                     </div>
                 </div>
 
-                <h3 class="form-section-title">Datos Inmueble</h3>
+                <h3 class="form-section-title">Preferencias de Búsqueda</h3>
                 <div class="grid-3-col">
                     <div class="input-group-premium">
                         <input type="number" id="precio" placeholder=" ">
-                        <label for="precio">Precio Máximo (€)</label>
+                        <label for="precio">Presupuesto Máx. (€)</label>
                     </div>
                     <div class="input-group-premium">
                         <input type="text" id="provincia" placeholder=" " value="Sevilla">
@@ -73,37 +76,37 @@
                     </div>
                 </div>
 
-                <p style="margin-bottom: 15px; color: var(--text-secondary); font-weight: bold;">Tipo de Inmueble:</p>
+                <p style="margin-bottom: 15px; color: #334155; font-weight: 600;">Tipo de Inmueble:</p>
                 <div class="grid-4-col" style="margin-bottom: 30px;">
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Casa</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Chalet</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Dúplex</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Finca</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Local</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Piso</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Parcela</label>
-                    <label style="display:flex; gap:8px; color:#555;"><input type="checkbox"> Villa</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Casa</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Chalet</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Dúplex</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Finca</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Local</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Piso</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Parcela</label>
+                    <label style="display:flex; gap:8px; color:#64748b;"><input type="checkbox"> Villa</label>
                 </div>
 
-                <h3 class="form-section-title">Otros Datos</h3>
+                <h3 class="form-section-title">Características Deseadas</h3>
                 <div class="grid-4-col">
                     <div class="input-group-premium">
                         <input type="number" id="hab" placeholder=" ">
-                        <label for="hab">Habitaciones</label>
+                        <label for="hab">Habitaciones Mín.</label>
                     </div>
                     <div class="input-group-premium">
                         <input type="number" id="banos" placeholder=" ">
-                        <label for="banos">Baños</label>
+                        <label for="banos">Baños Mín.</label>
                     </div>
                     <div class="input-group-premium">
                         <input type="number" id="sup" placeholder=" ">
-                        <label for="sup">Sup. Útil (m²)</label>
+                        <label for="sup">Sup. Útil Mín. (m²)</label>
                     </div>
                     <div class="input-group-premium">
                         <select id="piscina" required>
                             <option value="" disabled selected></option>
-                            <option value="si">Sí</option>
-                            <option value="no">No</option>
+                            <option value="si">Imprescindible</option>
+                            <option value="no">No es necesario</option>
                         </select>
                         <label for="piscina">Piscina</label>
                     </div>
@@ -111,21 +114,21 @@
 
                 <div class="input-group-premium">
                     <textarea id="observaciones" placeholder=" "></textarea>
-                    <label for="observaciones">Observaciones de interés</label>
+                    <label for="observaciones">Comentarios adicionales sobre su búsqueda</label>
                 </div>
 
                 <div style="text-align: center; margin-top: 30px;">
                     <label class="checkbox-group">
                         <input type="checkbox" required> Acepto la política de privacidad
                     </label>
-                    <button type="submit" class="btn-submit-premium" style="max-width: 300px;">Enviar Formulario</button>
+                    <button type="submit" class="btn-submit-premium" style="max-width: 350px;">Enviar Solicitud</button>
                 </div>
             </form>
         </section>
     </main>
 
-    <footer>
-        <p>© 2026 Inmobiliaria - Todos los derechos reservados</p>
+    <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2rem; border-top: 4px solid #c5a059;">
+        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
 </body>
