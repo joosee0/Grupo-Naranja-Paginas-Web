@@ -1,11 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Propiedades | Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html" class="active">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+ 
+                <!-- Menú desplegable CONTACTO — idéntico al resto del sitio -->
+                <li class="dropdown">
+                    <a href="contacto.html">CONTACTO ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero-propiedades-premium">
+        <div class="hero-propiedades-content">
+            <span class="hero-badge">Cartera Exclusiva</span>
+            <h1>Propiedades</h1>
+            <p>Descubra nuestra selección de residencias de lujo en Sevilla y su área metropolitana.<br>Cada inmueble, una oportunidad única.</p>
+        </div>
+    </section>
+    <section class="filtros-section">
+        <div class="filtros-container">
+            <h2 class="filtros-titulo">Encuentre su propiedad ideal</h2>
+            <div class="filtros-grid">
+ 
+                <!-- Tipo de operación -->
+                <div class="filtro-grupo">
+                    <label for="operacion">Tipo de operación</label>
+                    <select id="operacion">
+                        <option value="">Todas</option>
+                        <option value="venta">Venta</option>
+                        <option value="alquiler">Alquiler</option>
+                        <option value="obra-nueva">Obra nueva</option>
+                    </select>
+                </div>
+ 
+                <!-- Tipo de inmueble -->
+                <div class="filtro-grupo">
+                    <label for="tipo">Tipo de inmueble</label>
+                    <select id="tipo">
+                        <option value="">Todos</option>
+                        <option value="villa">Villa / Chalet</option>
+                        <option value="piso">Piso / Apartamento</option>
+                        <option value="atico">Ático</option>
+                        <option value="adosado">Adosado</option>
+                        <option value="finca">Finca / Cortijo</option>
+                    </select>
+                </div>
+ 
+                <!-- Provincia / Zona -->
+                <div class="filtro-grupo">
+                    <label for="zona">Zona</label>
+                    <select id="zona">
+                        <option value="">Todas las zonas</option>
+                        <option value="sevilla-capital">Sevilla Capital</option>
+                        <option value="alcala">Alcalá de Guadaíra</option>
+                        <option value="dos-hermanas">Dos Hermanas</option>
+                        <option value="mairena">Mairena del Aljarafe</option>
+                        <option value="la-rinconada">La Rinconada</option>
+                    </select>
+                </div>
+ 
+                <!-- Precio máximo -->
+                <div class="filtro-grupo">
+                    <label for="precio">Precio máximo</label>
+                    <select id="precio">
+                        <option value="">Sin límite</option>
+                        <option value="300000">Hasta 300.000 €</option>
+                        <option value="500000">Hasta 500.000 €</option>
+                        <option value="800000">Hasta 800.000 €</option>
+                        <option value="1200000">Hasta 1.200.000 €</option>
+                        <option value="2000000">Hasta 2.000.000 €</option>
+                    </select>
+                </div>
+ 
+                <!-- Habitaciones -->
+                <div class="filtro-grupo">
+                    <label for="habitaciones">Habitaciones</label>
+                    <select id="habitaciones">
+                        <option value="">Cualquiera</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+ 
+                <!-- Botón buscar -->
+                <div class="filtro-grupo filtro-btn-wrap">
+                    <button class="btn-buscar-propiedades">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        Buscar
+                    </button>
+                </div>
+ 
+            </div>
+        </div>
+    </section>
+    <main class="propiedades-main">
+        <div class="propiedades-container">
+ 
+            <!-- Encabezado de resultados -->
+            <div class="resultados-header">
+                <p class="resultados-count"><strong>6 propiedades</strong> encontradas</p>
+                <div class="ordenar-grupo">
+                    <label for="ordenar">Ordenar por:</label>
+                    <select id="ordenar">
+                        <option value="destacado">Destacados</option>
+                        <option value="precio-asc">Precio: menor a mayor</option>
+                        <option value="precio-desc">Precio: mayor a menor</option>
+                        <option value="reciente">Más recientes</option>
+                    </select>
+                </div>
+            </div>
+ 
+ 
+            <div class="propiedades-grid">
+ 
+                <!-- ——— PROPIEDAD 1 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Villa moderna con piscina en Alcalá de Guadaíra" loading="lazy">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                        <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.250.000 €</p>
+                        <h3 class="prop-titulo">Villa Contemporánea con Piscina Infinita</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            Alcalá de Guadaíra, Sevilla
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                5 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                4 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                620 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+                <!-- ——— PROPIEDAD 2 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Ático de lujo en Sevilla centro" loading="lazy">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">895.000 €</p>
+                        <h3 class="prop-titulo">Ático Exclusivo con Terraza Panorámica</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            Triana, Sevilla Capital
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                3 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                2 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                280 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+                <!-- ——— PROPIEDAD 3 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Chalet adosado con jardín en Dos Hermanas" loading="lazy">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">3.500 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Chalet Premium con Jardín Privado</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            Dos Hermanas, Sevilla
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                4 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                3 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                380 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+                <!-- ——— PROPIEDAD 4 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Finca cortijo en las afueras de Alcalá" loading="lazy">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                        <span class="prop-badge prop-badge--nuevo">Nuevo</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">2.100.000 €</p>
+                        <h3 class="prop-titulo">Finca Señorial con Olivos y Piscina</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            Alcalá de Guadaíra, Sevilla
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                7 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                5 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                1.200 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+                <!-- ——— PROPIEDAD 5 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso de lujo en Mairena del Aljarafe" loading="lazy">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">450.000 €</p>
+                        <h3 class="prop-titulo">Piso de Lujo con Vistas al Guadalquivir</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            Mairena del Aljarafe, Sevilla
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                3 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                2 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                175 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+                <!-- ——— PROPIEDAD 6 ——— -->
+                <article class="prop-card">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Casa adosada en La Rinconada" loading="lazy">
+                        <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">680.000 €</p>
+                        <h3 class="prop-titulo">Adosado de Obra Nueva en Urbanización Privada</h3>
+                        <p class="prop-ubicacion">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                            La Rinconada, Sevilla
+                        </p>
+                        <div class="prop-features">
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+                                4 hab.
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
+                                3 baños
+                            </span>
+                            <span class="prop-feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                                290 m²
+                            </span>
+                        </div>
+                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                    </div>
+                </article>
+ 
+            </div><!-- /propiedades-grid -->
+ 
+            <!-- Paginación -->
+            <div class="paginacion">
+                <button class="pag-btn pag-btn--activo">1</button>
+                <button class="pag-btn">2</button>
+                <button class="pag-btn">3</button>
+                <button class="pag-btn pag-btn--next">Siguiente →</button>
+            </div>
+ 
+        </div><!-- /propiedades-container -->
+    </main>
+    <section class="cta-propiedades">
+        <div class="cta-propiedades-inner">
+            <h2>¿No encuentra lo que busca?</h2>
+            <p>Cuéntenos sus preferencias y nuestro equipo localizará la propiedad perfecta para usted.</p>
+            <a href="buscamos.html" class="btn-submit-premium" style="display:inline-block; text-decoration:none; padding: 16px 40px;">Díganos qué busca</a>
+        </div>
+    </section>
+    <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2rem; border-top: 4px solid #c5a059;">
+        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+    </footer>
+ 
 </body>
 </html>

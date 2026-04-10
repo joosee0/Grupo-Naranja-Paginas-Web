@@ -6,14 +6,14 @@
     --bg-light: #f8fafc;
     --white: #ffffff;
 }
-
+ 
 /* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+ 
 /* Tipografía */
 body {
     font-family: 'Inter', sans-serif;
@@ -21,34 +21,34 @@ body {
     background-color: var(--bg-light);
     line-height: 1.6;
 }
-
+ 
 h1, h2, h3, .logo {
     font-family: 'Playfair Display', serif;
 }
-
+ 
 /* HEADER */
 header {
     background-color: var(--primary-color);
     padding: 1.5rem 5%;
 }
-
+ 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
+ 
 .logo {
     color: var(--white);
     font-size: 1.8rem;
 }
-
+ 
 nav ul {
     list-style: none;
     display: flex;
     gap: 2rem;
 }
-
+ 
 nav ul li a {
     color: var(--white);
     text-decoration: none;
@@ -56,38 +56,38 @@ nav ul li a {
     text-transform: uppercase;
     transition: 0.3s;
 }
-
+ 
 nav ul li a:hover {
     color: var(--accent-color);
 }
-
+ 
 /* HERO  */
 .hero {
     background: linear-gradient(rgba(15,23,42,0.7), rgba(15,23,42,0.7)),
     url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-
+ 
     height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-
+ 
     color: var(--white);
     padding: 2rem;
 }
-
+ 
 .hero h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
 }
-
+ 
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     color: #cbd5e1;
 }
-
+ 
 /* Botón */
 .btn {
     background-color: var(--accent-color);
@@ -97,11 +97,11 @@ nav ul li a:hover {
     border-radius: 30px;
     transition: 0.3s;
 }
-
+ 
 .btn:hover {
     background-color: #a88445;
 }
-
+ 
 /* --- PRESENTACIÓN --- */
 .presentacion {
     text-align: center;
@@ -109,18 +109,18 @@ nav ul li a:hover {
     max-width: 800px;
     margin: auto;
 }
-
+ 
 .presentacion h2 {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
-
+ 
 .presentacion p {
     font-size: 1.1rem;
     color: #475569;
 }
-
+ 
 /* --- SERVICIOS --- */
 .servicios {
     display: grid;
@@ -128,7 +128,7 @@ nav ul li a:hover {
     gap: 2rem;
     padding: 4rem 5%;
 }
-
+ 
 /* Tarjetas */
 .card {
     background: var(--white);
@@ -138,22 +138,22 @@ nav ul li a:hover {
     border: 1px solid #e2e8f0;
     transition: 0.3s;
 }
-
+ 
 .card:hover {
     transform: translateY(-10px);
     border-color: var(--accent-color);
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
-
+ 
 .card h3 {
     color: var(--primary-color);
     margin-bottom: 1rem;
 }
-
+ 
 .card p {
     color: #64748b;
 }
-
+ 
 /* --- FOOTER --- */
 footer {
     background-color: var(--primary-color);
@@ -163,26 +163,26 @@ footer {
     margin-top: 3rem;
     border-top: 3px solid var(--accent-color);
 }
-
+ 
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
         gap: 1rem;
     }
-
+ 
     .hero h1 {
         font-size: 2.2rem;
     }
 }
-
-
-
-
+ 
+ 
+ 
+ 
 /* ==========================================================================
    INICIO MÓDULO DE CONTACTOS Y FORMULARIOS (MIGUEL)
    ========================================================================== */
-
+ 
 /* --- ARREGLO DEL HEADER (Empuja el menú a la esquina derecha) --- */
 .header-prestige {
     background-color: #0f172a;
@@ -192,7 +192,7 @@ footer {
     align-items: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-
+ 
 .header-prestige .logo {
     color: #ffffff;
     font-size: 1.8rem;
@@ -200,11 +200,11 @@ footer {
     letter-spacing: 1px;
     font-weight: bold;
 }
-
+ 
 .header-prestige .logo span {
     color: #c5a059;
 }
-
+ 
 .header-prestige nav ul.nav-links {
     list-style: none;
     display: flex;
@@ -213,7 +213,7 @@ footer {
     margin: 0;
     padding: 0;
 }
-
+ 
 .header-prestige nav ul.nav-links > li > a {
     color: #ffffff;
     text-decoration: none;
@@ -222,17 +222,17 @@ footer {
     font-family: 'Inter', sans-serif;
     transition: color 0.3s ease;
 }
-
+ 
 .header-prestige nav ul.nav-links > li > a:hover,
 .header-prestige nav ul.nav-links > li > a.active {
     color: #c5a059;
 }
-
+ 
 /* --- ARREGLO DEL DESPLEGABLE (Evita que se pongan en fila horizontal) --- */
 .dropdown { 
     position: relative; 
 }
-
+ 
 .header-prestige nav ul.dropdown-menu {
     display: none;
     position: absolute;
@@ -250,16 +250,16 @@ footer {
     flex-direction: column !important; 
     gap: 0;
 }
-
+ 
 .dropdown:hover .dropdown-menu { 
     display: flex !important; /* Muestra en columna al pasar el ratón */
 }
-
+ 
 .header-prestige nav ul.dropdown-menu li { 
     width: 100%; 
     display: block;
 }
-
+ 
 .header-prestige nav ul.dropdown-menu li a {
     display: block;
     padding: 14px 22px;
@@ -268,13 +268,13 @@ footer {
     text-transform: none !important;
     font-weight: 500 !important;
 }
-
+ 
 .header-prestige nav ul.dropdown-menu li a:hover {
     background-color: #f8fafc !important;
     color: #c5a059 !important;
     padding-left: 28px;
 }
-
+ 
 /* --- HERO PREMIUM --- */
 .hero-contacto-premium {
     background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
@@ -299,7 +299,7 @@ footer {
     color: #cbd5e1; 
     font-weight: 300;
 }
-
+ 
 /* --- LAYOUTS Y PANELES --- */
 .contacto-wrapper-grid {
     display: grid;
@@ -317,7 +317,7 @@ footer {
     border: 1px solid #f1f5f9;
 }
 .full-width-form { grid-column: 1 / -1; }
-
+ 
 .form-section-title {
     font-size: 1.5rem;
     color: #0f172a;
@@ -337,11 +337,11 @@ footer {
     left: 0;
 }
 .form-section-title:first-child { margin-top: 0; }
-
+ 
 .grid-2-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
 .grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
 .grid-4-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
-
+ 
 /* --- ICONOS E INFORMACIÓN --- */
 .info-list { display: flex; flex-direction: column; gap: 35px; margin-bottom: 40px; }
 .info-list .item { display: flex; align-items: flex-start; gap: 20px; }
@@ -349,15 +349,15 @@ footer {
     display: block; font-size: 1.2rem; color: #0f172a; margin-bottom: 5px; font-family: 'Playfair Display', serif;
 }
 .info-list p { color: #334155; line-height: 1.6; font-size: 1rem; }
-
+ 
 .icon-svg { width: 28px; height: 28px; background-color: #c5a059; mask-size: cover; -webkit-mask-size: cover; flex-shrink: 0; margin-top: 2px;}
 .pin-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3"/></svg>'); }
 .phone-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.26 1.12.32 2.33.5 3.57.5.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.24.18 2.45.5 3.57.1.35.01.74-.26 1.02l-2.22 2.22z"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.26 1.12.32 2.33.5 3.57.5.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1H7c.55 0 1 .45 1 1 0 1.24.18 2.45.5 3.57.1.35.01.74-.26 1.02l-2.22 2.22z"/></svg>'); }
 .email-icon { mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'); -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'); }
-
+ 
 /* --- ETIQUETAS FLOTANTES Y CAMPOS DE TEXTO --- */
 .input-group-premium { position: relative; margin-bottom: 25px; }
-
+ 
 .input-group-premium input,
 .input-group-premium select,
 .input-group-premium textarea {
@@ -375,9 +375,9 @@ footer {
     appearance: none;
     box-sizing: border-box;
 }
-
+ 
 .input-group-premium textarea { height: auto; min-height: 140px; resize: vertical; }
-
+ 
 .input-group-premium select {
     cursor: pointer;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23c5a059"><path d="M7 10l5 5 5-5z"/></svg>');
@@ -385,9 +385,9 @@ footer {
     background-position: right 18px center;
     background-size: 24px;
 }
-
+ 
 .input-group-premium input[type=number]::-webkit-inner-spin-button { opacity: 1; margin-top: 14px; }
-
+ 
 .input-group-premium input:focus,
 .input-group-premium select:focus,
 .input-group-premium textarea:focus {
@@ -395,7 +395,7 @@ footer {
     background-color: #ffffff;
     box-shadow: 0 4px 15px rgba(197, 160, 89, 0.1);
 }
-
+ 
 .input-group-premium label {
     position: absolute;
     top: 18px;
@@ -405,7 +405,7 @@ footer {
     pointer-events: none;
     transition: all 0.25s ease;
 }
-
+ 
 .input-group-premium input:focus ~ label,
 .input-group-premium input:not(:placeholder-shown) ~ label,
 .input-group-premium select:focus ~ label,
@@ -420,16 +420,16 @@ footer {
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
-
+ 
 /* --- CHECKBOX Y BOTONES --- */
 .checkbox-group {
     display: flex; align-items: center; justify-content: center; gap: 12px;
     color: #334155; font-size: 0.95rem; cursor: pointer; margin-bottom: 25px;
 }
 .checkbox-group input[type="checkbox"] { accent-color: #c5a059; width: 18px; height: 18px; cursor: pointer; }
-
+ 
 .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 600px; margin: 0 auto; }
-
+ 
 .btn-submit-premium {
     width: 100%;
     background-color: #c5a059;
@@ -449,10 +449,10 @@ footer {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
 }
-
+ 
 .btn-secondary { background-color: #0f172a; }
 .btn-secondary:hover { background-color: #1e293b; box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2); }
-
+ 
 @media (max-width: 950px) {
     .header-prestige { flex-direction: column; gap: 15px; }
     .contacto-wrapper-grid { grid-template-columns: 1fr; gap: 30px; }
@@ -463,3 +463,552 @@ footer {
 /* ==========================================================================
    FIN MÓDULO DE CONTACTOS Y FORMULARIOS (MIGUEL)
    ========================================================================== */
+ 
+ 
+ 
+ 
+/* ==========================================================================
+   INICIO MÓDULO DE PROPIEDADES
+   ========================================================================== */
+ 
+/* ——————————————————————————————————————————
+   1. HERO SECTION DE PROPIEDADES
+   —————————————————————————————————————————— */
+ 
+.hero-propiedades-premium {
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)),
+                url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    height: 55vh;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white);
+    padding: 2rem;
+}
+ 
+.hero-propiedades-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+ 
+/* Etiqueta superior tipo badge */
+.hero-badge {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--white);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 30px;
+    margin-bottom: 0.5rem;
+}
+ 
+.hero-propiedades-premium h1 {
+    font-size: 4rem;
+    color: var(--white);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+    margin: 0;
+}
+ 
+.hero-propiedades-premium p {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    font-weight: 300;
+    line-height: 1.6;
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   2. SECCIÓN DE FILTROS
+   —————————————————————————————————————————— */
+ 
+.filtros-section {
+    background-color: var(--white);
+    padding: 3rem 5%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    position: relative;
+    z-index: 10;
+}
+ 
+.filtros-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.filtros-titulo {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 1.8rem;
+    position: relative;
+    padding-bottom: 12px;
+}
+ 
+.filtros-titulo::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+ 
+/* Grid responsive de filtros */
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    align-items: end;
+}
+ 
+/* Cada grupo label + select */
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+ 
+.filtro-grupo label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+ 
+.filtro-grupo select {
+    width: 100%;
+    height: 52px;
+    padding: 0 40px 0 16px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--bg-light);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23c5a059"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 22px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+.filtro-grupo select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.12);
+    background-color: var(--white);
+}
+ 
+/* Botón Buscar */
+.filtro-btn-wrap {
+    justify-content: flex-end;
+}
+ 
+.btn-buscar-propiedades {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 52px;
+    background-color: var(--accent-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    letter-spacing: 0.5px;
+}
+ 
+.btn-buscar-propiedades:hover {
+    background-color: #a88445;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(197, 160, 89, 0.25);
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   3. ÁREA PRINCIPAL — RESULTADOS
+   —————————————————————————————————————————— */
+ 
+.propiedades-main {
+    padding: 3rem 5% 4rem;
+    background-color: var(--bg-light);
+}
+ 
+.propiedades-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+/* Encabezado con contador y ordenar */
+.resultados-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+ 
+.resultados-count {
+    font-size: 0.95rem;
+    color: #64748b;
+}
+ 
+.resultados-count strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+ 
+.ordenar-grupo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+ 
+.ordenar-grupo label {
+    font-size: 0.88rem;
+    color: #64748b;
+    white-space: nowrap;
+}
+ 
+.ordenar-grupo select {
+    height: 38px;
+    padding: 0 32px 0 12px;
+    font-size: 0.88rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--white);
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23c5a059"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+}
+ 
+.ordenar-grupo select:focus {
+    border-color: var(--accent-color);
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   4. GRID DE TARJETAS DE PROPIEDADES
+   —————————————————————————————————————————— */
+ 
+.propiedades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+}
+ 
+/* ——— Tarjeta individual ——— */
+.prop-card {
+    background-color: var(--white);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    display: flex;
+    flex-direction: column;
+}
+ 
+.prop-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-color);
+}
+ 
+/* — Imagen de la tarjeta — */
+.prop-card-img-wrap {
+    position: relative;
+    overflow: hidden;
+    height: 230px;
+    flex-shrink: 0;
+    background-color: #e2e8f0;
+}
+ 
+.prop-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+ 
+.prop-card:hover .prop-card-img-wrap img {
+    transform: scale(1.05);
+}
+ 
+/* — Badges sobre la imagen — */
+.prop-badge {
+    position: absolute;
+    top: 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 13px;
+    border-radius: 30px;
+    color: var(--white);
+}
+ 
+/* Primer badge a la izquierda */
+.prop-badge:first-of-type {
+    left: 14px;
+}
+ 
+/* Segundo badge justo debajo del primero */
+.prop-badge:nth-of-type(2) {
+    left: 14px;
+    top: 50px;
+}
+ 
+.prop-badge--venta      { background-color: var(--primary-color); }
+.prop-badge--alquiler   { background-color: #1d4ed8; }
+.prop-badge--obra-nueva { background-color: #059669; }
+.prop-badge--destacado  { background-color: var(--accent-color); }
+.prop-badge--nuevo      { background-color: #7c3aed; }
+ 
+/* — Cuerpo de la tarjeta — */
+.prop-card-body {
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+}
+ 
+.prop-precio {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+}
+ 
+.prop-precio-periodo {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #94a3b8;
+    font-family: 'Inter', sans-serif;
+}
+ 
+.prop-titulo {
+    font-size: 1.15rem;
+    color: var(--primary-color);
+    line-height: 1.35;
+    font-family: 'Playfair Display', serif;
+}
+ 
+.prop-ubicacion {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.88rem;
+    color: #64748b;
+    margin-top: 0.2rem;
+}
+ 
+/* — Íconos de características — */
+.prop-features {
+    display: flex;
+    gap: 1.2rem;
+    padding: 0.8rem 0;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    margin: 0.4rem 0;
+    flex-wrap: wrap;
+}
+ 
+.prop-feature {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+ 
+.prop-feature svg {
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+ 
+/* — Botón Ver detalles — */
+.btn-ver-detalles {
+    display: block;
+    text-align: center;
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: auto;
+}
+ 
+.btn-ver-detalles:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(197, 160, 89, 0.25);
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   5. PAGINACIÓN
+   —————————————————————————————————————————— */
+ 
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 3.5rem;
+}
+ 
+.pag-btn {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #e2e8f0;
+    background-color: var(--white);
+    color: var(--text-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+ 
+.pag-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+ 
+.pag-btn--activo {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--white);
+}
+ 
+.pag-btn--next {
+    padding: 0 20px;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+ 
+.pag-btn--next:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--white);
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   6. BANNER CTA INFERIOR
+   —————————————————————————————————————————— */
+ 
+.cta-propiedades {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e293b 100%);
+    padding: 5rem 5%;
+    text-align: center;
+    border-top: 4px solid var(--accent-color);
+}
+ 
+.cta-propiedades-inner {
+    max-width: 650px;
+    margin: 0 auto;
+}
+ 
+.cta-propiedades h2 {
+    font-size: 2.4rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+}
+ 
+.cta-propiedades p {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+ 
+ 
+/* ——————————————————————————————————————————
+   7. RESPONSIVE — PROPIEDADES
+   —————————————————————————————————————————— */
+ 
+@media (max-width: 900px) {
+    .hero-propiedades-premium h1 {
+        font-size: 2.8rem;
+    }
+ 
+    .propiedades-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+ 
+    .filtros-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+ 
+    .filtro-btn-wrap {
+        grid-column: 1 / -1;
+    }
+}
+ 
+@media (max-width: 600px) {
+    .hero-propiedades-premium {
+        height: auto;
+        padding: 4rem 1.5rem;
+    }
+ 
+    .hero-propiedades-premium h1 {
+        font-size: 2.2rem;
+    }
+ 
+    .filtros-grid {
+        grid-template-columns: 1fr;
+    }
+ 
+    .propiedades-grid {
+        grid-template-columns: 1fr;
+    }
+ 
+    .resultados-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+ 
+    .cta-propiedades h2 {
+        font-size: 1.8rem;
+    }
+}
