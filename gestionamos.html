@@ -34,7 +34,7 @@
 
     <section class="hero-contacto-premium">
         <h1>Venda o Alquile su inmueble</h1>
-        <p>Especialistas en la zona para gestionar su propiedad con total exclusividad.</p>
+        <p>Especialistas en la zona para gestionar su propiedad con total exclusividad y profesionalidad.</p>
     </section>
 
     <main class="contacto-wrapper-grid">
@@ -120,14 +120,20 @@
                     <label for="desc_inmueble">Describa su inmueble y datos de interés</label>
                 </div>
 
+                <div class="input-group-premium" style="border: 2px dashed #c5a059; text-align: center; padding: 25px; background-color: #fdfdfd; border-radius: 8px;">
+                    <label for="fotos_inmueble" style="position: static; display: block; margin-bottom: 10px; color: #0f172a; font-weight: 600; font-size: 1.1rem;">📸 Sube fotos de tu inmueble</label>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Puedes seleccionar varias imágenes a la vez.</p>
+                    <input type="file" id="fotos_inmueble" multiple accept="image/*" style="height: auto; padding: 10px; border: none; background: transparent; cursor: pointer;">
+                </div>
+
                 <div style="text-align: center; margin-top: 30px;">
                     <label class="checkbox-group">
-                        <input type="checkbox" required> Acepto la política de privacidad
+                        <input type="checkbox" required> 
+                        <span>He leído y acepto la Política de Privacidad</span>
                     </label>
                     
-                    <div class="btn-group">
-                        <button type="button" class="btn-submit-premium btn-secondary">¿Subir fotos?</button>
-                        <button type="submit" class="btn-submit-premium">Enviar Datos</button>
+                    <div class="btn-group" style="grid-template-columns: 1fr; max-width: 400px;">
+                        <button type="submit" class="btn-submit-premium">Enviar Datos e Imágenes</button>
                     </div>
                 </div>
             </form>
@@ -137,6 +143,83 @@
     <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2rem; border-top: 4px solid #c5a059;">
         <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqxCob5bDM7KfPy9ADjKccEDv4ouwiXS4",
+            authDomain: "inmobiliaria-pr0yec.firebaseapp.com",
+            projectId: "inmobiliaria-pr0yec",
+            storageBucket: "inmobiliaria-pr0yec.firebasestorage.app",
+            messagingSenderId: "771460096132",
+            appId: "1:771460096132:web:b5a75c933eb1db555f22d1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        const formulario = document.querySelector('form');
+
+        formulario.addEventListener('submit', async function(evento) {
+            evento.preventDefault(); 
+
+            const boton = formulario.querySelector('.btn-submit-premium');
+            const textoOriginal = boton.innerText;
+            boton.innerText = "PROCESANDO E IMÁGENES...";
+            boton.disabled = true;
+
+            try {
+                // 1. Manejo de archivos
+                const inputFotos = document.getElementById('fotos_inmueble');
+                const archivos = inputFotos.files;
+                let urlsDeLasFotos = [];
+
+                if (archivos.length > 0) {
+                    for (let i = 0; i < archivos.length; i++) {
+                        const archivo = archivos[i];
+                        const rutaFoto = ref(storage, 'inmuebles/' + Date.now() + '_' + archivo.name);
+                        await uploadBytes(rutaFoto, archivo);
+                        const url = await getDownloadURL(rutaFoto);
+                        urlsDeLasFotos.push(url);
+                    }
+                }
+
+                // 2. Guardado en base de datos
+                await addDoc(collection(db, "inmuebles_gestion"), {
+                    nombre_vendedor: document.getElementById('nombre_vendedor').value,
+                    apellidos_vendedor: document.getElementById('apellidos_vendedor').value,
+                    telefono_vendedor: document.getElementById('telefono_vendedor').value,
+                    email_vendedor: document.getElementById('email_vendedor').value,
+                    direccion_inmueble: document.getElementById('direccion_inmueble').value,
+                    cp_inmueble: document.getElementById('cp_inmueble').value,
+                    provincia_inmueble: document.getElementById('provincia_inmueble').value,
+                    poblacion_inmueble: document.getElementById('poblacion_inmueble').value,
+                    tipo_gestion: document.getElementById('tipo_gestion').value,
+                    hab_inmueble: document.getElementById('hab_inmueble').value,
+                    banos_inmueble: document.getElementById('banos_inmueble').value,
+                    sup_inmueble: document.getElementById('sup_inmueble').value,
+                    garaje_inmueble: document.getElementById('garaje_inmueble').value,
+                    desc_inmueble: document.getElementById('desc_inmueble').value,
+                    fotos: urlsDeLasFotos, 
+                    fecha: new Date().toISOString()
+                });
+
+                alert("¡Inmueble y fotografías enviados con éxito! Revisaremos la información en breve.");
+                formulario.reset(); 
+
+            } catch (error) {
+                console.error("Error completo: ", error);
+                alert("Hubo un problema técnico. Asegúrate de que el Storage de Firebase esté activo.");
+            } finally {
+                boton.innerText = textoOriginal;
+                boton.disabled = false;
+            }
+        });
+    </script>
 
 </body>
 </html>

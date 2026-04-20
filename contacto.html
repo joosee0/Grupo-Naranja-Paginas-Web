@@ -109,5 +109,61 @@
         <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
+<script type="module">
+        // 1. Importamos Firebase y la Base de Datos (Firestore)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 2. TUS CLAVES SECRETAS (Las de tu proyecto)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqxCob5bDM7KfPy9ADjKccEDv4ouwiXS4",
+            authDomain: "inmobiliaria-pr0yec.firebaseapp.com",
+            projectId: "inmobiliaria-pr0yec",
+            storageBucket: "inmobiliaria-pr0yec.firebasestorage.app",
+            messagingSenderId: "771460096132",
+            appId: "1:771460096132:web:b5a75c933eb1db555f22d1"
+        };
+
+        // 3. Inicializamos la conexión con Firebase y Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 4. Capturamos el formulario
+        const formulario = document.querySelector('form');
+
+        // 5. Le decimos qué hacer cuando se pulse "Enviar"
+        formulario.addEventListener('submit', async function(evento) {
+            evento.preventDefault(); // Evita que la página se recargue
+
+            // Cambiamos el texto del botón para dar feedback al usuario
+            const boton = formulario.querySelector('.btn-submit-premium');
+            const textoOriginal = boton.innerText;
+            boton.innerText = "ENVIANDO...";
+
+            try {
+                // Guardamos los datos en la base de datos en la colección "contactos_generales"
+                const docRef = await addDoc(collection(db, "contactos_generales"), {
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    asunto: document.getElementById('direccion').value, // El id del HTML es "direccion"
+                    mensaje: document.getElementById('mensaje').value,
+                    fecha: new Date().toISOString() // Guarda la fecha y hora
+                });
+
+                // Mensaje de éxito
+                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.");
+                formulario.reset(); // Limpia el formulario para que quede en blanco
+
+            } catch (error) {
+                console.error("Error al guardar: ", error);
+                alert("Hubo un error al enviar el mensaje. Revisa la consola.");
+            } finally {
+                // Devolvemos el botón a la normalidad
+                boton.innerText = textoOriginal;
+            }
+        });
+    </script>
+    
 </body>
 </html>

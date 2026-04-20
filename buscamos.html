@@ -132,5 +132,61 @@
         <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // TUS CLAVES SECRETAS
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqxCob5bDM7KfPy9ADjKccEDv4ouwiXS4",
+            authDomain: "inmobiliaria-pr0yec.firebaseapp.com",
+            projectId: "inmobiliaria-pr0yec",
+            storageBucket: "inmobiliaria-pr0yec.firebasestorage.app",
+            messagingSenderId: "771460096132",
+            appId: "1:771460096132:web:b5a75c933eb1db555f22d1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const formulario = document.querySelector('form');
+
+        formulario.addEventListener('submit', async function(evento) {
+            evento.preventDefault(); 
+
+            const boton = formulario.querySelector('.btn-submit-premium');
+            const textoOriginal = boton.innerText;
+            boton.innerText = "ENVIANDO...";
+
+            try {
+                // Guardamos los datos en la base de datos en "busquedas_compradores"
+                const docRef = await addDoc(collection(db, "busquedas_compradores"), {
+                    nombre: document.getElementById('nombre').value,
+                    apellidos: document.getElementById('apellidos').value,
+                    telefono: document.getElementById('telefono').value,
+                    email: document.getElementById('email').value,
+                    presupuesto_maximo: document.getElementById('precio').value,
+                    provincia: document.getElementById('provincia').value,
+                    poblacion: document.getElementById('poblacion').value,
+                    habitaciones_min: document.getElementById('hab').value,
+                    banos_min: document.getElementById('banos').value,
+                    superficie_min: document.getElementById('sup').value,
+                    piscina: document.getElementById('piscina').value,
+                    observaciones: document.getElementById('observaciones').value,
+                    fecha: new Date().toISOString()
+                });
+
+                alert("¡Solicitud enviada con éxito! Nos pondremos a buscar la mejor opción para ti.");
+                formulario.reset(); 
+
+            } catch (error) {
+                console.error("Error al guardar: ", error);
+                alert("Hubo un error al enviar la solicitud. Revisa la consola.");
+            } finally {
+                boton.innerText = textoOriginal;
+            }
+        });
+    </script>
+
 </body>
 </html>
