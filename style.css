@@ -1012,3 +1012,124 @@ footer {
         font-size: 1.8rem;
     }
 }
+
+/* Pagina de login */
+.login-page {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+}
+
+/* Header*/
+.login-page header {
+    background-color: var(--primary-color);
+    padding: 1.5rem 5%;
+}
+
+.login-page nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-page .logo {
+    color: var(--white);
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.login-page nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.login-page nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.login-page nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* Caja de login */
+.login-page .login {
+    height: calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)),
+                url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+}
+
+/* Caja login */
+.login-page .login-box {
+    background: var(--white);
+    padding: 45px;
+    width: 340px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border-top: 4px solid var(--accent-color);
+}
+
+/* Titulos */
+.login-page .login-box h1 {
+    margin: 0;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+}
+
+.login-page .login-box p {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.login-page .login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: 0.3s;
+}
+
+.login-page .login-box input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.15);
+}
+
+/* Botón */
+.login-page .login-box button {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-color);
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.login-page .login-box button:hover {
+    background: #a88445;
+    transform: translateY(-2px);
+}
+
+/* ERROR */
+.login-page #error {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 10px;
+}
