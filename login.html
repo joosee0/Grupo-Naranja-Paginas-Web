@@ -11,10 +11,11 @@
 
 <body class="login-page">
 
-    <!-- Header / Menú -->
+    <!-- HEADER SIMPLE (SIN USERMENU) -->
     <header>
         <nav>
-            <div class="logo">Inmobiliaria</div>
+            <div class="logo">Inmobiliaria Prestige</div>
+
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
@@ -23,30 +24,46 @@
                 <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="login.html">Login</a></li>
             </ul>
+
         </nav>
     </header>
 
-    <!-- Login -->
+    <!-- LOGIN -->
     <section class="login">
 
         <div class="login-box">
 
-            <h1>Inmobiliaria</h1>
-            <p>Accede a tu cuenta</p>
+            <h1>Inmobiliaria Prestige</h1>
+            <p id="titulo">Accede a tu cuenta</p>
 
-            <form onsubmit="return loginUser()">
+            <!-- LOGIN FORM -->
+            <form id="loginForm" onsubmit="return loginUser()">
 
                 <input type="text" id="user" placeholder="Usuario" required>
                 <input type="password" id="pass" placeholder="Contraseña" required>
 
                 <button type="submit">Entrar</button>
 
-                <p id="error"></p>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="registerForm" onsubmit="return registerUser()" style="display:none;">
+
+                <input type="text" id="newUser" placeholder="Nuevo usuario" required>
+                <input type="password" id="newPass" placeholder="Nueva contraseña" required>
+
+                <button type="submit">Crear cuenta</button>
 
             </form>
 
-        </div>
+            <p id="error"></p>
 
+            <!-- TOGGLE -->
+            <p>
+                <a href="#" id="toggleText" onclick="toggleForm()">Crear cuenta</a>
+            </p>
+
+        </div>
     </section>
 
     <script src="login.js"></script>
