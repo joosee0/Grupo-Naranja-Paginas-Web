@@ -1,0 +1,714 @@
+/* ==========================================================================
+   PRESTIGE CHATBOT WIDGET — prestige-chatbot.css
+   Inmobiliaria Prestige | Asesor Virtual de Lujo
+   
+   Paleta extraída del sitio:
+   --primary-color: #0f172a  (azul marino oscuro - header/footer)
+   --accent-color:  #c5a059  (dorado principal)
+   --text-color:    #334155
+   --bg-light:      #f8fafc
+   Tipografías: 'Playfair Display' (serif) para títulos, 'Inter' para cuerpo
+   ========================================================================== */
+
+/* --- Google Fonts (si no están ya cargadas en la página) --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ============================================================
+   VARIABLES LOCALES DEL CHATBOT
+   ============================================================ */
+:root {
+  --pc-primary:      #0f172a;
+  --pc-primary-mid:  #1a2540;
+  --pc-accent:       #c5a059;
+  --pc-accent-dark:  #a88445;
+  --pc-accent-light: rgba(197, 160, 89, 0.12);
+  --pc-white:        #ffffff;
+  --pc-bg:           #f8fafc;
+  --pc-text:         #334155;
+  --pc-text-light:   #64748b;
+  --pc-border:       #e2e8f0;
+  --pc-shadow-lg:    0 25px 60px rgba(15, 23, 42, 0.35), 0 8px 20px rgba(15, 23, 42, 0.2);
+  --pc-shadow-btn:   0 8px 25px rgba(197, 160, 89, 0.4);
+  --pc-radius:       16px;
+  --pc-font-serif:   'Playfair Display', Georgia, serif;
+  --pc-font-sans:    'Inter', system-ui, sans-serif;
+  --pc-z:            99999;
+}
+
+/* ============================================================
+   CONTENEDOR RAÍZ DEL WIDGET
+   ============================================================ */
+#prestige-chatbot-widget {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: var(--pc-z);
+  font-family: var(--pc-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   BURBUJA FLOTANTE DE APERTURA
+   ============================================================ */
+#pc-bubble {
+  width: 62px;
+  height: 62px;
+  background: linear-gradient(135deg, var(--pc-primary) 0%, var(--pc-primary-mid) 100%);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--pc-shadow-btn);
+  border: 2px solid var(--pc-accent);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              opacity 0.3s ease;
+  position: relative;
+  overflow: visible;
+}
+
+#pc-bubble:hover {
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 14px 35px rgba(197, 160, 89, 0.55);
+}
+
+#pc-bubble.pc-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.7);
+}
+
+/* Icono de la burbuja */
+#pc-bubble svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: var(--pc-accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s ease;
+}
+
+#pc-bubble:hover svg {
+  transform: scale(1.1);
+}
+
+/* Badge de notificación */
+#pc-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background: var(--pc-accent);
+  color: var(--pc-primary);
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--pc-white);
+  animation: pc-pulse 2s infinite;
+}
+
+@keyframes pc-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.5); }
+  50%       { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(197, 160, 89, 0); }
+}
+
+/* ============================================================
+   VENTANA DEL CHAT
+   ============================================================ */
+#pc-window {
+  position: absolute;
+  bottom: 78px;
+  right: 0;
+  width: 380px;
+  max-height: 600px;
+  background: var(--pc-white);
+  border-radius: var(--pc-radius);
+  box-shadow: var(--pc-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--pc-border);
+  
+  /* Estado cerrado */
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom right;
+}
+
+#pc-window.pc-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* ============================================================
+   HEADER DEL CHAT
+   ============================================================ */
+#pc-header {
+  background: linear-gradient(135deg, var(--pc-primary) 0%, var(--pc-primary-mid) 100%);
+  padding: 18px 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid var(--pc-accent);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decoración dorada sutil */
+#pc-header::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#pc-avatar {
+  width: 44px;
+  height: 44px;
+  background: var(--pc-accent-light);
+  border: 1.5px solid var(--pc-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+#pc-avatar svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--pc-accent);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#pc-header-info {
+  flex: 1;
+}
+
+#pc-header-name {
+  font-family: var(--pc-font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--pc-white);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+#pc-header-status {
+  font-size: 11px;
+  color: var(--pc-accent);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+#pc-header-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--pc-accent);
+  border-radius: 50%;
+  animation: pc-online 2s infinite;
+}
+
+@keyframes pc-online {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+#pc-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+#pc-close-btn:hover {
+  background: rgba(197, 160, 89, 0.2);
+  border-color: var(--pc-accent);
+  color: var(--pc-accent);
+  transform: rotate(90deg);
+}
+
+#pc-close-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* ============================================================
+   CUERPO DEL CHAT — MENSAJES
+   ============================================================ */
+#pc-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 340px;
+  scroll-behavior: smooth;
+  background: linear-gradient(180deg, var(--pc-bg) 0%, var(--pc-white) 100%);
+}
+
+/* Scrollbar elegante */
+#pc-messages::-webkit-scrollbar {
+  width: 4px;
+}
+#pc-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+#pc-messages::-webkit-scrollbar-thumb {
+  background: var(--pc-border);
+  border-radius: 4px;
+}
+#pc-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--pc-accent);
+}
+
+/* --- Burbujas de mensaje --- */
+.pc-msg {
+  display: flex;
+  gap: 8px;
+  animation: pc-msg-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 100%;
+}
+
+@keyframes pc-msg-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Mensaje del bot */
+.pc-msg.pc-bot {
+  align-self: flex-start;
+}
+
+.pc-msg.pc-bot .pc-bubble-msg {
+  background: var(--pc-white);
+  color: var(--pc-text);
+  border: 1px solid var(--pc-border);
+  border-radius: 4px 16px 16px 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* Mensaje del usuario */
+.pc-msg.pc-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.pc-msg.pc-user .pc-bubble-msg {
+  background: linear-gradient(135deg, var(--pc-primary) 0%, var(--pc-primary-mid) 100%);
+  color: var(--pc-white);
+  border-radius: 16px 4px 16px 16px;
+  border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.pc-bubble-msg {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  max-width: 260px;
+  word-break: break-word;
+}
+
+.pc-bubble-msg strong {
+  font-weight: 600;
+}
+
+/* Mini avatar del bot en mensajes */
+.pc-msg-avatar {
+  width: 28px;
+  height: 28px;
+  background: var(--pc-primary);
+  border: 1px solid var(--pc-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pc-msg-avatar svg {
+  width: 13px;
+  height: 13px;
+  stroke: var(--pc-accent);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* ============================================================
+   TYPING INDICATOR
+   ============================================================ */
+#pc-typing {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 4px;
+  animation: pc-msg-in 0.3s ease;
+}
+
+#pc-typing.pc-visible {
+  display: flex;
+}
+
+.pc-typing-dots {
+  background: var(--pc-white);
+  border: 1px solid var(--pc-border);
+  border-radius: 4px 14px 14px 14px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+.pc-typing-dots span {
+  width: 7px;
+  height: 7px;
+  background: var(--pc-accent);
+  border-radius: 50%;
+  animation: pc-bounce 1.2s ease infinite;
+}
+
+.pc-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.pc-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pc-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40%           { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ============================================================
+   QUICK REPLIES (botones rápidos)
+   ============================================================ */
+#pc-quick-replies {
+  padding: 8px 16px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  background: var(--pc-white);
+  border-top: 1px solid var(--pc-border);
+  flex-shrink: 0;
+}
+
+#pc-quick-replies.pc-hidden {
+  display: none;
+}
+
+.pc-qr-btn {
+  background: transparent;
+  border: 1px solid var(--pc-accent);
+  color: var(--pc-primary);
+  padding: 6px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--pc-font-sans);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: 0.1px;
+}
+
+.pc-qr-btn:hover {
+  background: var(--pc-accent);
+  color: var(--pc-white);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+}
+
+.pc-qr-btn:active {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   FORMULARIO DE CAPTURA DE LEADS
+   ============================================================ */
+#pc-lead-form {
+  padding: 16px;
+  background: var(--pc-bg);
+  border-top: 1px solid var(--pc-border);
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  animation: pc-msg-in 0.3s ease;
+  flex-shrink: 0;
+}
+
+#pc-lead-form.pc-visible {
+  display: flex;
+}
+
+.pc-lead-title {
+  font-family: var(--pc-font-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pc-primary);
+  margin-bottom: 2px;
+  letter-spacing: 0.2px;
+}
+
+.pc-lead-field {
+  position: relative;
+}
+
+.pc-lead-field input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid var(--pc-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--pc-font-sans);
+  color: var(--pc-text);
+  background: var(--pc-white);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.pc-lead-field input:focus {
+  border-color: var(--pc-accent);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.12);
+}
+
+.pc-lead-field input::placeholder {
+  color: var(--pc-text-light);
+  font-size: 12.5px;
+}
+
+.pc-lead-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  stroke: var(--pc-accent);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.pc-lead-submit {
+  background: linear-gradient(135deg, var(--pc-accent) 0%, var(--pc-accent-dark) 100%);
+  color: var(--pc-white);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--pc-font-sans);
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  font-size: 11.5px;
+}
+
+.pc-lead-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(197, 160, 89, 0.45);
+}
+
+.pc-lead-cancel {
+  background: transparent;
+  border: none;
+  color: var(--pc-text-light);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--pc-font-sans);
+  text-align: center;
+  padding: 2px;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.pc-lead-cancel:hover {
+  color: var(--pc-primary);
+}
+
+/* ============================================================
+   INPUT DE TEXTO
+   ============================================================ */
+#pc-input-area {
+  padding: 12px 14px;
+  border-top: 1px solid var(--pc-border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  background: var(--pc-white);
+  flex-shrink: 0;
+}
+
+#pc-input {
+  flex: 1;
+  border: 1px solid var(--pc-border);
+  border-radius: 22px;
+  padding: 9px 16px;
+  font-size: 13.5px;
+  font-family: var(--pc-font-sans);
+  color: var(--pc-text);
+  background: var(--pc-bg);
+  resize: none;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  max-height: 80px;
+  overflow-y: auto;
+  line-height: 1.45;
+}
+
+#pc-input:focus {
+  border-color: var(--pc-accent);
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.12);
+  background: var(--pc-white);
+}
+
+#pc-input::placeholder {
+  color: var(--pc-text-light);
+}
+
+#pc-send-btn {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, var(--pc-accent) 0%, var(--pc-accent-dark) 100%);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+}
+
+#pc-send-btn:hover {
+  transform: scale(1.1) translateY(-1px);
+  box-shadow: 0 8px 20px rgba(197, 160, 89, 0.5);
+}
+
+#pc-send-btn:active {
+  transform: scale(0.95);
+}
+
+#pc-send-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--pc-white);
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: translateX(1px);
+}
+
+/* ============================================================
+   FOOTER DEL CHAT
+   ============================================================ */
+#pc-footer-note {
+  text-align: center;
+  padding: 6px 16px 10px;
+  font-size: 10.5px;
+  color: var(--pc-text-light);
+  letter-spacing: 0.2px;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  background: var(--pc-white);
+  flex-shrink: 0;
+}
+
+#pc-footer-note span {
+  color: var(--pc-accent);
+  font-weight: 500;
+}
+
+/* ============================================================
+   MENSAJE DE ÉXITO DEL LEAD
+   ============================================================ */
+#pc-lead-success {
+  display: none;
+  padding: 14px 16px;
+  background: rgba(197, 160, 89, 0.08);
+  border: 1px solid var(--pc-accent);
+  border-radius: 10px;
+  margin: 0 16px 12px;
+  text-align: center;
+  animation: pc-msg-in 0.3s ease;
+}
+
+#pc-lead-success.pc-visible {
+  display: block;
+}
+
+#pc-lead-success p {
+  font-size: 12.5px;
+  color: var(--pc-primary);
+  line-height: 1.5;
+}
+
+#pc-lead-success strong {
+  color: var(--pc-accent-dark);
+  font-family: var(--pc-font-serif);
+  font-size: 13px;
+}
+
+/* ============================================================
+   RESPONSIVE — MÓVIL
+   ============================================================ */
+@media (max-width: 460px) {
+  #prestige-chatbot-widget {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  #pc-window {
+    width: calc(100vw - 32px);
+    bottom: 72px;
+    right: 0;
+    max-height: 520px;
+  }
+
+  .pc-bubble-msg {
+    max-width: 220px;
+  }
+}
