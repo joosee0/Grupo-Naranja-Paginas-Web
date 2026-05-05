@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Inmobiliaria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!-- La clase "pagina-protegida" activa la protección automática en login.js -->
+<body class="pagina-protegida">
+
+    <header>
+        <nav>
+            <div class="logo">Inmobiliaria Prestige</div>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <div id="userMenu"></div>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="perfil-container">
+        <div class="perfil-box">
+            <h1>Mi Cuenta</h1>
+            
+            <div class="perfil-info">
+                <div class="avatar">
+                    <span id="userInitial">U</span>
+                </div>
+                <h2 id="userName">Usuario</h2>
+                <p id="userEmail" class="email">usuario@email.com</p>
+                
+                <div class="perfil-stats">
+                    <div class="stat"><span class="stat-number">0</span><span class="stat-label">Propiedades guardadas</span></div>
+                    <div class="stat"><span class="stat-number">0</span><span class="stat-label">Visitas realizadas</span></div>
+                    <div class="stat"><span class="stat-number">0</span><span class="stat-label">Consultas enviadas</span></div>
+                </div>
+            </div>
+
+            <div class="perfil-menu">
+                <h3>Mis opciones</h3>
+                <ul>
+                    <li><a href="#" class="menu-item"><span>🏠</span> Mis propiedades favoritas</a></li>
+                    <li><a href="#" class="menu-item"><span>📅</span> Mis visitas programadas</a></li>
+                    <li><a href="#" class="menu-item"><span>💬</span> Mis consultas</a></li>
+                    <li><a href="#" class="menu-item"><span>️</span> Configuración de cuenta</a></li>
+                    <li><a href="#" class="menu-item danger" id="btnLogoutManual"><span>🚪</span> Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!--  JS centralizado.  -->
+    <script src="login.js"></script>
+    <script>
+        // Bind manual del logout dentro del perfil 
+        document.getElementById("btnLogoutManual")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (confirm("¿Cerrar sesión?")) logout();
+        });
+    </script>
+</body>
+</html>
