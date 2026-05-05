@@ -4,18 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Inmobiliaria</title>
+    <title>Login - Inmobiliaria Prestige</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <script src="theme.js"></script>
 </head>
 
 <body class="login-page">
 
-    <!-- HEADER SIMPLE (SIN USERMENU) -->
-    <header>
-        <nav>
-            <div class="logo">Inmobiliaria Prestige</div>
-            <ul>
     <!-- Header / Menú -->
     <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
@@ -25,9 +27,8 @@
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="login.html">Login</a></li>
                 <li><a href="login.html" class="active">Login</a></li>
+                <li id="userMenu"></li>
                 <li class="dropdown">
                     <a href="contacto.html">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -36,8 +37,13 @@
                         <li><a href="buscamos.html">Díganos qué busca</a></li>
                     </ul>
                 </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
             </ul>
-
         </nav>
     </header>
 
@@ -52,7 +58,7 @@
             <!-- LOGIN FORM -->
             <form id="loginForm" onsubmit="return loginUser()">
 
-                <input type="text" id="user" placeholder="Usuario" required>
+                <input type="email" id="email" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Contraseña" required>
 
                 <button type="submit">Entrar</button>
@@ -62,8 +68,8 @@
             <!-- REGISTER FORM -->
             <form id="registerForm" onsubmit="return registerUser()" style="display:none;">
 
-                <input type="text" id="newUser" placeholder="Nuevo usuario" required>
-                <input type="password" id="newPass" placeholder="Nueva contraseña" required>
+                <input type="email" id="newEmail" placeholder="Nuevo email" required>
+                <input type="password" id="newPass" placeholder="Nueva contraseña (mín. 6 caracteres)" minlength="6" required>
 
                 <button type="submit">Crear cuenta</button>
 
@@ -73,13 +79,15 @@
 
             <!-- TOGGLE -->
             <p>
-                <a href="#" id="toggleText" onclick="toggleForm()">Crear cuenta</a>
+                <a href="#" id="toggleText" onclick="toggleForm(); return false;">Crear cuenta</a>
             </p>
 
         </div>
     </section>
 
-    <script src="login.js"></script>
+    <!-- Firebase Auth + lógica del login -->
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
 
 </body>
 </html>
