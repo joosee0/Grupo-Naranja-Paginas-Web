@@ -79,6 +79,53 @@
             color: var(--accent-color);
         }
 
+        /* --- Menú desplegable Contacto --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            min-width: 250px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 1000;
+            border-top: 4px solid var(--accent-color);
+            list-style: none;
+            flex-direction: column !important;
+            gap: 0 !important;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: flex !important;
+        }
+
+        .dropdown-menu li {
+            width: 100%;
+            display: block;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 14px 22px;
+            color: #334155 !important;
+            font-size: 0.95rem !important;
+            text-transform: none !important;
+            font-weight: 500 !important;
+            letter-spacing: normal;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: var(--bg-light) !important;
+            color: var(--accent-color) !important;
+            padding-left: 28px;
+        }
+
         /* --- Hero Section --- */
         .hero {
             /* Imagen de cabecera oscura y elegante */
@@ -286,16 +333,23 @@
 </head>
 <body>
 
-    <header>
+    <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="nosotros.html" class="active">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="login.html">Login</a></li>
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
