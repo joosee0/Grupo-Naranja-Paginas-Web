@@ -1,0 +1,260 @@
+/* ==========================================================================
+   THEME.CSS — Soporte Modo Claro / Modo Oscuro
+   ========================================================================== */
+
+/* --- MODO CLARO (paleta original, por defecto) --- */
+:root,
+[data-theme="light"] {
+    --primary-color: #0f172a;
+    --accent-color: #c5a059;
+    --text-color: #334155;
+    --bg-light: #f8fafc;
+    --white: #ffffff;
+
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --secondary-text: #64748b;
+    --header-bg: #0f172a;
+    --footer-bg: #0f172a;
+    --footer-text: #ffffff;
+    --input-bg: #f8fafc;
+    --section-bg: #ffffff;
+}
+
+/* --- MODO OSCURO ELEGANTE ---
+   Mantenemos --white = #ffffff porque se usa también para texto blanco
+   sobre imágenes y botones. Para fondos de tarjetas usamos --card-bg.
+   Los grises se mantienen claros para garantizar buen contraste. */
+[data-theme="dark"] {
+    --primary-color: #0f172a;
+    --accent-color: #d4b66c;       /* Dorado un poco más cálido */
+    --text-color: #f1f5f9;          /* Texto principal muy claro (casi blanco) */
+    --bg-light: #0c1018;            /* Fondo general muy oscuro */
+    --white: #ffffff;               /* Sigue siendo blanco para texto */
+
+    --card-bg: #161b26;             /* Tarjetas elevadas */
+    --border-color: #2a3142;        /* Bordes sutiles */
+    --secondary-text: #cbd5e1;      /* Gris claro con muy buen contraste */
+    --header-bg: #050810;           /* Header casi negro */
+    --footer-bg: #050810;
+    --footer-text: #f1f5f9;
+    --input-bg: #1a1f2e;
+    --section-bg: #11161f;
+}
+
+/* --- Body con transición suave --- */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ==========================================================================
+   OVERRIDES PARA MODO OSCURO
+   ========================================================================== */
+
+/* --- Header / Footer --- */
+[data-theme="dark"] header,
+[data-theme="dark"] .header-prestige {
+    background-color: var(--header-bg) !important;
+}
+
+[data-theme="dark"] footer,
+[data-theme="dark"] footer[style] {
+    background-color: var(--footer-bg) !important;
+    color: var(--footer-text) !important;
+    border-top-color: var(--accent-color) !important;
+}
+
+/* --- Tarjetas y superficies que en modo claro eran blancas --- */
+[data-theme="dark"] .card,
+[data-theme="dark"] .valor-card,
+[data-theme="dark"] .miembro,
+[data-theme="dark"] .prop-card,
+[data-theme="dark"] .contacto-info-premium,
+[data-theme="dark"] .contacto-form-premium,
+[data-theme="dark"] .login-box {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* --- Secciones con fondo blanco hardcoded --- */
+[data-theme="dark"] .filtros-section,
+[data-theme="dark"] .valores {
+    background-color: var(--section-bg) !important;
+}
+
+[data-theme="dark"] .propiedades-main {
+    background-color: var(--bg-light) !important;
+}
+
+/* --- Títulos oscuros que en modo oscuro deben verse claros --- */
+[data-theme="dark"] .card h3,
+[data-theme="dark"] .valor-card h3,
+[data-theme="dark"] .miembro-info h3,
+[data-theme="dark"] .prop-titulo,
+[data-theme="dark"] .form-section-title,
+[data-theme="dark"] .filtros-titulo,
+[data-theme="dark"] .info-list strong,
+[data-theme="dark"] .login-box h1,
+[data-theme="dark"] .historia-texto h2,
+[data-theme="dark"] .valores h2,
+[data-theme="dark"] .equipo h2,
+[data-theme="dark"] .presentacion h2,
+[data-theme="dark"] .servicios > h2,
+[data-theme="dark"] section > h2 {
+    color: var(--text-color) !important;
+}
+
+/* --- Textos secundarios en gris (con contraste mejorado) --- */
+[data-theme="dark"] .card p,
+[data-theme="dark"] .descripcion,
+[data-theme="dark"] .miembro-info p,
+[data-theme="dark"] .info-list p,
+[data-theme="dark"] .historia-texto p,
+[data-theme="dark"] .presentacion p,
+[data-theme="dark"] .login-box p,
+[data-theme="dark"] .resultados-count,
+[data-theme="dark"] .prop-ubicacion,
+[data-theme="dark"] .prop-feature,
+[data-theme="dark"] .prop-precio-periodo,
+[data-theme="dark"] .ordenar-grupo label,
+[data-theme="dark"] .checkbox-group,
+[data-theme="dark"] .checkbox-group span,
+[data-theme="dark"] aside p,
+[data-theme="dark"] .servicios p,
+[data-theme="dark"] section p {
+    color: var(--secondary-text) !important;
+}
+
+/* --- Strong dentro de tarjetas / contadores: claro y legible --- */
+[data-theme="dark"] .resultados-count strong,
+[data-theme="dark"] .info-list strong {
+    color: var(--text-color) !important;
+}
+
+/* --- Checkboxes y opciones de búsqueda en buscamos.html --- */
+[data-theme="dark"] .grid-4-col label {
+    color: var(--secondary-text) !important;
+}
+
+/* --- Inputs, selects y textareas --- */
+[data-theme="dark"] .input-group-premium input,
+[data-theme="dark"] .input-group-premium select,
+[data-theme="dark"] .input-group-premium textarea,
+[data-theme="dark"] .filtro-grupo select,
+[data-theme="dark"] .ordenar-grupo select,
+[data-theme="dark"] .login-box input {
+    background-color: var(--input-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .input-group-premium input:focus,
+[data-theme="dark"] .input-group-premium select:focus,
+[data-theme="dark"] .input-group-premium textarea:focus,
+[data-theme="dark"] .login-box input:focus {
+    background-color: var(--card-bg) !important;
+    border-color: var(--accent-color) !important;
+}
+
+[data-theme="dark"] .input-group-premium label {
+    color: var(--secondary-text) !important;
+}
+
+/* --- Dropdown del menú: fondo blanco → fondo oscuro --- */
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--card-bg) !important;
+    border-top-color: var(--accent-color) !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .dropdown-menu li a {
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .dropdown-menu li a:hover {
+    background-color: var(--input-bg) !important;
+    color: var(--accent-color) !important;
+}
+
+/* --- Bordes de líneas separadoras --- */
+[data-theme="dark"] .resultados-header,
+[data-theme="dark"] .prop-features {
+    border-color: var(--border-color) !important;
+}
+
+/* --- Paginación --- */
+[data-theme="dark"] .pag-btn {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .pag-btn--activo,
+[data-theme="dark"] .pag-btn--next {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: #050810 !important;
+}
+
+/* --- Iframe del mapa de Google: ligeramente atenuado en oscuro --- */
+[data-theme="dark"] iframe {
+    filter: brightness(0.9) contrast(1.05);
+}
+
+/* ==========================================================================
+   BOTÓN DE TOGGLE TEMA (Sol / Luna)
+   ========================================================================== */
+.theme-toggle-li {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.theme-toggle {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: rotate(20deg);
+}
+
+.theme-toggle svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* En modo claro: visible la luna (al pulsar pasa a oscuro)
+   En modo oscuro: visible el sol (al pulsar pasa a claro) */
+:root .theme-toggle .icon-sun,
+[data-theme="light"] .theme-toggle .icon-sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: block;
+}
