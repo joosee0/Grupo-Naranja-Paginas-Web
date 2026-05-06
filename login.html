@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Inmobiliaria Prestige</title>
 
+    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
+    
     <script src="theme.js"></script>
 </head>
 
@@ -28,7 +31,10 @@
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
                 <li><a href="login.html" class="active">Login</a></li>
+                
+                <!-- Menú usuario -->
                 <li id="userMenu"></li>
+                
                 <li class="dropdown">
                     <a href="contacto.html">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -43,44 +49,38 @@
 
     <!-- LOGIN -->
     <section class="login">
-
         <div class="login-box">
 
             <h1>Inmobiliaria Prestige</h1>
             <p id="titulo">Accede a tu cuenta</p>
 
-            <!-- LOGIN FORM -->
-            <form id="loginForm" onsubmit="return loginUser()">
-
-                <input type="email" id="email" placeholder="Email" required>
+            <!-- FORMULARIO LOGIN -->
+            <form id="loginForm">
+                <input type="email" id="user" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Contraseña" required>
-
                 <button type="submit">Entrar</button>
-
             </form>
 
-            <!-- REGISTER FORM -->
-            <form id="registerForm" onsubmit="return registerUser()" style="display:none;">
-
-                <input type="email" id="newEmail" placeholder="Nuevo email" required>
-                <input type="password" id="newPass" placeholder="Nueva contraseña (mín. 6 caracteres)" minlength="6" required>
-
+            <!-- FORMULARIO REGISTRO (oculto por defecto) -->
+            <form id="registerForm" style="display:none;">
+                <input type="email" id="newUser" placeholder="Nuevo email" required>
+                <input type="password" id="newPass" placeholder="Contraseña (mín. 6 caracteres)" minlength="6" required>
                 <button type="submit">Crear cuenta</button>
-
             </form>
 
+            <!-- Mensajes de error/éxito -->
             <p id="error"></p>
 
-            <!-- TOGGLE -->
+            <!-- Enlace para cambiar entre login/registro (sin onclick, lo maneja el JS) -->
             <p>
-                <a href="#" id="toggleText" onclick="toggleForm(); return false;">Crear cuenta</a>
+                <a href="#" id="toggleLink">¿No tienes cuenta? Crear cuenta</a>
             </p>
 
         </div>
     </section>
 
-    <!-- Firebase Auth + lógica del login -->
-    <script type="module" src="login.js"></script>
+    <!-- Scripts: type="module" para Firebase + eventos manejados por JS -->
+    <script type="module" src="js/login.js"></script>
     <script src="prestige-chatbot.js"></script>
 
 </body>

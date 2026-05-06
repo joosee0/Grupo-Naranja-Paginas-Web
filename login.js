@@ -1,10 +1,7 @@
-// =====================================================================
-//  login.js — Autenticación con Firebase Authentication
-//  Expone funciones globales (loginUser, registerUser, toggleForm, logout,
-//  mostrarUsuario, estaLogueado) para mantener la compatibilidad con los
-//  onclick/onsubmit del HTML y con perfil.html (.pagina-protegida).
-// =====================================================================
+// login.js — Autenticación con Firebase
+// Inmobiliaria Prestige
 
+// Imports de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import {
     getAuth,
@@ -20,7 +17,7 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
 
-// --- Configuración del proyecto ---
+// Configuración de Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCqxCob5bDM7KfPy9ADjKccEDv4ouwiXS4",
     authDomain: "inmobiliaria-pr0yec.firebaseapp.com",
@@ -31,158 +28,191 @@ const firebaseConfig = {
     measurementId: "G-F6ZLXZYT42"
 };
 
-const app  = initializeApp(firebaseConfig);
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
+const db = getFirestore(app);
 
-// ---------------------------------------------------------------------
-//  Helpers de UI
-// ---------------------------------------------------------------------
+// Mostrar error o éxito
 function mostrarError(texto, color = "#dc2626") {
     const box = document.getElementById("error");
     if (!box) return;
-    box.style.color   = color;
-    box.innerText     = texto;
+    box.style.color = color;
+    box.textContent = texto;
 }
 
+// Traducir errores de Firebase
 function traducirError(err) {
-    switch (err && err.code) {
-        case "auth/invalid-email":        return "El correo no es válido.";
-        case "auth/missing-password":     return "Debes introducir una contraseña.";
-        case "auth/weak-password":        return "La contraseña debe tener al menos 6 caracteres.";
-        case "auth/email-already-in-use": return "Este correo ya está registrado.";
-        case "auth/invalid-credential":
-        case "auth/wrong-password":
-        case "auth/user-not-found":       return "Email o contraseña incorrectos.";
-        default: return "Error: " + ((err && err.message) || (err && err.code) || "desconocido");
+    const errores = {
+        "auth/invalid-email": "El correo no es válido.",
+        "auth/weak-password": "Mínimo 6 caracteres para la contraseña.",
+        "auth/email-already-in-use": "Este correo ya está registrado.",
+        "auth/invalid-credential": "Email o contraseña incorrectos.",
+        "auth/wrong-password": "Email o contraseña incorrectos.",
+        "auth/user-not-found": "Email o contraseña incorrectos."
+    };
+    return errores[err?.code] || "Error: " + (err?.message || "desconocido");
+}
+
+// Cambiar entre login y registro
+function toggleForm(e) {
+    if (e) e.preventDefault();
+    
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const titulo = document.getElementById("titulo");
+    const toggleLink = document.getElementById("toggleLink");
+    
+    if (!loginForm || !registerForm) return;
+    
+    mostrarError("");
+    
+    const mostrandoLogin = loginForm.style.display !== "none";
+    
+    loginForm.style.display = mostrandoLogin ? "none" : "block";
+    registerForm.style.display = mostrandoLogin ? "block" : "none";
+    
+    if (titulo) {
+        titulo.textContent = mostrandoLogin ? "Crea tu cuenta" : "Accede a tu cuenta";
+    }
+    if (toggleLink) {
+        toggleLink.textContent = mostrandoLogin 
+            ? "¿Ya tienes cuenta? Iniciar sesión" 
+            : "¿No tienes cuenta? Crear cuenta";
     }
 }
 
-// ---------------------------------------------------------------------
-//  Funciones globales (las usan los onsubmit / onclick del HTML)
-// ---------------------------------------------------------------------
-
-// Iniciar sesión
-window.loginUser = async function () {
-    const email = (document.getElementById("email") || {}).value || "";
-    const pass  = (document.getElementById("pass")  || {}).value || "";
+// Iniciar sesión con Firebase
+async function loginUser(e) {
+    if (e) e.preventDefault();
+    
+    const email = document.getElementById("user")?.value?.trim() || "";
+    const pass = document.getElementById("pass")?.value || "";
+    
     mostrarError("");
-
+    
     try {
-        await signInWithEmailAndPassword(auth, email.trim(), pass);
-        window.location.href = "index.html";
+        await signInWithEmailAndPassword(auth, email, pass);
+        window.location.href = "perfil.html";
     } catch (err) {
         mostrarError(traducirError(err));
     }
     return false;
-};
+}
 
-// Registrar nueva cuenta y guardar el usuario en Firestore
-window.registerUser = async function () {
-    const email = ((document.getElementById("newEmail") || {}).value || "").trim();
-    const pass  = (document.getElementById("newPass")  || {}).value || "";
+// Registrar usuario con Firebase
+async function registerUser(e) {
+    if (e) e.preventDefault();
+    
+    const email = document.getElementById("newUser")?.value?.trim() || "";
+    const pass = document.getElementById("newPass")?.value || "";
+    
     mostrarError("");
-
+    
+    if (pass.length < 6) {
+        mostrarError("La contraseña debe tener al menos 6 caracteres");
+        return false;
+    }
+    
     try {
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-
-        // Guardar el perfil del usuario en la colección "usuarios"
+        
+        // Guardar usuario en Firestore
         try {
             await setDoc(doc(db, "usuarios", cred.user.uid), {
-                uid:           cred.user.uid,
-                email:         cred.user.email,
-                nombre:        email.split("@")[0],
+                uid: cred.user.uid,
+                email: cred.user.email,
+                nombre: email.split("@")[0],
                 fechaRegistro: serverTimestamp(),
-                proveedor:     "email"
+                proveedor: "email"
             });
         } catch (errDb) {
-            console.warn("No se pudo guardar el usuario en Firestore:", errDb);
+            console.warn("No se pudo guardar en Firestore:", errDb);
         }
-
-        mostrarError("Cuenta creada con éxito. Redirigiendo…", "#16a34a");
-        setTimeout(() => (window.location.href = "index.html"), 1200);
+        
+        mostrarError("✅ Cuenta creada. Redirigiendo...", "#16a34a");
+        setTimeout(() => {
+            window.location.href = "perfil.html";
+        }, 1200);
+        
     } catch (err) {
         mostrarError(traducirError(err));
     }
     return false;
-};
-
-// Conmutar entre formulario de login y de registro
-window.toggleForm = function () {
-    const loginForm    = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const titulo       = document.getElementById("titulo");
-    const toggleText   = document.getElementById("toggleText");
-    if (!loginForm || !registerForm) return;
-
-    mostrarError("");
-    const mostrarRegistro = loginForm.style.display !== "none";
-
-    loginForm.style.display    = mostrarRegistro ? "none"  : "block";
-    registerForm.style.display = mostrarRegistro ? "block" : "none";
-
-    if (titulo)     titulo.innerText     = mostrarRegistro ? "Crea tu cuenta"   : "Accede a tu cuenta";
-    if (toggleText) toggleText.innerText = mostrarRegistro ? "Ya tengo cuenta"  : "Crear cuenta";
-};
+}
 
 // Cerrar sesión
-window.logout = async function () {
+async function logout() {
     try {
         await signOut(auth);
-    } catch (e) {
-        console.error("Error al cerrar sesión:", e);
+    } catch (err) {
+        console.error("Error al cerrar sesión:", err);
     }
     window.location.href = "login.html";
-};
+}
 
-// Comprobación rápida del estado actual (sincrónica)
-window.estaLogueado = function () {
-    return !!auth.currentUser;
-};
-
-// ---------------------------------------------------------------------
-//  Render del menú de usuario y protección de páginas
-// ---------------------------------------------------------------------
-function mostrarUsuario(user) {
+// Actualizar menú de usuario
+function actualizarMenu(user) {
     const menu = document.getElementById("userMenu");
     if (!menu) return;
-
+    
     if (user) {
-        const nombre = user.displayName || (user.email ? user.email.split("@")[0] : "Usuario");
-        menu.classList.add("logged");
+        const nombre = user.email?.split("@")[0] || "Usuario";
         menu.innerHTML = `
-            <span style="color:#fff; margin-right:10px;">Hola, ${nombre}</span>
-            <a href="perfil.html" style="color:#fff; margin-right:10px;">Mi perfil</a>
-            <a href="#" onclick="logout(); return false;" style="color:#fff;">Salir</a>
+            <a href="perfil.html" style="color:#c5a059;">👤 ${nombre}</a>
+            <a href="#" id="btnLogout" style="margin-left:12px;color:#666;">Salir</a>
         `;
+        // Añadir evento al botón de logout dinámico
+        document.getElementById("btnLogout")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            logout();
+        });
     } else {
-        menu.classList.remove("logged");
-        menu.innerHTML = "";
+        menu.innerHTML = `<a href="login.html" style="color:#fff;">Iniciar Sesión</a>`;
     }
 }
-window.mostrarUsuario = mostrarUsuario;
 
-// Rellena los datos del usuario dentro de perfil.html
-function pintarPerfil(user) {
-    if (!document.body.classList.contains("pagina-protegida")) return;
+// Cargar datos en perfil.html
+function cargarPerfil(user) {
+    if (!document.body.classList.contains("pagina-privada")) return;
     if (!user) return;
-
-    const nombre   = user.displayName || (user.email ? user.email.split("@")[0] : "Usuario");
-    const initial  = document.getElementById("userInitial");
-    const userName = document.getElementById("userName");
-    const userMail = document.getElementById("userEmail");
-
-    if (initial)  initial.innerText  = nombre.charAt(0).toUpperCase();
-    if (userName) userName.innerText = nombre;
-    if (userMail) userMail.innerText = user.email || "";
+    
+    const nombre = user.email?.split("@")[0] || "Usuario";
+    
+    const elNombre = document.getElementById("sidebarUserName") || document.getElementById("userName");
+    const elAvatar = document.getElementById("avatarInitial") || document.getElementById("userInitial");
+    
+    if (elNombre) elNombre.textContent = nombre;
+    if (elAvatar) elAvatar.textContent = nombre.charAt(0).toUpperCase();
 }
 
-// Listener centralizado: pinta el menú, rellena el perfil y protege rutas
+// Listener de Firebase: se ejecuta cuando cambia el estado de auth
 onAuthStateChanged(auth, (user) => {
-    mostrarUsuario(user);
-    pintarPerfil(user);
-
-    if (document.body.classList.contains("pagina-protegida") && !user) {
+    actualizarMenu(user);
+    cargarPerfil(user);
+    
+    // Proteger páginas privadas
+    if (document.body.classList.contains("pagina-privada") && !user) {
         window.location.href = "login.html";
+    }
+});
+
+// Inicializar cuando cargue la página
+document.addEventListener("DOMContentLoaded", function() {
+    // Evento para el enlace de toggle
+    const toggleLink = document.getElementById("toggleLink");
+    if (toggleLink) {
+        toggleLink.addEventListener("click", toggleForm);
+    }
+    
+    // Eventos para los formularios
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.addEventListener("submit", loginUser);
+    }
+    
+    const registerForm = document.getElementById("registerForm");
+    if (registerForm) {
+        registerForm.addEventListener("submit", registerUser);
     }
 });
