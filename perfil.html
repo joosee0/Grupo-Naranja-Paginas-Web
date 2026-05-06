@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <script src="theme.js"></script>
 </head>
 
 <body class="pagina-privada">
@@ -16,7 +21,6 @@
         }
     </script>
 
-    <!-- Header con menú -->
     <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
@@ -25,7 +29,8 @@
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                
+                <li><a href="login.html">Login</a></li>
+                <li id="userMenu"></li>
                 <li class="dropdown">
                     <a href="contacto.html">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -34,18 +39,11 @@
                         <li><a href="buscamos.html">Díganos qué busca</a></li>
                     </ul>
                 </li>
-                
-                <!-- Menú usuario: se muestra si está logueado -->
-                <li id="userMenu">
-                    <script>
-                        if (localStorage.getItem("logged") === "true") {
-                            const user = localStorage.getItem("currentUser") || "Usuario";
-                            document.write(`
-                                <span style="margin-right:10px;">👤 ${user}</span>
-                                <button onclick="logout()" style="background:none;border:1px solid #ccc;padding:5px 10px;border-radius:4px;cursor:pointer;">Salir</button>
-                            `);
-                        }
-                    </script>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
                 </li>
             </ul>
             <button class="mobile-toggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
@@ -161,89 +159,15 @@
                 </div>
             </div>
 
-            <!-- Sección: Visitas -->
-            <div id="visitas" class="perfil-section">
-                <header class="section-header">
-                    <h1>Mis visitas programadas</h1>
-                </header>
-                <div class="visitas-list" id="visitasList">
-                    <p class="empty-state">No tienes visitas programadas</p>
-                </div>
-            </div>
-
-            <!-- Sección: Mensajes -->
-            <div id="mensajes" class="perfil-section">
-                <header class="section-header">
-                    <h1>Mis mensajes</h1>
-                </header>
-                <div class="messages-list" id="messagesList">
-                    <div class="message-item unread">
-                        <div class="message-avatar">A</div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <strong>Atención al cliente</strong>
-                                <span class="message-time">10:30</span>
-                            </div>
-                            <p class="message-preview">Hola, hemos recibido tu solicitud de financiación...</p>
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">P</div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <strong>Propiedades</strong>
-                                <span class="message-time">Ayer</span>
-                            </div>
-                            <p class="message-preview">La propiedad Villa Mediterránea sigue disponible...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección: Configuración -->
-            <div id="configuracion" class="perfil-section">
-                <header class="section-header">
-                    <h1>Configuración de cuenta</h1>
-                </header>
-                <form id="settingsForm" class="settings-form">
-                    <div class="form-group">
-                        <label for="settingsUser">Nombre de usuario</label>
-                        <input type="text" id="settingsUser" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="settingsEmail">Email</label>
-                        <input type="email" id="settingsEmail" placeholder="tu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="settingsPhone">Teléfono</label>
-                        <input type="tel" id="settingsPhone" placeholder="+34 600 000 000">
-                    </div>
-                    <div class="form-group">
-                        <label>Notificaciones</label>
-                        <label class="checkbox-group">
-                            <input type="checkbox" id="notifyEmail" checked>
-                            <span>Recibir emails de nuevas propiedades</span>
-                        </label>
-                        <label class="checkbox-group">
-                            <input type="checkbox" id="notifySMS">
-                            <span>Recibir SMS de visitas confirmadas</span>
-                        </label>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn-outline" id="btnCancelSettings">Cancelar</button>
-                        <button type="submit" class="btn-primary">Guardar cambios</button>
-                    </div>
-                </form>
-                <div id="saveMessage" class="save-message" style="display: none; margin-top: 16px; padding: 12px; background: #dcfce7; color: #166534; border-radius: 8px; font-weight: 500;">
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <!-- Scripts: login primero, luego perfil -->
-    <script src="js/login.js"></script>
-    <script src="js/perfil.js"></script>
-
+    <!-- JS centralizado (Firebase Auth) -->
+    <script type="module" src="login.js"></script>
+    <script>
+        // Bind manual del logout dentro del perfil
+        document.getElementById("btnLogoutManual")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (confirm("¿Cerrar sesión?")) logout();
+        });
+    </script>
+    <script src="prestige-chatbot.js"></script>
 </body>
 </html>
