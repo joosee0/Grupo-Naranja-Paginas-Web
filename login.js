@@ -1,6 +1,8 @@
 // login.js — Autenticación con Firebase
 // Inmobiliaria Prestige
 
+// (Hecho por Miguel)
+
 // Imports de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import {
@@ -216,3 +218,5 @@ document.addEventListener("DOMContentLoaded", function() {
         registerForm.addEventListener("submit", registerUser);
     }
 });
+
+// (final de Miguel)

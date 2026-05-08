@@ -1,3 +1,4 @@
+// (Hecho por Miguel)
 /* ==========================================================================
    THEME.JS — Toggle Modo Claro / Modo Oscuro con persistencia en localStorage
    ========================================================================== */
@@ -27,3 +28,4 @@ function toggleTheme() {
         // Si localStorage está bloqueado, ignoramos silenciosamente
     }
 }
+// (final de Miguel)
