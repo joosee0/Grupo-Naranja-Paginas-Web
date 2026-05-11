@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos - Inmobiliaria</title>
+</head>
+<body>
+    
+    <!-- Navegación básica -->
+    <header class="header"><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel de control - Inmobiliaria">
+    <meta name="author" content="Inmobiliaria">
+    <title>Resumen - Mi Perfil | Inmobiliaria</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Menú lateral de navegación -->
+        <aside class="profile-sidebar">
+            <nav class="profile-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="resumen.html" class="nav-link active">
+                            <span class="nav-text">Resumen</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="favoritos.html" class="nav-link">
+                            <span class="nav-text">Favoritos</span>
+                            <span class="badge badge-neutral">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="visitas.html" class="nav-link">
+                            <span class="nav-text">Visitas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mensajes.html" class="nav-link">
+                            <span class="nav-text">Mensajes</span>
+                            <span class="badge badge-notification">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="configuracion.html" class="nav-link">
+                            <span class="nav-text">Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="profile-content">
+            <h1>Resumen</h1>
+            <!-- Aquí iría el contenido del resumen -->
+        </main>
+    </div>
+</body>
+</html>
+        <nav class="nav">
+            <a href="perfil.html" class="nav-link">← Volver a Mi Perfil</a>
+            <a href="catalogo.html" class="nav-link">Ir al Catálogo</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <h1 class="page-title">Mis Propiedades Favoritas</h1>
+
+        <!-- SECCIÓN 1: Formulario para añadir propiedades -->
+        <section class="add-favorite-section">
+            <h2>Añadir propiedad a favoritos</h2>
+            <p>Introduce el ID, referencia o URL de la propiedad que deseas guardar:</p>
+            
+            <form id="add-favorite-form" class="favorite-form" method="POST" action="#">
+                <div class="form-group">
+                    <label for="property-identifier">ID o enlace de la propiedad:</label>
+                    <input 
+                        type="text" 
+                        id="property-identifier" 
+                        name="property_identifier" 
+                        placeholder="Ej: PROP-458 o /detalle?id=458" 
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit" class="btn-add" id="btn-add-favorite">Añadir a favoritos</button>
+            </form>
+            <small class="form-note">* La validación y guardado se realizará con JavaScript/Backend.</small>
+        </section>
+
+        <!-- SECCIÓN 2: Contenedor donde se listarán los favoritos -->
+        <section class="favorites-container" id="favorites-list">
+            <!-- Estado vacío por defecto -->
+            <div class="empty-state" id="empty-favorites">
+                <p>Aún no has guardado ninguna propiedad.</p>
+                <p>Usa el formulario anterior o pulsa el botón <strong>♥ Guardar</strong> en el <a href="catalogo.html">catálogo</a>.</p>
+            </div>
+
+            <!-- 
+                AQUÍ SE INYECTARÁN DINÁMICAMENTE LAS TARJETAS 
+                Estructura esperada por tarjeta (solo referencia para tu JS):
+                <article class="favorite-card" data-id="PROP-XXX">
+                    <img src="..." alt="...">
+                    <h3>Título</h3>
+                    <p>Dirección</p>
+                    <button class="btn-remove" aria-label="Quitar de favoritos">&times;</button>
+                </article>
+            -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Inmobiliaria. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
