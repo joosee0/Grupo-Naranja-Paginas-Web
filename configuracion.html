@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Inmobiliaria Prestige</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="configuracion.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="settings-header">
+
+        <div class="logo-container">
+            <h1>Prestige</h1>
+        </div>
+
+        <nav class="top-nav">
+            <a href="index.html">Inicio</a>
+            <a href="perfil.html">Mi Perfil</a>
+            <a href="favoritos.html">Favoritos</a>
+            <a href="mensajes.html">Mensajes</a>
+        </nav>
+
+    </header>
+
+    <!-- CONTENIDO -->
+    <main class="settings-page">
+
+        <!-- SIDEBAR -->
+        <aside class="settings-sidebar">
+
+            <div class="profile-card">
+
+                <!-- FOTO -->
+                <img src="https://i.pravatar.cc/300?img=12"
+                    alt="Foto de perfil"
+                    id="profilePreview">
+
+                <!-- INPUT FOTO -->
+                <input type="file"
+                    id="uploadPhoto"
+                    accept="image/*"
+                    hidden>
+
+                <!-- NOMBRE -->
+                <h2 id="sidebarName">
+                    Irene Gómez
+                </h2>
+
+                <p>Cliente Premium</p>
+
+                <!-- BOTÓN FOTO -->
+                <button type="button"
+                    class="change-photo-btn"
+                    id="changePhotoBtn">
+
+                    <i class="fas fa-camera"></i>
+                    Cambiar foto
+
+                </button>
+
+            </div>
+
+            <!-- MENÚ -->
+            <nav class="sidebar-menu">
+
+                <a href="#cuenta"
+                    class="sidebar-link active">
+
+                    <i class="fas fa-user"></i>
+                    Cuenta
+
+                </a>
+
+                <a href="#seguridad"
+                    class="sidebar-link">
+
+                    <i class="fas fa-lock"></i>
+                    Seguridad
+
+                </a>
+
+                <a href="#privacidad"
+                    class="sidebar-link">
+
+                    <i class="fas fa-shield-halved"></i>
+                    Privacidad
+
+                </a>
+
+                <a href="#notificaciones"
+                    class="sidebar-link">
+
+                    <i class="fas fa-bell"></i>
+                    Notificaciones
+
+                </a>
+
+                <a href="#preferencias"
+                    class="sidebar-link">
+
+                    <i class="fas fa-sliders"></i>
+                    Preferencias
+
+                </a>
+
+                <a href="#actividad"
+                    class="sidebar-link">
+
+                    <i class="fas fa-clock-rotate-left"></i>
+                    Actividad
+
+                </a>
+
+                <a href="#ayuda"
+                    class="sidebar-link">
+
+                    <i class="fas fa-circle-question"></i>
+                    Ayuda
+
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- CONTENIDO DERECHO -->
+        <section class="settings-content">
+
+            <!-- CUENTA -->
+            <section id="cuenta"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Información de la cuenta</h2>
+
+                    <p>
+                        Gestiona tus datos personales.
+                    </p>
+
+                </div>
+
+                <form id="accountForm"
+                    class="settings-form">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="nombre">
+                                Nombre
+                            </label>
+
+                            <input type="text"
+                                id="nombre"
+                                value="Irene">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="apellidos">
+                                Apellidos
+                            </label>
+
+                            <input type="text"
+                                id="apellidos"
+                                value="Gómez García">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Correo electrónico
+                            </label>
+
+                            <input type="email"
+                                id="email"
+                                value="irenegomezgarcia29@gmail.com">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="telefono">
+                                Teléfono
+                            </label>
+
+                            <input type="tel"
+                                id="telefono"
+                                placeholder="+34 600 000 000">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="ciudad">
+                                Ciudad
+                            </label>
+
+                            <input type="text"
+                                id="ciudad"
+                                value="Dos Hermanas">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="fechaNacimiento">
+                                Fecha de nacimiento
+                            </label>
+
+                            <input type="date"
+                                id="fechaNacimiento">
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="bio">
+                            Biografía
+                        </label>
+
+                        <textarea id="bio"
+                            rows="5"
+                            placeholder="Cuéntanos algo sobre ti..."></textarea>
+
+                    </div>
+
+                    <button type="submit"
+                        class="save-btn">
+
+                        Guardar cambios
+
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- SEGURIDAD -->
+            <section id="seguridad"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Seguridad</h2>
+
+                    <p>
+                        Actualiza tu contraseña y seguridad.
+                    </p>
+
+                </div>
+
+                <form id="securityForm"
+                    class="settings-form">
+
+                    <div class="form-group">
+
+                        <label for="currentPassword">
+                            Contraseña actual
+                        </label>
+
+                        <input type="password"
+                            id="currentPassword">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="newPassword">
+                            Nueva contraseña
+                        </label>
+
+                        <input type="password"
+                            id="newPassword">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirmar contraseña
+                        </label>
+
+                        <input type="password"
+                            id="confirmPassword">
+
+                    </div>
+
+                    <div class="security-options">
+
+                        <div class="security-card">
+
+                            <div>
+
+                                <h4>
+                                    Autenticación en dos pasos
+                                </h4>
+
+                                <p>
+                                    Mayor protección para tu cuenta.
+                                </p>
+
+                            </div>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                    id="twoFactor">
+
+                                <span></span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="security-card">
+
+                            <div>
+
+                                <h4>
+                                    Alertas de inicio de sesión
+                                </h4>
+
+                                <p>
+                                    Recibir notificaciones de accesos.
+                                </p>
+
+                            </div>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                    id="loginAlerts"
+                                    checked>
+
+                                <span></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit"
+                        class="save-btn">
+
+                        Actualizar seguridad
+
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- PRIVACIDAD -->
+            <section id="privacidad"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Privacidad</h2>
+
+                    <p>
+                        Gestiona quién puede ver tu información.
+                    </p>
+
+                </div>
+
+                <div class="privacy-options">
+
+                    <div class="privacy-card">
+
+                        <div>
+
+                            <h4>
+                                Perfil público
+                            </h4>
+
+                            <p>
+                                Otros usuarios podrán ver tu perfil.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                id="publicProfile"
+                                checked>
+
+                            <span></span>
+
+                        </label>
+
+                    </div>
+
+                    <div class="privacy-card">
+
+                        <div>
+
+                            <h4>
+                                Mensajes privados
+                            </h4>
+
+                            <p>
+                                Permitir mensajes de otros usuarios.
+                            </p>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input type="checkbox"
+                                id="privateMessages"
+                                checked>
+
+                            <span></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- NOTIFICACIONES -->
+            <section id="notificaciones"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Notificaciones</h2>
+
+                    <p>
+                        Configura tus avisos.
+                    </p>
+
+                </div>
+
+                <div class="notification-options">
+
+                    <div class="notification-card">
+
+                        <div>
+
+                            <h4>
+                                Nuevos mensajes
+                            </h4>
+
+                            <p>
+                                Recibir aviso de mensajes nuevos.
+                            </p>
+
+                        </div>
+
+                        <input type="checkbox"
+                            id="notifyMessages"
+                            checked>
+
+                    </div>
+
+                    <div class="notification-card">
+
+                        <div>
+
+                            <h4>
+                                Promociones
+                            </h4>
+
+                            <p>
+                                Ofertas y propiedades destacadas.
+                            </p>
+
+                        </div>
+
+                        <input type="checkbox"
+                            id="notifyOffers">
+
+                    </div>
+
+                    <div class="notification-card">
+
+                        <div>
+
+                            <h4>
+                                Visitas programadas
+                            </h4>
+
+                            <p>
+                                Recordatorios de tus citas.
+                            </p>
+
+                        </div>
+
+                        <input type="checkbox"
+                            id="notifyVisits"
+                            checked>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- PREFERENCIAS -->
+            <section id="preferencias"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Preferencias</h2>
+
+                    <p>
+                        Personaliza la página.
+                    </p>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="themeSelect">
+                            Modo visual
+                        </label>
+
+                        <select id="themeSelect">
+
+                            <option value="light">
+                                Claro
+                            </option>
+
+                            <option value="dark">
+                                Oscuro
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Idioma
+                        </label>
+
+                        <select>
+
+                            <option>
+                                Español
+                            </option>
+
+                            <option>
+                                English
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button type="button"
+                    class="save-btn"
+                    id="savePreferences">
+
+                    Guardar preferencias
+
+                </button>
+
+            </section>
+
+            <!-- ACTIVIDAD -->
+            <section id="actividad"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Actividad reciente</h2>
+
+                    <p>
+                        Últimos movimientos de tu cuenta.
+                    </p>
+
+                </div>
+
+                <div class="activity-list">
+
+                    <div class="activity-item">
+
+                        <i class="fas fa-heart"></i>
+
+                        <div>
+
+                            <h4>
+                                Propiedad añadida a favoritos
+                            </h4>
+
+                            <p>
+                                Hace 2 horas
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <i class="fas fa-envelope"></i>
+
+                        <div>
+
+                            <h4>
+                                Nuevo mensaje recibido
+                            </h4>
+
+                            <p>
+                                Hace 5 horas
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- AYUDA -->
+            <section id="ayuda"
+                class="settings-section">
+
+                <div class="section-header">
+
+                    <h2>Centro de ayuda</h2>
+
+                    <p>
+                        ¿Necesitas ayuda?
+                    </p>
+
+                </div>
+
+                <div class="help-grid">
+
+                    <div class="help-card">
+
+                        <i class="fas fa-headset"></i>
+
+                        <h4>
+                            Soporte técnico
+                        </h4>
+
+                        <p>
+                            Contacta con nuestro equipo.
+                        </p>
+
+                        <button type="button">
+                            Contactar
+                        </button>
+
+                    </div>
+
+                    <div class="help-card">
+
+                        <i class="fas fa-circle-question"></i>
+
+                        <h4>Preguntas frecuentes</h4>
+
+                        <p>Consulta dudas comunes</p>
+
+                        <button type="button">Ver más</button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- ELIMINAR CUENTA -->
+            <section class="settings-section danger-zone">
+
+                <div class="section-header">
+
+                    <h2>Zona peligrosa</h2>
+
+                    <p>
+                        Acciones permanentes.
+                    </p>
+
+                </div>
+
+                <div class="danger-card">
+
+                    <div>
+
+                        <h4>
+                            Eliminar cuenta
+                        </h4>
+
+                        <p>
+                            Tu cuenta será eliminada permanentemente.
+                        </p>
+
+                    </div>
+
+                    <button type="button"
+                        class="delete-btn"
+                        id="deleteAccountBtn">Eliminar cuenta
+                    </button>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- JS -->
+    <script src="configuracion.js"></script>
+
+</body>
+
+</html>

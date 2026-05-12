@@ -71,27 +71,36 @@
                 <p class="user-role">Cliente</p>
             </div>
             
-            <!-- Botones del sidebar: data-section = id de la sección a mostrar -->
-            <nav class="sidebar-menu">
-                <button class="menu-btn active" data-section="resumen">
-                    <i class="fas fa-home"></i> Resumen
-                </button>
-                <button class="menu-btn" data-section="favoritos">
-                    <i class="fas fa-heart"></i> Favoritos <span class="badge" id="favCount">0</span>
-                </button>
-                <button class="menu-btn" data-section="visitas">
-                    <i class="fas fa-calendar-check"></i> Visitas
-                </button>
-                <button class="menu-btn" data-section="mensajes">
-                    <i class="fas fa-envelope"></i> Mensajes <span class="badge new" id="msgCount">3</span>
-                </button>
-                <button class="menu-btn" data-section="configuracion">
-                    <i class="fas fa-cog"></i> Configuración
-                </button>
-                <button class="menu-btn danger" id="btnLogoutSidebar">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                </button>
-            </nav>
+    <!-- Sidebar -->
+<nav class="sidebar-menu">
+
+    <button class="menu-btn active" onclick="window.location.href='perfil.html'">
+        <i class="fas fa-home"></i> Resumen
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='favoritos.html'">
+        <i class="fas fa-heart"></i> Favoritos
+        <span class="badge" id="favCount">0</span>
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='visitas.html'">
+        <i class="fas fa-calendar-check"></i> Visitas
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='mensajes.html'">
+        <i class="fas fa-envelope"></i> Mensajes
+        <span class="badge new" id="msgCount">3</span>
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='configuracion.html'">
+        <i class="fas fa-cog"></i> Configuración
+    </button>
+
+    <button class="menu-btn danger" id="btnLogoutSidebar">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </button>
+
+</nav>
         </aside>
 
         <!-- Contenido de las secciones -->

@@ -1,0 +1,383 @@
+
+/* INICIO MÓDULO FAVORITOS - página favoritos.html */
+
+
+/* --- Header y navegación --- */
+.header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 1.2rem 5%;
+    border-bottom: 3px solid var(--accent-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 70%;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+    background-color: rgba(197, 160, 89, 0.08);
+}
+
+/* --- Contenido principal --- */
+.main {
+    padding: 3.5rem 5% 4rem;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    min-height: calc(100vh - 220px);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    display: inline-block;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: var(--accent-color);
+}
+
+/* --- Sección formulario --- */
+.add-favorite-section {
+    background: var(--white);
+    padding: 2.2rem;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 3rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-favorite-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
+}
+
+.add-favorite-section h2 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.6rem;
+}
+
+.add-favorite-section > p {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 1.8rem;
+    line-height: 1.5;
+}
+
+.favorite-form {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.favorite-form .form-group {
+    flex: 1;
+    min-width: 260px;
+}
+
+.favorite-form label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 0.6rem;
+}
+
+/* --- Input y botón --- */
+.favorite-form input[type="text"] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.favorite-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.12);
+    background-color: var(--white);
+}
+
+.btn-add {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #a88445 100%);
+    color: var(--white);
+    padding: 13px 28px;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(197, 160, 89, 0.25);
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, #a88445 0%, var(--accent-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(197, 160, 89, 0.35);
+}
+
+.btn-add:active {
+    transform: translateY(0);
+}
+
+.form-note {
+    display: block;
+    margin-top: 1rem;
+    color: #94a3b8;
+    font-size: 0.84rem;
+    font-style: italic;
+}
+
+/* --- Contenedor y estado vacío --- */
+.favorites-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.8rem;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4.5rem 2rem;
+    color: #64748b;
+    background: var(--white);
+    border-radius: 14px;
+    border: 2px dashed #cbd5e1;
+    transition: border-color 0.3s ease;
+}
+
+.empty-state:hover {
+    border-color: var(--accent-color);
+}
+
+.empty-state p {
+    margin: 0.6rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.empty-state p:first-child {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+
+.empty-state a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+}
+
+.empty-state a:hover {
+    color: #a88445;
+    background-color: rgba(197, 160, 89, 0.1);
+    text-decoration: none;
+}
+
+/* --- Tarjetas de favoritos --- */
+.favorite-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.favorite-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-color);
+}
+
+.favorite-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    background-color: #e2e8f0;
+    transition: transform 0.4s ease;
+}
+
+.favorite-card:hover img {
+    transform: scale(1.05);
+}
+
+.favorite-card h3 {
+    font-size: 1.15rem;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    margin: 1.2rem 1.2rem 0.5rem;
+    line-height: 1.35;
+    transition: color 0.3s ease;
+}
+
+.favorite-card:hover h3 {
+    color: var(--accent-color);
+}
+
+.favorite-card p {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0 1.2rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.favorite-card .btn-remove {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: var(--white);
+    border: 1.5px solid #e2e8f0;
+    color: #64748b;
+    font-size: 1.3rem;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.favorite-card .btn-remove:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+    border-top: 3px solid var(--accent-color);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .favorite-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-add {
+        width: 100%;
+    }
+
+    .favorites-container {
+        grid-template-columns: 1fr;
+    }
+
+    .add-favorite-section {
+        padding: 1.6rem;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 2rem 1.2rem 3rem;
+    }
+
+    .empty-state {
+        padding: 3rem 1.5rem;
+    }
+
+    .favorite-card img {
+        height: 160px;
+    }
+}
+
+/* FIN MÓDULO FAVORITOS - página favoritos.html */
