@@ -11,6 +11,199 @@
     <link rel="stylesheet" href="theme.css">
     <!-- (Hecho por Miguel) -->
     <link rel="stylesheet" href="prestige-chatbot.css">
+    <style id="prestige-anim-contacto">
+        /* === Animaciones Prestige - contacto.html === */
+        @keyframes prestigeFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes prestigeFadeDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes prestigeFadeLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes prestigeFadeRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes prestigeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes prestigeShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes prestigePulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+        }
+
+        /* Hero con entrada animada */
+        .hero-contacto-premium h1 {
+            animation: prestigeFadeDown 0.9s cubic-bezier(.2,.7,.2,1) both;
+        }
+        .hero-contacto-premium p {
+            animation: prestigeFadeUp 0.9s cubic-bezier(.2,.7,.2,1) 0.25s both;
+        }
+
+        /* Sidebar con info de contacto: slide-in desde la izquierda */
+        .contacto-info-premium {
+            animation: prestigeFadeLeft 0.9s cubic-bezier(.2,.7,.2,1) 0.4s both;
+        }
+        .contacto-form-premium {
+            animation: prestigeFadeRight 0.9s cubic-bezier(.2,.7,.2,1) 0.5s both;
+        }
+
+        /* Items de info con stagger */
+        .info-list .item {
+            opacity: 0;
+            animation: prestigeFadeLeft 0.7s cubic-bezier(.2,.7,.2,1) both;
+            transition: transform 0.35s ease, background-color 0.3s ease;
+            padding: 6px;
+            border-radius: 8px;
+        }
+        .info-list .item:nth-child(1) { animation-delay: 0.7s; }
+        .info-list .item:nth-child(2) { animation-delay: 0.85s; }
+        .info-list .item:nth-child(3) { animation-delay: 1s; }
+        .info-list .item:hover {
+            transform: translateX(8px);
+            background-color: rgba(197, 160, 89, 0.08);
+        }
+        .info-list .item:hover .icon-svg {
+            animation: prestigeFloat 1.4s ease-in-out infinite;
+            background-color: #c5a059;
+            transform: scale(1.15);
+        }
+        .icon-svg {
+            transition: transform 0.35s ease, background-color 0.3s ease;
+        }
+
+        /* Mapa con fade y leve zoom */
+        .contacto-info-premium > div:last-child {
+            animation: prestigeFadeUp 0.9s ease 1.1s both;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .contacto-info-premium > div:last-child:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.25);
+        }
+
+        /* Inputs con micro-interacciones */
+        .input-group-premium {
+            transition: transform 0.3s ease;
+        }
+        .input-group-premium:focus-within {
+            transform: translateY(-3px);
+        }
+        .input-group-premium input,
+        .input-group-premium select,
+        .input-group-premium textarea {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease !important;
+        }
+        .input-group-premium input:focus,
+        .input-group-premium select:focus,
+        .input-group-premium textarea:focus {
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.18) !important;
+        }
+        .input-group-premium label {
+            transition: all 0.3s cubic-bezier(.2,.7,.2,1) !important;
+        }
+
+        /* Checkbox con pop */
+        .checkbox-group input[type="checkbox"] {
+            transition: transform 0.25s ease;
+        }
+        .checkbox-group input[type="checkbox"]:checked {
+            animation: prestigePulseGlow 0.8s ease;
+            transform: scale(1.15);
+        }
+        .checkbox-group {
+            transition: color 0.3s ease;
+        }
+        .checkbox-group:hover {
+            color: #c5a059;
+        }
+
+        /* Botón submit con shimmer y elevación */
+        .btn-submit-premium {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(.2,.7,.2,1),
+                        box-shadow 0.35s ease,
+                        letter-spacing 0.35s ease !important;
+            background-image: linear-gradient(110deg, #c5a059 0%, #d4b878 40%, #c5a059 80%) !important;
+            background-size: 200% 100% !important;
+        }
+        .btn-submit-premium::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            transition: left 0.7s ease;
+        }
+        .btn-submit-premium:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 30px rgba(197, 160, 89, 0.45) !important;
+            letter-spacing: 1.5px;
+        }
+        .btn-submit-premium:hover::before {
+            left: 100%;
+        }
+        .btn-submit-premium:active {
+            transform: translateY(-1px) scale(0.99);
+        }
+
+        /* Form section titles: underline animado */
+        .form-section-title {
+            position: relative;
+            overflow: hidden;
+        }
+        .form-section-title::after {
+            transition: width 0.6s cubic-bezier(.2,.7,.2,1) !important;
+        }
+        .contacto-form-premium:hover .form-section-title::after {
+            width: 80px !important;
+        }
+
+        /* Scroll reveal */
+        [data-prestige-reveal] {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+            will-change: opacity, transform;
+        }
+        [data-prestige-reveal].prestige-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header con efecto sutil al hacer scroll */
+        .header-prestige {
+            transition: box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        .header-prestige.prestige-scrolled {
+            box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Footer con borde animado */
+        footer {
+            transition: border-top-color 0.5s ease;
+        }
+
+        /* Respetar reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+    </style>
     <!-- (final de Miguel) -->
     <script src="theme.js"></script>
 </head>
@@ -178,6 +371,54 @@
     <!-- (Hecho por Miguel) -->
     <script type="module" src="login.js"></script>
     <script src="prestige-chatbot.js"></script>
+    <script>
+        // === Interacciones Prestige - contacto.html ===
+        document.addEventListener('DOMContentLoaded', function () {
+            // Marcar elementos para scroll reveal
+            var revealTargets = document.querySelectorAll('.contacto-form-premium .grid-2-col, .contacto-form-premium .input-group-premium, .contacto-form-premium .form-section-title, .contacto-info-premium .item, footer');
+            revealTargets.forEach(function (el) {
+                el.setAttribute('data-prestige-reveal', '');
+            });
+
+            // IntersectionObserver para activar la animación al entrar en viewport
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('prestige-visible');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+                revealTargets.forEach(function (el) { io.observe(el); });
+            } else {
+                // Fallback: mostrar todo
+                revealTargets.forEach(function (el) { el.classList.add('prestige-visible'); });
+            }
+
+            // Header con sombra al hacer scroll
+            var header = document.querySelector('.header-prestige');
+            if (header) {
+                var onScroll = function () {
+                    if (window.scrollY > 30) header.classList.add('prestige-scrolled');
+                    else header.classList.remove('prestige-scrolled');
+                };
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+
+            // Pequeño ripple visual al pulsar el botón de envío
+            var btn = document.querySelector('.btn-submit-premium');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    btn.style.animation = 'none';
+                    requestAnimationFrame(function () {
+                        btn.style.animation = 'prestigePulseGlow 0.6s ease';
+                    });
+                });
+            }
+        });
+    </script>
     <!-- (final de Miguel) -->
 
 </body>
