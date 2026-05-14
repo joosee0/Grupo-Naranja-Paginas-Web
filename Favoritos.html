@@ -1,124 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favoritos - Inmobiliaria</title>
+    <title>Favoritos - Inmobiliaria Prestige</title>
+
     <link rel="stylesheet" href="style2.css">
+
+    <!-- (Hecho por Miguel) -->
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <script src="theme.js"></script>
+    <!-- (final de Miguel) -->
 </head>
+
 <body>
-    
-    <!-- Navegación básica -->
-    <header class="header"><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Panel de control - Inmobiliaria">
-    <meta name="author" content="Inmobiliaria">
-    <title>Resumen - Mi Perfil | Inmobiliaria</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+
+
+    <!-- Header / Menú -->
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="perfil.html">Mi Perfil</a></li>
+                <li><a href="favoritos.html" class="active">Favoritos</a></li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+
+                    </button>
+                </li>
+
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Contenido principal -->
     <div class="profile-container">
-        <!-- Menú lateral de navegación -->
+
+
+        <!-- Menú lateral -->
         <aside class="profile-sidebar">
+
             <nav class="profile-nav">
+
                 <ul class="nav-menu">
+
                     <li class="nav-item">
-                        <a href="resumen.html" class="nav-link active">
+                        <a href="resumen.html" class="nav-link">
                             <span class="nav-text">Resumen</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a href="favoritos.html" class="nav-link">
+                        <a href="favoritos.html" class="nav-link active">
                             <span class="nav-text">Favoritos</span>
                             <span class="badge badge-neutral">0</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="visitas.html" class="nav-link">
                             <span class="nav-text">Visitas</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="mensajes.html" class="nav-link">
                             <span class="nav-text">Mensajes</span>
                             <span class="badge badge-notification">3</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="configuracion.html" class="nav-link">
                             <span class="nav-text">Configuración</span>
                         </a>
                     </li>
+
                 </ul>
+
             </nav>
+
         </aside>
 
-        <!-- Contenido principal -->
+
+        <!-- Página favoritos -->
         <main class="profile-content">
-            <h1>Resumen</h1>
-            <!-- Aquí iría el contenido del resumen -->
-        </main>
-    </div>
-</body>
-</html>
-        <nav class="nav">
-            <a href="perfil.html" class="nav-link">← Volver a Mi Perfil</a>
-            <a href="catalogo.html" class="nav-link">Ir al Catálogo</a>
-        </nav>
-    </header>
 
-    <main class="main">
-        <h1 class="page-title">Mis Propiedades Favoritas</h1>
+            <h1 class="page-title">Mis Propiedades Favoritas</h1>
 
-        <!-- SECCIÓN 1: Formulario para añadir propiedades -->
-        <section class="add-favorite-section">
-            <h2>Añadir propiedad a favoritos</h2>
-            <p>Introduce el ID, referencia o URL de la propiedad que deseas guardar:</p>
-            
-            <form id="add-favorite-form" class="favorite-form" method="POST" action="#">
-                <div class="form-group">
-                    <label for="property-identifier">ID o enlace de la propiedad:</label>
-                    <input 
-                        type="text" 
-                        id="property-identifier" 
-                        name="property_identifier" 
-                        placeholder="Ej: PROP-458 o /detalle?id=458" 
-                        required
-                        autocomplete="off"
-                    >
+
+            <!-- Formulario favoritos -->
+            <section class="add-favorite-section">
+
+                <h2>Añadir propiedad a favoritos</h2>
+
+                <p>
+                    Introduce el ID o enlace de la propiedad que deseas guardar.
+                </p>
+
+
+                <form id="add-favorite-form" class="favorite-form" method="POST" action="#">
+
+                    <div class="form-group">
+
+                        <label for="property-identifier">
+                            ID o enlace de la propiedad
+                        </label>
+
+                        <input type="text"
+                            id="property-identifier"
+                            name="property_identifier"
+                            placeholder="Ej: PROP-458 o /detalle?id=458"
+                            required
+                            autocomplete="off">
+
+                    </div>
+
+
+                    <button type="submit" class="btn-add" id="btn-add-favorite">
+                        Añadir a favoritos
+                    </button>
+
+                </form>
+
+
+                <small class="form-note">
+                    * El guardado se realizará mediante JavaScript o backend.
+                </small>
+
+            </section>
+
+
+            <!-- Lista favoritos -->
+            <section class="favorites-container" id="favorites-list">
+
+
+                <!-- Estado vacío -->
+                <div class="empty-state" id="empty-favorites">
+
+                    <p>
+                        Aún no has guardado ninguna propiedad.
+                    </p>
+
+                    <p>
+                        Usa el formulario anterior o pulsa el botón
+                        <strong>♥ Guardar</strong>
+                        en el catálogo.
+                    </p>
+
                 </div>
-                <button type="submit" class="btn-add" id="btn-add-favorite">Añadir a favoritos</button>
-            </form>
-            <small class="form-note">* La validación y guardado se realizará con JavaScript/Backend.</small>
-        </section>
 
-        <!-- SECCIÓN 2: Contenedor donde se listarán los favoritos -->
-        <section class="favorites-container" id="favorites-list">
-            <!-- Estado vacío por defecto -->
-            <div class="empty-state" id="empty-favorites">
-                <p>Aún no has guardado ninguna propiedad.</p>
-                <p>Usa el formulario anterior o pulsa el botón <strong>♥ Guardar</strong> en el <a href="catalogo.html">catálogo</a>.</p>
-            </div>
+            </section>
 
-            <!-- 
-                AQUÍ SE INYECTARÁN DINÁMICAMENTE LAS TARJETAS 
-                Estructura esperada por tarjeta (solo referencia para tu JS):
-                <article class="favorite-card" data-id="PROP-XXX">
-                    <img src="..." alt="...">
-                    <h3>Título</h3>
-                    <p>Dirección</p>
-                    <button class="btn-remove" aria-label="Quitar de favoritos">&times;</button>
-                </article>
-            -->
-        </section>
-    </main>
+        </main>
 
-    <footer class="footer">
-        <p>&copy; 2026 Inmobiliaria. Todos los derechos reservados.</p>
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
+
+    <!-- (Hecho por Miguel) -->
+    <script type="module" src="login.js"></script>
+    <!-- (final de Miguel) -->
+
+    <script src="prestige-chatbot.js"></script>
+
 </body>
+
 </html>
