@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Visitas - Mi Perfil | Inmobiliaria Prestige</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <link rel="stylesheet" href="visitas.css">
+</head>
+
+<body class="profile-page">
+
+<header class="header-prestige">
+    <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+</header>
+
+<div class="profile-container">
+
+    <!-- SIDEBAR -->
+    <aside class="profile-sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">Mi Perfil</span>
+        </div>
+
+        <nav class="profile-nav">
+            <ul class="nav-menu">
+
+                <li><a href="resumen.html" class="nav-link">📊 Resumen</a></li>
+                <li><a href="favoritos.html" class="nav-link">❤️ Favoritos</a></li>
+                <li><a href="visitas.html" class="nav-link active">🏠 Visitas <span id="visit-count" class="badge">0</span></a></li>
+                <li><a href="notificaciones.html" class="nav-link">✉️ Mensajes</a></li>
+                <li><a href="configuracion.html" class="nav-link">⚙️ Configuración</a></li>
+
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="profile-content">
+
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Visitas programadas</h1>
+                <p class="page-subtitle">Gestiona todas las visitas de clientes a propiedades</p>
+            </div>
+
+            <button class="btn btn-primary" id="add-demo">
+                + Nueva visita demo
+            </button>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="section-card">
+            <div class="section-card-header">
+                <h2 class="section-title">🔎 Filtros</h2>
+            </div>
+
+            <div class="section-card-body">
+                <select id="filter-status">
+                    <option value="all">Todas</option>
+                    <option value="pendiente">Pendientes</option>
+                    <option value="confirmada">Confirmadas</option>
+                    <option value="cancelada">Canceladas</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- LISTA -->
+        <div class="section-card">
+            <div class="section-card-header">
+                <h2 class="section-title">📅 Agenda de visitas</h2>
+            </div>
+
+            <div class="section-card-body">
+                <div id="visits-container"></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="visitas.js"></script>
+
+</body>
+</html>
