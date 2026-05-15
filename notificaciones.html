@@ -3,120 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Mensajes - Mi Perfil | Inmobiliaria Prestige</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
+    <!-- Tus hojas de estilo -->
     <link rel="stylesheet" href="style2.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <link rel="stylesheet" href="mensajes.css">
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body class="profile-page">
 
-<!-- HEADER -->
-<header class="header-prestige">
-    <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
-
-    <nav>
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="propiedades.html">Propiedades</a></li>
-            <li><a href="login.html">Login</a></li>
-        </ul>
-    </nav>
-</header>
-
-<div class="profile-container">
-
-    <!-- SIDEBAR -->
-    <aside class="profile-sidebar">
-        <div class="sidebar-header">
-            <span class="sidebar-title">Mi Perfil</span>
-        </div>
-
-        <nav class="profile-nav">
-            <ul class="nav-menu">
-
-                <li class="nav-item">
-                    <a href="resumen.html" class="nav-link">
-                        📊 Resumen
-                    </a>
+    <!-- (Hecho por Miguel) -->
+    <!-- HEADER COMPLETO COPIADO DE perfil.html -->
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li id="userMenu"></li>
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a href="favoritos.html" class="nav-link">
-                        ❤️ Favoritos
-                    </a>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
                 </li>
-
-                <li class="nav-item">
-                    <a href="visitas.html" class="nav-link">
-                        🏠 Visitas
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="mensajes.html" class="nav-link active">
-                        ✉️ Mensajes
-                        <span class="badge badge-notification" id="msg-badge">0</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="configuracion.html" class="nav-link">
-                        ⚙️ Configuración
-                    </a>
-                </li>
-
             </ul>
+            <button class="mobile-toggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
         </nav>
-    </aside>
+    </header>
+    <!-- (final de Miguel) -->
 
-    <!-- CONTENIDO -->
-    <main class="profile-content">
+    <div class="profile-container">
 
-        <!-- HEADER -->
-        <div class="page-header">
-            <div>
-                <h1 class="page-title">Mensajes y Notificaciones</h1>
-                <p class="page-subtitle">Gestiona avisos de reservas, visitas y actividad</p>
+        <!-- SIDEBAR -->
+        <aside class="profile-sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">Mi Perfil</span>
             </div>
 
-            <button class="btn btn-primary" id="markAllBtn">
-                Marcar todo como leído
-            </button>
-        </div>
+            <nav class="profile-nav">
+                <ul class="nav-menu">
 
-        <!-- LISTA DE MENSAJES (DINÁMICA) -->
-        <div class="section-card">
+                    <li class="nav-item">
+                        <a href="resumen.html" class="nav-link">
+                            📊 Historial
+                        </a>
+                    </li>
 
-            <div class="section-card-header">
-                <h2 class="section-title">📬 Bandeja de entrada</h2>
+                    <li class="nav-item">
+                        <a href="favoritos.html" class="nav-link">
+                            ❤️ Favoritos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="visitas.html" class="nav-link">
+                            🏠 Visitas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="mensajes.html" class="nav-link active">
+                            ✉️ Mensajes
+                            <span class="badge badge-notification" id="msg-badge">0</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="configuracion.html" class="nav-link">
+                            ⚙️ Configuración
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- CONTENIDO -->
+        <main class="profile-content">
+
+            <!-- HEADER -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Mensajes y Notificaciones</h1>
+                    <p class="page-subtitle">Gestiona avisos de reservas, visitas y actividad</p>
+                </div>
+
+                <button class="btn btn-primary" id="markAllBtn">
+                    Marcar todo como leído
+                </button>
             </div>
 
-            <div class="section-card-body message-list" id="messages-container">
-                <!-- JS genera mensajes aquí -->
+            <!-- LISTA DE MENSAJES (DINÁMICA) -->
+            <div class="section-card">
+
+                <div class="section-card-header">
+                    <h2 class="section-title">📬 Bandeja de entrada</h2>
+                </div>
+
+                <div class="section-card-body message-list" id="messages-container">
+                    <!-- JS genera mensajes aquí -->
+                </div>
+
             </div>
 
-        </div>
-
-    </main>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer-prestige">
-    <div class="footer-content">
-        <p>© 2026 Inmobiliaria Prestige</p>
+        </main>
     </div>
-</footer>
 
-<!-- JS FUNCIONAL -->
-<script src="mensajes.js"></script>
+    <!-- FOOTER -->
+    <footer class="footer-prestige">
+        <div class="footer-content">
+            <p>© 2026 Inmobiliaria Prestige</p>
+        </div>
+    </footer>
+
+    <!-- (Hecho por Miguel) -->
+    <!-- Scripts de funcionalidad -->
+    <script src="theme.js"></script>
+    <script src="prestige-chatbot.js"></script>
+    <!-- (final de Miguel) -->
+    
+    <!-- JS FUNCIONAL -->
+    <script src="mensajes.js"></script>
 
 </body>
 </html>

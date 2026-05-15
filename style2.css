@@ -746,7 +746,7 @@ body.profile-page .footer-links a:hover {
 }
 
 
-/* === MENSAJES PAGE (COMPATIBLE CON FAVORITOS) === */
+/* Pagina de mensajes */
 
 /* CONTENEDOR MENSAJES */
 .message-list {
@@ -1094,5 +1094,407 @@ body.profile-page {
     .message-item {
         flex-direction: column;
         gap: 8px;
+    }
+}
+
+/*Pagina de configuracion*/
+/* configuracion.html */
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #111827;
+    color: white;
+}
+
+.settings-header h1 {
+    font-size: 22px;
+}
+
+.top-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.top-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.top-nav a:hover {
+    color: #60a5fa;
+}
+
+.settings-page {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.settings-sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    height: fit-content;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 20px;
+}
+
+.profile-card {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-card img {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+}
+
+.profile-card h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.profile-card p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.change-photo-btn {
+    margin-top: 15px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.change-photo-btn:hover {
+    background: #1d4ed8;
+}
+
+.sidebar-menu {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.sidebar-link:hover {
+    background: #f3f4f6;
+}
+
+.sidebar-link.active {
+    background: #2563eb;
+    color: white;
+}
+
+.settings-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.settings-section {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.section-header p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    outline: none;
+    transition: 0.2s;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #2563eb;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.save-btn {
+    width: fit-content;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.save-btn:hover {
+    background: #1d4ed8;
+}
+
+.security-options,
+.privacy-options,
+.notification-options,
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.security-card,
+.privacy-card,
+.notification-card,
+.activity-item,
+.danger-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+}
+
+.security-card h4,
+.privacy-card h4,
+.notification-card h4,
+.activity-item h4,
+.danger-card h4 {
+    margin-bottom: 5px;
+}
+
+.security-card p,
+.privacy-card p,
+.notification-card p,
+.activity-item p,
+.danger-card p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.switch {
+    position: relative;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch span {
+    width: 42px;
+    height: 22px;
+    background: #d1d5db;
+    border-radius: 20px;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.switch span::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: 0.3s;
+}
+
+.switch input:checked + span {
+    background: #2563eb;
+}
+
+.switch input:checked + span::after {
+    transform: translateX(20px);
+}
+
+.notification-card input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+}
+
+.activity-item {
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.activity-item i {
+    font-size: 18px;
+    color: #2563eb;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.help-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 25px;
+    gap: 12px;
+}
+
+.help-card i {
+    font-size: 28px;
+    color: #2563eb;
+}
+
+.help-card p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.help-card button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.help-card button:hover {
+    background: #1f2937;
+}
+
+.danger-zone {
+    border: 2px solid #ef4444;
+}
+
+.delete-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background: #ef4444;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* responsive */
+
+@media (max-width: 1000px) {
+
+    .settings-page {
+        flex-direction: column;
+    }
+
+    .settings-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+
+    .form-grid,
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .settings-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .top-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .security-card,
+    .privacy-card,
+    .notification-card,
+    .danger-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
     }
 }
