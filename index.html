@@ -4,17 +4,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inmobiliaria - Inicio</title>
+    <title>Inmobiliaria Prestige - Inicio</title>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. AJUSTES GENERALES
+           ========================================= */
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; margin: 0; padding: 0; background-color: #fafafa;}
+        body.dark-mode { background-color: #121212; color: #f4f4f4; }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        body.dark-mode .section-title { color: #f4f4f4; }
+        .section-title::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 80px; height: 4px;
+            background-color: #d4af37; border-radius: 2px;
+        }
+
+        /* =========================================
+           2. CABECERA (HEADER SCROLL)
+           ========================================= */
+        .header-prestige {
+            transition: all 0.4s ease-in-out;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+        }
+        .header-scrolled {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+        }
+        body.dark-mode .header-scrolled {
+            background: rgba(20, 20, 20, 0.95) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* =========================================
+           3. BOTONES Y ANIMACIONES HERO
+           ========================================= */
+        .btn {
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+            display: inline-block; z-index: 1; padding: 15px 35px;
+            background: #d4af37; color: #fff; text-decoration: none;
+            border-radius: 30px; font-weight: 600; text-transform: uppercase;
+        }
+        .btn:hover {
+            transform: translateY(-5px); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
+        }
+        
+        section { padding: 90px 20px; max-width: 1200px; margin: 0 auto; }
+        .hero { max-width: 100%; padding: 180px 20px 120px 20px; text-align: center; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed; color: white; }
+
+        /* =========================================
+           4. TARJETAS GIRATORIAS 3D (FLIP CARDS)
+           ========================================= */
+        .servicios-grid {
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; perspective: 1000px;
+        }
+        .flip-card {
+            background-color: transparent; width: 320px; height: 350px; perspective: 1000px; cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d;
+        }
+        /* Al pasar el ratón, la tarjeta gira */
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; box-sizing: border-box;
+        }
+        .flip-card-front { background-color: #fff; color: #333; }
+        body.dark-mode .flip-card-front { background-color: #1e1e1e; color: #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        .flip-card-front i { font-size: 4rem; color: #d4af37; margin-bottom: 20px; }
+        .flip-card-front h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        
+        .flip-card-back {
+            background: linear-gradient(135deg, #d4af37, #b5952f); color: white; transform: rotateY(180deg);
+        }
+        .flip-card-back h3 { margin-bottom: 15px; font-size: 1.6rem; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px;}
+        .flip-card-back p { font-size: 1rem; line-height: 1.6; }
+
+        /* =========================================
+           5. PROPIEDADES DESTACADAS (EFECTOS ZOOM)
+           ========================================= */
+        .grid-propiedades { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
+        .propiedad-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.4s ease; position: relative; }
+        body.dark-mode .propiedad-card { background: #1e1e1e; }
+        .propiedad-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .img-wrapper { overflow: hidden; }
+        .propiedad-img { width: 100%; height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; }
+        .propiedad-card:hover .propiedad-img { transform: scale(1.1); } /* Efecto zoom en la foto */
+        
+        .img-1 { background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); }
+        .img-2 { background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); }
+        .img-3 { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); }
+        
+        .badge-precio { position: absolute; top: 20px; right: 20px; background: #d4af37; color: #fff; padding: 8px 20px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .propiedad-info { padding: 25px; }
+        .propiedad-info h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: #333; }
+        body.dark-mode .propiedad-info h3 { color: #fff; }
+        .propiedad-info p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        body.dark-mode .propiedad-info p { color: #aaa; }
+        .propiedad-features { display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 15px; color: #555; font-size: 0.9rem; font-weight: 600; }
+        body.dark-mode .propiedad-features { border-top: 1px solid #333; color: #ccc; }
+        .propiedad-features i { color: #d4af37; margin-right: 5px; }
+
+        /* =========================================
+           6. SECCIÓN PLANOS (NUEVO)
+           ========================================= */
+        .seccion-planos { background-color: #fff; padding: 100px 20px; }
+        body.dark-mode .seccion-planos { background-color: #1a1a1a; }
+        .plano-container { display: flex; align-items: center; gap: 50px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+        .plano-texto { flex: 1; min-width: 300px; }
+        .plano-texto h3 { font-size: 2rem; margin-bottom: 20px; color: #d4af37; }
+        .plano-texto p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; color: #666; }
+        body.dark-mode .plano-texto p { color: #ccc; }
+        .plano-texto ul { list-style: none; padding: 0; margin-bottom: 30px; }
+        .plano-texto ul li { margin-bottom: 10px; font-size: 1.1rem; }
+        .plano-texto ul li i { color: #d4af37; margin-right: 10px; }
+        
+        .plano-imagen { flex: 1; min-width: 300px; position: relative; }
+        .plano-imagen img { width: 100%; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); transition: transform 0.5s; }
+        .plano-imagen img:hover { transform: scale(1.03); }
+        /* Círculo animado encima del plano */
+        .pulse-marker { position: absolute; top: 40%; left: 50%; width: 20px; height: 20px; background: #d4af37; border-radius: 50%; box-shadow: 0 0 0 rgba(212, 175, 55, 0.6); animation: pulse 2s infinite; cursor: pointer; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+
+        /* =========================================
+           7. SECCIÓN MAPA / UBICACIÓN (NUEVO)
+           ========================================= */
+        .seccion-mapa { max-width: 100%; padding: 0; position: relative; }
+        .mapa-frame { width: 100%; height: 500px; border: none; display: block; filter: grayscale(20%); transition: filter 0.5s;}
+        .mapa-frame:hover { filter: grayscale(0%); }
+        .mapa-overlay { position: absolute; top: 50%; left: 10%; transform: translateY(-50%); background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); max-width: 350px; z-index: 10; }
+        body.dark-mode .mapa-overlay { background: #1e1e1e; color: #eee; box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+        .mapa-overlay h3 { margin-top: 0; color: #d4af37; font-size: 1.8rem; }
+        .mapa-overlay p { margin: 10px 0; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
+
+        /* =========================================
+           8. ESTADÍSTICAS Y TESTIMONIOS
+           ========================================= */
+        .estadisticas { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed; color: white; padding: 100px 20px; text-align: center; max-width: 100%; }
+        .stats-container { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
+        .stat-item { margin: 20px; }
+        .stat-item i { font-size: 3.5rem; color: #d4af37; margin-bottom: 15px; }
+        .stat-numero { font-size: 4rem; font-weight: bold; margin: 0; }
+        .stat-texto { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: #ddd; }
+
+        /* Testimonios */
+        .testimonios-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+        .testimonio-card { background: #fff; padding: 40px; border-radius: 15px; width: 350px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.3s; }
+        body.dark-mode .testimonio-card { background: #1e1e1e; color: #eee; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .testimonio-card:hover { transform: translateY(-10px); }
+        .testimonio-card i.fa-quote-left { font-size: 3rem; color: rgba(212, 175, 55, 0.2); position: absolute; top: 20px; right: 30px; }
+        .cliente-info { display: flex; align-items: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;}
+        body.dark-mode .cliente-info { border-top: 1px solid #333; }
+        .cliente-img { width: 60px; height: 60px; border-radius: 50%; background: #ddd; margin-right: 15px; }
+
+        /* Banner Final y Footer */
+        .cta-banner { background: linear-gradient(135deg, #d4af37, #b5952f); padding: 80px 20px; text-align: center; color: #fff; max-width: 100%;}
+        .cta-banner .btn-dark { background: #111; color: #fff; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: all 0.3s; display: inline-block; margin-top: 20px; }
+        .cta-banner .btn-dark:hover { background: #fff; color: #111; box-shadow: 0 10px 20px rgba(0,0,0,0.3); transform: scale(1.05); }
+
+        .typing-cursor { font-weight: bold; color: #d4af37; animation: blink 0.7s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .scroll-top-btn { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: #d4af37; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 999; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3);}
+        .scroll-top-btn.show { opacity: 1; visibility: visible; }
+        .scroll-top-btn:hover { transform: translateY(-8px); background-color: #222; }
+
+        @media (max-width: 768px) {
+            .mapa-overlay { position: static; transform: none; max-width: 100%; margin: 20px; }
+            .plano-container { flex-direction: column; }
+        }
+    </style>
+
     <script src="theme.js"></script>
 </head>
 
 <body>
 
-    <!-- Header / Menú -->
-    <header class="header-prestige">
+    <header class="header-prestige" id="main-header">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
             <ul class="nav-links">
@@ -42,41 +233,291 @@
         </nav>
     </header>
 
-    <!-- Hero principal -->
     <section class="hero">
-        <h1>Bienvenido a Inmobiliaria</h1>
-        <p>Ofrecemos soluciones profesionales para encontrar el lugar ideal para ti.</p>
-        <a href="contacto.html" class="btn">Contáctanos</a>
-    </section>
-    <!-- Presentación / texto atractivo -->
-    <section class="presentacion">
-        <h2>Por qué elegirnos</h2>
-        <p>Somos expertos en el sector inmobiliario, brindando confianza, cercanía y soluciones adaptadas a tus necesidades.</p>
-    </section>
-
-    <!-- Servicios destacados -->
-    <section class="servicios">
-        <div class="card">
-            <h3>Asesoramiento Profesional</h3>
-            <p>Guiamos cada paso del proceso de manera clara y segura.</p>
-        </div>
-        <div class="card">
-            <h3>Atención Personalizada</h3>
-            <p>Cada cliente es único y recibirá un trato exclusivo.</p>
-        </div>
-        <div class="card">
-            <h3>Experiencia Comprobada</h3>
-            <p>Años de trayectoria ofreciendo resultados y confianza.</p>
+        <div data-aos="zoom-in" data-aos-duration="1500">
+            <h1 style="font-size: 4rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">Bienvenido a Prestige</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 30px;">Encontramos <span id="typing-text"></span><span class="typing-cursor">|</span></p>
+            <a href="contacto.html" class="btn" data-aos="fade-up" data-aos-delay="500">Descubre tu Nuevo Hogar</a>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+    <section id="servicios">
+        <h2 class="section-title" data-aos="fade-up">Nuestros Servicios Premium</h2>
+        <div class="servicios-grid">
+            
+            <div class="flip-card" data-aos="flip-left" data-aos-delay="100">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-house-user"></i>
+                        <h3>Compra y Venta</h3>
+                        <p style="color: #888;">Gestión integral de inmuebles.</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Compra y Venta</h3>
+                        <p>Nos encargamos de todo el proceso. Desde la búsqueda inicial y el filtrado de propiedades, hasta la negociación final. Garantizamos la máxima rentabilidad en tus operaciones.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-aos="flip-left" data-aos-delay="300">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <h3>Tasación Experta</h3>
+                        <p style="color: #888;">Valoraciones precisas del mercado.</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Tasación Experta</h3>
+                        <p>Contamos con peritos homologados que analizarán las características de tu inmueble usando Big Data para ofrecerte un precio de salida competitivo y realista.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card" data-aos="flip-left" data-aos-delay="500">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-file-contract"></i>
+                        <h3>Asesoría Jurídica</h3>
+                        <p style="color: #888;">Trámites y contratos 100% seguros.</p>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Asesoría Jurídica</h3>
+                        <p>Olvídate del papeleo. Nuestro equipo de abogados redacta contratos de arras, revisa cargas registrales y te acompaña a notaría el día de la firma definitiva.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="propiedades" style="background-color: var(--bg-secondary, rgba(0,0,0,0.02));">
+        <h2 class="section-title" data-aos="fade-up">Propiedades Destacadas</h2>
+        <div class="grid-propiedades">
+            <div class="propiedad-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="img-wrapper">
+                    <div class="propiedad-img img-1"></div>
+                    <span class="badge-precio">450.000 €</span>
+                </div>
+                <div class="propiedad-info">
+                    <h3>Chalet Exclusivo</h3>
+                    <p><i class="fa-solid fa-location-dot" style="color:#d4af37;"></i> Sevilla Este</p>
+                    <div class="propiedad-features">
+                        <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
+                        <span><i class="fa-solid fa-bath"></i> 3 Baños</span>
+                        <span><i class="fa-solid fa-ruler-combined"></i> 210 m²</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="propiedad-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="img-wrapper">
+                    <div class="propiedad-img img-2"></div>
+                    <span class="badge-precio">320.000 €</span>
+                </div>
+                <div class="propiedad-info">
+                    <h3>Ático en el Centro</h3>
+                    <p><i class="fa-solid fa-location-dot" style="color:#d4af37;"></i> Nervión</p>
+                    <div class="propiedad-features">
+                        <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
+                        <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
+                        <span><i class="fa-solid fa-ruler-combined"></i> 95 m²</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="propiedad-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="img-wrapper">
+                    <div class="propiedad-img img-3"></div>
+                    <span class="badge-precio">850.000 €</span>
+                </div>
+                <div class="propiedad-info">
+                    <h3>Villa de Lujo Domótica</h3>
+                    <p><i class="fa-solid fa-location-dot" style="color:#d4af37;"></i> Aljarafe</p>
+                    <div class="propiedad-features">
+                        <span><i class="fa-solid fa-bed"></i> 5 Hab</span>
+                        <span><i class="fa-solid fa-bath"></i> 4 Baños</span>
+                        <span><i class="fa-solid fa-ruler-combined"></i> 450 m²</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-planos">
+        <h2 class="section-title" data-aos="fade-up">Arquitectura y Planimetría</h2>
+        <div class="plano-container">
+            <div class="plano-texto" data-aos="fade-right">
+                <h3>Visualiza cada detalle antes de visitar</h3>
+                <p>En Prestige no solo vendemos casas, vendemos proyectos de vida. Por eso, con cada propiedad exclusiva ofrecemos planimetría detallada y recorridos virtuales interactivos.</p>
+                <ul>
+                    <li><i class="fa-solid fa-compass-drafting"></i> Planos a escala real en 2D y 3D.</li>
+                    <li><i class="fa-solid fa-vr-cardboard"></i> Tours Virtuales inmersivos 360º.</li>
+                    <li><i class="fa-solid fa-hammer"></i> Opciones de reforma y redistribución de espacios.</li>
+                </ul>
+                <a href="#" class="btn">Solicitar Planos</a>
+            </div>
+            <div class="plano-imagen" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Plano Arquitectónico">
+                <div class="pulse-marker" title="Ver Salón Principal"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-mapa">
+        <iframe class="mapa-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d101408.21721590403!2d-6.05581177651034!3d37.38283002621422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c1114be6291%3A0x34f018621cfe5648!2sSevilla!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
+        <div class="mapa-overlay" data-aos="zoom-in" data-aos-delay="300">
+            <h3>Nuestra Oficina Central</h3>
+            <p style="color: #666; margin-bottom: 20px;">Ven a visitarnos y tómate un café con nuestro equipo. Estaremos encantados de atenderte en persona.</p>
+            <p><i class="fa-solid fa-map-pin" style="color: #d4af37; font-size: 1.2rem;"></i> Av. de la Innovación, Sevilla</p>
+            <p><i class="fa-solid fa-phone" style="color: #d4af37; font-size: 1.2rem;"></i> +34 954 000 000</p>
+            <p><i class="fa-solid fa-envelope" style="color: #d4af37; font-size: 1.2rem;"></i> contacto@prestige.es</p>
+        </div>
+    </section>
+
+    <section class="estadisticas" id="estadisticas">
+        <div class="stats-container">
+            <div class="stat-item" data-aos="zoom-in">
+                <i class="fa-solid fa-house-circle-check"></i>
+                <p class="stat-numero" data-target="1500">0</p>
+                <p class="stat-texto">Inmuebles Vendidos</p>
+            </div>
+            <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fa-solid fa-face-smile"></i>
+                <p class="stat-numero" data-target="980">0</p>
+                <p class="stat-texto">Clientes Felices</p>
+            </div>
+            <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
+                <i class="fa-regular fa-calendar-check"></i>
+                <p class="stat-numero" data-target="15">0</p>
+                <p class="stat-texto">Años de Experiencia</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonios">
+        <h2 class="section-title" data-aos="fade-up">Historias de Éxito</h2>
+        <div class="testimonios-grid">
+            <div class="testimonio-card" data-aos="fade-up">
+                <i class="fa-solid fa-quote-left"></i>
+                <p>"La gestión fue impecable. Encontraron la casa perfecta para mi familia en tiempo récord y se encargaron de todo el papeleo. Muy recomendables."</p>
+                <div class="cliente-info">
+                    <div class="cliente-img" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg'); background-size: cover;"></div>
+                    <div>
+                        <h4 style="margin:0;">Carlos Rodríguez</h4>
+                        <span style="color: #d4af37; font-size: 0.85rem;">Comprador</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonio-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fa-solid fa-quote-left"></i>
+                <p>"Vendí mi piso con ellos y el proceso fue súper transparente. El equipo de Prestige me mantuvo informada en cada paso. Un servicio de 10."</p>
+                <div class="cliente-info">
+                    <div class="cliente-img" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg'); background-size: cover;"></div>
+                    <div>
+                        <h4 style="margin:0;">María González</h4>
+                        <span style="color: #d4af37; font-size: 0.85rem;">Vendedora</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner" data-aos="zoom-in">
+        <h2>¿Listo para encontrar tu próximo hogar?</h2>
+        <p>Déjanos tus datos y un asesor se pondrá en contacto contigo en menos de 24 horas.</p>
+        <a href="contacto.html" class="btn-dark">Hablar con un Asesor</a>
+    </section>
+
+    <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <footer style="padding: 40px; text-align: center; background: #111; color: #aaa;">
+        <div class="logo" style="color: white; font-size: 1.5rem; margin-bottom: 10px;">INMOBILIARIA <span style="color:#d4af37;">PRESTIGE</span></div>
+        <p>© 2026 Todos los derechos reservados. Proyecto Web Estructurado.</p>
     </footer>
 
     <script type="module" src="login.js"></script>
     <script src="prestige-chatbot.js"></script>
-</body>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Inicializar AOS
+        AOS.init({ once: true, offset: 80, duration: 800 });
+
+        // Header Scroll & Scroll Top Button
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            
+            if (window.scrollY > 50) header.classList.add('header-scrolled');
+            else header.classList.remove('header-scrolled');
+
+            if (window.scrollY > 400) scrollBtn.classList.add('show');
+            else scrollBtn.classList.remove('show');
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Efecto Máquina de Escribir (Hero)
+        const texts = ["el lugar ideal para ti.", "tu próximo hogar.", "la mejor inversión."];
+        let count = 0, index = 0, currentText = '', letter = '';
+        const typingElement = document.getElementById('typing-text');
+
+        (function type() {
+            if (count === texts.length) count = 0;
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+            typingElement.textContent = letter;
+            let typeSpeed = 100;
+            if (letter.length === currentText.length) {
+                typeSpeed = 2000;
+                index = 0;
+                count++;
+            }
+            setTimeout(type, typeSpeed);
+        }());
+
+        // Animación de Contadores (Estadísticas)
+        const counters = document.querySelectorAll('.stat-numero');
+        const speed = 200; 
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 15);
+                    } else {
+                        counter.innerText = target + (target > 100 ? "+" : "");
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        // Ejecutar contadores solo cuando el usuario haga scroll a la sección
+        const statsSection = document.getElementById('estadisticas');
+        let animated = false;
+
+        window.addEventListener('scroll', () => {
+            if(statsSection) {
+                const sectionPos = statsSection.getBoundingClientRect().top;
+                const screenPos = window.innerHeight / 1.2;
+                if(sectionPos < screenPos && !animated) {
+                    animateCounters();
+                    animated = true;
+                }
+            }
+        });
+    </script>
+</body>
 </html>
