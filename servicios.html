@@ -3,140 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios | Inmobiliaria</title>
-    <link rel="stylesheet" href="servicios.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="prestige-chatbot.css">
+    <title>Servicios | Inmobiliaria Prestige</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        .logo span {
-            color: var(--accent-color);
+        :root {
+            --gold: #c5a059;
+            --gold-dark: #a68549;
+            --dark: #0f172a;
+            --text: #334155;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        nav ul li.dropdown {
+
+        body {
+            background-color: #f8fafc;
+            background-image: url('https://www.transparenttextures.com/patterns/white-marble.png');
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden; 
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            text-align: center;
+            color: var(--dark);
+            margin: 60px 0;
+            font-weight: 700;
+        }
+
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            padding: 0 8% 80px 8%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta con Efectos de "Todo Estilo" */
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            position: relative;
+            animation: fadeInUp 0.8s ease backwards; /* Animación de entrada */
+        }
+
+        /* Retraso de animación para cada tarjeta */
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
+            border-color: var(--gold);
+        }
+
+        /* Efecto Zoom en Imagen */
+        .card-img-wrapper {
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
             position: relative;
         }
 
-        nav ul li.dropdown .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--white);
-            min-width: 250px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            padding: 10px 0;
-            z-index: 1000;
-            border-top: 4px solid var(--accent-color);
-            list-style: none;
-            flex-direction: column !important;
-            gap: 0 !important;
-        }
-
-        nav ul li.dropdown:hover .dropdown-menu {
-            display: flex !important;
-        }
-
-        nav ul li.dropdown .dropdown-menu li {
+        .card-img-wrapper img {
             width: 100%;
-            display: block;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
         }
 
-        nav ul li.dropdown .dropdown-menu li a {
-            display: block;
-            padding: 14px 22px;
-            color: #334155 !important;
-            font-size: 0.95rem !important;
-            text-transform: none !important;
-            font-weight: 500 !important;
+        .service-card:hover .card-img-wrapper img {
+            transform: scale(1.1);
         }
 
-        nav ul li.dropdown .dropdown-menu li a:hover {
-            background-color: var(--bg-light) !important;
-            color: var(--accent-color) !important;
-            padding-left: 28px;
+        /* Contenido y Botón */
+        .card-content {
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1; /* Para alinear botones al fondo */
         }
 
-        nav ul li a.active {
-            color: var(--accent-color);
+        .card-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .card-content p {
+            font-size: 1rem;
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Botón "Descubrir" Animado */
+        .btn-discover {
+            position: relative;
+            padding: 12px 35px;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: var(--transition);
+            z-index: 1;
+            margin-top: auto; /* Empuja el botón al fondo del contenido */
+        }
+
+        .btn-discover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .btn-discover:hover {
+            color: var(--white);
+        }
+
+        .btn-discover:hover::before {
+            left: 0;
+        }
+
+        /* Estilo para la Tarjeta Destacada */
+        .service-card.highlighted {
+            background: linear-gradient(145deg, #ffffff, #fffdf9);
+            border: 2px solid var(--gold);
+        }
+
+        /* Listón de "Recomendado" para la tarjeta destacada */
+        .service-card.highlighted::after {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--gold);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 0.7rem;
+            font-weight: bold;
         }
     </style>
-    <link rel="stylesheet" href="theme.css">
-    <script src="theme.js"></script>
 </head>
 <body>
-    <header class="header-prestige">
-        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="propiedades.html">Propiedades</a></li>
-                <li><a href="servicios.html" class="active">Servicios</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li id="userMenu"></li>
-                <li class="dropdown">
-                    <a href="contacto.html">Contacto ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="contacto.html">Contacto General</a></li>
-                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
-                        <li><a href="buscamos.html">Díganos qué busca</a></li>
-                    </ul>
-                </li>
-                <li class="theme-toggle-li">
-                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
-                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    </button>
-                </li>
-            </ul>
-        </nav>
-    </header>
 
-    <section class="servicios">
-        <h2 style="grid-column: 1 / -1; text-align: center; margin-bottom: 3rem; font-size: 2.8rem; color: var(--primary-color);">
-            Nuestros Servicios
-        </h2>
-
-        <div class="card">
-            <h3>Venta de Propiedades</h3>
-            <p>Compra y venta de casas, departamentos, locales comerciales y terrenos. Te acompañamos en todo el proceso para que consigas la mejor operación.</p>
+<main class="main-container">
+    <h1 class="section-title">Nuestros Servicios</h1>
+    
+    <section class="servicios-grid">
+        <div class="service-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Venta de Propiedades">
+            </div>
+            <div class="card-content">
+                <h3>Venta de Propiedades</h3>
+                <p>Compra y venta de casas, departamentos y terrenos. Te acompañamos en todo el proceso legal.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Alquiler Residencial y Comercial</h3>
-            <p>Alquiler de inmuebles para vivir o para tu negocio. Gestionamos contratos, garantías y todo lo necesario para que sea seguro y sencillo.</p>
+        <div class="service-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80" alt="Alquileres">
+            </div>
+            <div class="card-content">
+                <h3>Alquileres</h3>
+                <p>Gestión integral de contratos y garantías para que tu única preocupación sea mudarte.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Asesoría Inmobiliaria</h3>
-            <p>Evaluación de mercado, tasaciones profesionales y asesoramiento personalizado para inversores y particulares.</p>
+        <div class="service-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=800&q=80" alt="Asesoría Especializada">
+            </div>
+            <div class="card-content">
+                <h3>Asesoría Especializada</h3>
+                <p>Evaluación de mercado y tasaciones profesionales realizadas por expertos del sector.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Gestión de Propiedades</h3>
-            <p>Administración completa de tu inmueble: cobro de alquileres, mantenimiento, atención a inquilinos y documentación legal.</p>
+        <div class="service-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Inversión Inmobiliaria">
+            </div>
+            <div class="card-content">
+                <h3>Inversión Inmobiliaria</h3>
+                <p>Encontramos las mejores oportunidades con alto retorno y bajo riesgo para tu capital.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Inversión Inmobiliaria</h3>
-            <p>Te ayudamos a encontrar las mejores oportunidades de inversión con alto retorno y bajo riesgo.</p>
+        <div class="service-card highlighted">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80" alt="Reformas y Valorización">
+            </div>
+            <div class="card-content">
+                <h3>Reformas y Valorización</h3>
+                <p>Remodelamos tu propiedad para aumentar su valor de mercado hasta un 30% antes de vender.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Reformas y Puesta en Valor</h3>
-            <p>Proyectos de remodelación para aumentar el valor de tu propiedad antes de vender o alquilar.</p>
+        <div class="service-card">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Gestión de Activos">
+            </div>
+            <div class="card-content">
+                <h3>Gestión de Activos</h3>
+                <p>Administración completa: cobros, mantenimiento y soporte legal para propietarios.</p>
+                <button class="btn-discover">Descubrir más</button>
+            </div>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 Inmobiliaria. Todos los derechos reservados.</p>
-        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-            Tel: (123) 456-7890 | Email: info@inmobiliaria.com
-        </p>
-    </footer>
-
-    <script type="module" src="login.js"></script>
-    <script src="prestige-chatbot.js"></script>
+</main>
 
 </body>
 </html>
