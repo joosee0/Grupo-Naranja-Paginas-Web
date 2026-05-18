@@ -12,10 +12,10 @@
     <style>
         /* --- Variables de Color y Ajustes Generales --- */
         :root {
-            --primary-color: #0f172a; /* Azul marino profundo */
-            --accent-color: #c5a059;  /* Dorado elegante */
-            --text-color: #334155;    /* Gris oscuro para textos */
-            --bg-light: #f8fafc;      /* Fondo muy claro */
+            --primary-color: #0f172a; 
+            --accent-color: #c5a059;  
+            --text-color: #334155;    
+            --bg-light: #f8fafc;      
             --white: #ffffff;
         }
 
@@ -30,6 +30,23 @@
             color: var(--text-color);
             background-color: var(--bg-light);
             line-height: 1.7;
+            scroll-behavior: smooth; 
+        }
+
+        /* --- Scrollbar Personalizada --- */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 6px;
+            border: 3px solid var(--bg-light);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
         }
 
         h1, h2, h3, .logo {
@@ -47,12 +64,24 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: padding 0.4s ease, background-color 0.4s ease, backdrop-filter 0.4s ease;
+        }
+
+        header.header-scrolled {
+            padding: 0.8rem 5%;
+            background-color: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(8px);
         }
 
         .logo {
             color: var(--white);
             font-size: 1.8rem;
             letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
         }
 
         .logo span {
@@ -72,7 +101,23 @@
             font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
             transition: color 0.3s ease;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after, nav ul li a.active::after {
+            width: 100%;
         }
 
         nav ul li a:hover, nav ul li a.active {
@@ -99,6 +144,12 @@
             list-style: none;
             flex-direction: column !important;
             gap: 0 !important;
+            animation: fadeInDown 0.3s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .dropdown:hover .dropdown-menu {
@@ -118,6 +169,11 @@
             text-transform: none !important;
             font-weight: 500 !important;
             letter-spacing: normal;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu li a::after {
+            display: none;
         }
 
         .dropdown-menu li a:hover {
@@ -128,9 +184,9 @@
 
         /* --- Hero Section --- */
         .hero {
-            /* Imagen de cabecera oscura y elegante */
             background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
                         url('https://images.unsplash.com/photo-1613490908578-7521199ed260?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            background-attachment: fixed;
             height: 50vh;
             min-height: 400px;
             display: flex;
@@ -144,6 +200,9 @@
             font-size: 4rem;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: slideUpFade 1s ease forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
         .hero-content p {
@@ -151,6 +210,13 @@
             font-weight: 300;
             letter-spacing: 1px;
             color: #cbd5e1;
+            animation: slideUpFade 1s ease forwards 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- Contenedor General --- */
@@ -181,6 +247,11 @@
             height: 3px;
             background-color: var(--accent-color);
             margin-top: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .historia-texto:hover h2::after {
+            width: 100px;
         }
 
         .historia-texto p {
@@ -189,20 +260,30 @@
             color: #475569;
         }
 
-        .historia-img img {
-            width: 100%;
-            height: 500px;
-            object-fit: cover; /* Evita que la foto se deforme */
+        .historia-img {
+            overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        /* --- Valores --- */
+        .historia-img img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+            display: block;
+        }
+
+        .historia-img:hover img {
+            transform: scale(1.05);
+        }
+
+        /* --- Tarjetas de Valores --- */
         .valores {
             background-color: var(--white);
         }
 
-        .valores h2, .equipo h2 {
+        .valores h2, .equipo h2, .testimonios h2 {
             text-align: center;
             font-size: 2.5rem;
             color: var(--primary-color);
@@ -216,29 +297,112 @@
         }
 
         .valor-card {
-            background: var(--bg-light);
-            padding: 3rem 2rem;
-            border-radius: 12px;
+            background: transparent;
+            height: 280px; 
+            perspective: 1000px; 
+            border: none;
+        }
+
+        .valor-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
             text-align: center;
-            transition: all 0.4s ease;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d; 
+        }
+
+        .valor-card:hover .valor-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .valor-card-front, .valor-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden; 
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             border: 1px solid #e2e8f0;
         }
 
-        .valor-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        .valor-card-front {
+            background: var(--bg-light);
+            color: var(--primary-color);
+        }
+
+        .valor-card-front h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .valor-card-front h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent-color);
+            margin: 12px auto 0 auto;
+        }
+
+        .valor-card-back {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: rotateY(180deg); 
             border-color: var(--accent-color);
         }
 
-        .valor-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+        .valor-card-back p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
         }
 
-        .valor-card h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+        /* --- Sección Estadísticas --- */
+        .stats-section {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+
+        .stat-item p {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #cbd5e1;
         }
 
         /* --- Equipo Directivo --- */
@@ -249,49 +413,197 @@
         }
 
         .miembro {
-            background: var(--white);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .miembro:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
-        /* AQUÍ ESTÁ EL SECRETO PARA QUE LAS FOTOS NO SE VEAN MAL */
+        .miembro .img-container {
+            overflow: hidden;
+        }
+
         .miembro img {
             width: 100%;
             height: 380px;
-            object-fit: cover; /* Rellena el espacio sin aplastar la foto */
-            object-position: center top; /* Enfoca las caras */
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.8s ease;
+            display: block;
+        }
+
+        .miembro:hover img {
+            transform: scale(1.08);
         }
 
         .miembro-info {
             padding: 2rem;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
-        .miembro-info h3 {
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-bottom: 0.2rem;
+        /* --- Testimonios VIP --- */
+        .testimonios {
+            padding: 5rem 2rem;
         }
 
-        .cargo {
+        .testimonios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonio-card {
+            padding: 2.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .testimonio-card::before {
+            content: '❝';
+            font-size: 4rem;
             color: var(--accent-color);
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: serif;
         }
 
-        .descripcion {
-            font-size: 0.95rem;
-            color: #64748b;
+        .testimonio-card p {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cliente-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cliente-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .cliente-nombre span {
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        /* ========================================================
+           PARCHE INTELIGENTE: MODO CLARO VS MODO OSCURO
+           ======================================================== */
+        
+        /* --- ESTADO POR DEFECTO (MODO CLARO) --- */
+        #directiva .miembro, #directiva .miembro-info { background-color: #ffffff !important; }
+        #directiva .miembro-info h3 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+        #directiva .cargo { color: #c5a059 !important; -webkit-text-fill-color: #c5a059 !important; }
+        #directiva .descripcion { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
+
+        #opiniones { background-color: #ffffff !important; }
+        #opiniones h2 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+        #opiniones .testimonio-card { background-color: #f8fafc !important; }
+        #opiniones .testimonio-card p { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
+        #opiniones .cliente-nombre h4 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+
+        /* --- ESTADO AL ACTIVAR MODO OSCURO --- */
+        /* Fondos azules oscuros */
+        body.dark #opiniones, body.dark-mode #opiniones, body.dark-theme #opiniones, body[data-theme="dark"] #opiniones,
+        body.dark #directiva, body.dark-mode #directiva, body.dark-theme #directiva, body[data-theme="dark"] #directiva {
+            background-color: #0f172a !important;
+        }
+
+        /* Títulos de sección en blanco */
+        body.dark #opiniones h2, body.dark-mode #opiniones h2, body.dark-theme #opiniones h2, body[data-theme="dark"] #opiniones h2,
+        body.dark #directiva h2, body.dark-mode #directiva h2, body.dark-theme #directiva h2, body[data-theme="dark"] #directiva h2 {
+            color: #ffffff !important; 
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Tarjetas con un azul marino ligeramente más claro que el fondo */
+        body.dark #directiva .miembro, body.dark-mode #directiva .miembro, body.dark-theme #directiva .miembro, body[data-theme="dark"] #directiva .miembro,
+        body.dark #directiva .miembro-info, body.dark-mode #directiva .miembro-info, body.dark-theme #directiva .miembro-info, body[data-theme="dark"] #directiva .miembro-info,
+        body.dark #opiniones .testimonio-card, body.dark-mode #opiniones .testimonio-card, body.dark-theme #opiniones .testimonio-card, body[data-theme="dark"] #opiniones .testimonio-card {
+            background-color: #1e293b !important;
+        }
+
+        /* Nombres en blanco para que resalten */
+        body.dark #directiva .miembro-info h3, body.dark-mode #directiva .miembro-info h3, body.dark-theme #directiva .miembro-info h3, body[data-theme="dark"] #directiva .miembro-info h3,
+        body.dark #opiniones .cliente-nombre h4, body.dark-mode #opiniones .cliente-nombre h4, body.dark-theme #opiniones .cliente-nombre h4, body[data-theme="dark"] #opiniones .cliente-nombre h4 {
+            color: #ffffff !important; 
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Textos y descripciones en gris claro */
+        body.dark #directiva .descripcion, body.dark-mode #directiva .descripcion, body.dark-theme #directiva .descripcion, body[data-theme="dark"] #directiva .descripcion,
+        body.dark #opiniones .testimonio-card p, body.dark-mode #opiniones .testimonio-card p, body.dark-theme #opiniones .testimonio-card p, body[data-theme="dark"] #opiniones .testimonio-card p {
+            color: #cbd5e1 !important; 
+            -webkit-text-fill-color: #cbd5e1 !important;
+        }
+        /* ======================================================== */
+
+        /* --- Banner CTA Final --- */
+        .cta-final {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            padding: 6rem 2rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-final h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .cta-final p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: #cbd5e1;
+        }
+
+        .btn-gold {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+        }
+
+        .btn-gold:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 255, 255, 0.2);
         }
 
         /* --- Footer --- */
@@ -308,33 +620,37 @@
             font-size: 0.9rem;
         }
 
+        /* --- Clases Scroll Reveal --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+
         /* --- Responsive Design (Móviles) --- */
         @media (max-width: 768px) {
-            .historia-grid {
-                grid-template-columns: 1fr;
-            }
-            .historia-img img {
-                height: 350px;
-            }
-            nav ul {
-                gap: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
+            .historia-grid { grid-template-columns: 1fr; }
+            .historia-img img { height: 350px; }
+            nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            header { flex-direction: column; gap: 1rem; }
+            header.header-scrolled { padding: 1rem 5%; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero, .cta-final { background-attachment: scroll; }
+            .cta-final h2 { font-size: 2.2rem; }
         }
     </style>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <script src="theme.js"></script>
-</head>
+    </head>
 <body>
 
     <header class="header-prestige">
@@ -364,7 +680,6 @@
             </ul>
         </nav>
     </header>
-
     <section class="hero">
         <div class="hero-content">
             <h1>Sobre Nosotros</h1>
@@ -374,12 +689,12 @@
 
     <main class="container">
         <section class="historia-grid">
-            <div class="historia-texto">
+            <div class="historia-texto reveal">
                 <h2>Nuestra Historia</h2>
                 <p>En Inmobiliaria Prestige, llevamos más de 15 años dedicados a conectar a las personas con sus hogares ideales. Fundada en 2005, comenzamos como una pequeña agencia local con un objetivo claro: ofrecer un servicio transparente, honesto y sumamente personalizado.</p>
                 <p>Hoy en día, somos líderes en el sector inmobiliario de lujo, contando con una amplia cartera de propiedades exclusivas y un equipo de profesionales apasionados por el mercado de bienes raíces. Entendemos que adquirir una propiedad es una de las decisiones más importantes de tu vida, y estamos aquí para acompañarte con la máxima discreción y excelencia.</p>
             </div>
-            <div class="historia-img">
+            <div class="historia-img reveal delay-1">
                 <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Fachada de una espectacular casa moderna con piscina">
             </div>
         </section>
@@ -387,49 +702,95 @@
 
     <section class="valores">
         <div class="container">
-            <h2>Por qué elegirnos</h2>
+            <h2 class="reveal">Por qué elegirnos</h2>
             <div class="valores-grid">
-                <div class="valor-card">
-                    <div class="valor-icon">🤝</div>
-                    <h3>Confianza Absoluta</h3>
-                    <p>Operamos con total transparencia para que te sientas seguro en cada transacción. Protegemos tus intereses como si fueran los nuestros.</p>
+                
+                <div class="valor-card reveal delay-1">
+                    <div class="valor-card-inner">
+                        <div class="valor-card-front">
+                            <h3>Confianza Absoluta</h3>
+                        </div>
+                        <div class="valor-card-back">
+                            <p>Operamos con total transparencia para que te sientas seguro en cada transacción. Protegemos tus intereses como si fueran los nuestros.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="valor-card">
-                    <div class="valor-icon">🏆</div>
-                    <h3>Experiencia de Mercado</h3>
-                    <p>Nuestro profundo conocimiento del sector nos permite identificar las mejores oportunidades de inversión y guiarte con precisión técnica.</p>
+
+                <div class="valor-card reveal delay-2">
+                    <div class="valor-card-inner">
+                        <div class="valor-card-front">
+                            <h3>Experiencia de Mercado</h3>
+                        </div>
+                        <div class="valor-card-back">
+                            <p>Nuestro profundo conocimiento del sector nos permite identificar las mejores oportunidades de inversión y guiarte con precisión técnica.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="valor-card">
-                    <div class="valor-icon">✨</div>
-                    <h3>Atención Exclusiva</h3>
-                    <p>Diseñamos un plan a medida para ti. Escuchamos tus necesidades para encontrar la propiedad que encaje perfectamente con tu estilo de vida.</p>
+
+                <div class="valor-card reveal delay-3">
+                    <div class="valor-card-inner">
+                        <div class="valor-card-front">
+                            <h3>Atención Exclusiva</h3>
+                        </div>
+                        <div class="valor-card-back">
+                            <p>Diseñamos un plan a medida para ti. Escuchamos tus necesidades para encontrar la propiedad que encaje perfectamente con tu estilo de vida.</p>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section class="equipo">
+    <section class="stats-section">
+        <div class="stats-grid reveal">
+            <div class="stat-item">
+                <h3 class="counter" data-target="15">0</h3>
+                <p>Años de Experiencia</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="450">0</h3>
+                <p>Propiedades Vendidas</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="100">0</h3>
+                <p>% Satisfacción</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="50">0</h3>
+                <p>Millones Gestionados</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="equipo" id="directiva">
         <div class="container">
-            <h2>Nuestro Equipo Directivo</h2>
+            <h2 class="reveal">Nuestro Equipo Directivo</h2>
             <div class="equipo-grid">
-                <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carlos Mendoza, Director General">
+                <div class="miembro reveal delay-1">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carlos Mendoza, Director General">
+                    </div>
                     <div class="miembro-info">
                         <h3>Carlos Mendoza</h3>
                         <p class="cargo">Director General</p>
                         <p class="descripcion">Con más de 20 años de experiencia liderando el sector de propiedades de alto standing.</p>
                     </div>
                 </div>
-                <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laura Torres, Directora de Ventas">
+                <div class="miembro reveal delay-2">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laura Torres, Directora de Ventas">
+                    </div>
                     <div class="miembro-info">
                         <h3>Laura Torres</h3>
                         <p class="cargo">Directora de Ventas</p>
                         <p class="descripcion">Especialista en negociaciones complejas y diseño de estrategias para clientes VIP.</p>
                     </div>
                 </div>
-                <div class="miembro">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roberto Silva, Asesor Senior">
+                <div class="miembro reveal delay-3">
+                    <div class="img-container">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roberto Silva, Asesor Senior">
+                    </div>
                     <div class="miembro-info">
                         <h3>Roberto Silva</h3>
                         <p class="cargo">Asesor Senior</p>
@@ -440,6 +801,48 @@
         </div>
     </section>
 
+    <section class="testimonios" id="opiniones">
+        <h2 class="reveal">Experiencias de nuestros clientes</h2>
+        <div class="testimonios-grid">
+            <div class="testimonio-card reveal delay-1">
+                <p>"Un trato impecable y muy profesional. Encontraron la villa perfecta para mi familia en un tiempo récord, entendiendo al instante lo que buscábamos."</p>
+                <div class="cliente-info">
+                    <div class="cliente-avatar">J</div>
+                    <div class="cliente-nombre">
+                        <h4>Jaime R.</h4>
+                        <span>Inversor Privado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonio-card reveal delay-2">
+                <p>"Profesionalidad absoluta. La discreción y el servicio VIP que ofrecen desde el minuto uno no tienen rival en el mercado inmobiliario actual."</p>
+                <div class="cliente-info">
+                    <div class="cliente-avatar">R</div>
+                    <div class="cliente-nombre">
+                        <h4>Rafael G.</h4>
+                        <span>Propietario VIP</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonio-card reveal delay-3">
+                <p>"Vendieron mi ático en el centro superando mis expectativas de precio. Todo el proceso fue transparente, rápido y sin dolores de cabeza."</p>
+                <div class="cliente-info">
+                    <div class="cliente-avatar">P</div>
+                    <div class="cliente-nombre">
+                        <h4>Pablo M.</h4>
+                        <span>Empresario</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-final reveal">
+        <h2>¿Listo para encontrar la casa de sus sueños?</h2>
+        <p>Déjese asesorar por los mejores expertos en propiedades exclusivas.</p>
+        <a href="contacto.html" class="btn-gold">Hablemos de su futuro hogar</a>
+    </section>
+
     <footer>
         <div class="container" style="padding: 2rem;">
             <p>&copy; 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
@@ -448,6 +851,68 @@
 
     <script type="module" src="login.js"></script>
     <script src="prestige-chatbot.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Header Sticky
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+            });
+
+            // Animaciones de Scroll y Contadores
+            const revealElements = document.querySelectorAll('.reveal');
+            let countersStarted = false; 
+
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    
+                    entry.target.classList.add('active');
+                    
+                    if (entry.target.classList.contains('stats-grid') && !countersStarted) {
+                        countersStarted = true;
+                        const counters = document.querySelectorAll('.counter');
+                        const speed = 200; 
+
+                        counters.forEach(counter => {
+                            const updateCount = () => {
+                                const target = +counter.getAttribute('data-target');
+                                const count = +counter.innerText;
+                                const inc = target / speed;
+
+                                if (count < target) {
+                                    counter.innerText = Math.ceil(count + inc);
+                                    setTimeout(updateCount, 15);
+                                } else {
+                                    if(target === 100) {
+                                        counter.innerText = target + '%';
+                                    } else {
+                                        counter.innerText = '+' + target;
+                                    }
+                                }
+                            };
+                            updateCount();
+                        });
+                    }
+
+                    observer.unobserve(entry.target);
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+        });
+    </script>
 
 </body>
 </html>
