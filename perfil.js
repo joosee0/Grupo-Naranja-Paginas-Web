@@ -59,7 +59,7 @@ function inicializarNavegacion() {
     }
 }
 
-//  FUNCIÓN CORREGIDA: Navegación simple y funcional
+// ✅ FUNCIÓN CORREGIDA: Navegación simple y funcional
 function mostrarSeccion(sectionId) {
     // Ocultar todas las secciones
     const secciones = document.querySelectorAll(".perfil-section");

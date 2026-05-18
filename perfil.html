@@ -8,11 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- (Hecho por Miguel) -->
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <script src="theme.js"></script>
-    <!-- (final de Miguel) -->
 </head>
 
 <body class="pagina-privada">
@@ -23,7 +21,6 @@
         }
     </script>
 
-    <!-- (Hecho por Miguel) -->
     <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
@@ -52,7 +49,6 @@
             <button class="mobile-toggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
         </nav>
     </header>
-    <!-- (final de Miguel) -->
 
     <!-- Layout principal del perfil -->
     <main class="perfil-layout">
@@ -71,36 +67,27 @@
                 <p class="user-role">Cliente</p>
             </div>
             
-    <!-- Sidebar -->
-<nav class="sidebar-menu">
-
-    <button class="menu-btn active" onclick="window.location.href='perfil.html'">
-        <i class="fas fa-home"></i> Resumen
-    </button>
-
-    <button class="menu-btn" onclick="window.location.href='favoritos.html'">
-        <i class="fas fa-heart"></i> Favoritos
-        <span class="badge" id="favCount">0</span>
-    </button>
-
-    <button class="menu-btn" onclick="window.location.href='visitas.html'">
-        <i class="fas fa-calendar-check"></i> Visitas
-    </button>
-
-    <button class="menu-btn" onclick="window.location.href='mensajes.html'">
-        <i class="fas fa-envelope"></i> Mensajes
-        <span class="badge new" id="msgCount">3</span>
-    </button>
-
-    <button class="menu-btn" onclick="window.location.href='configuracion.html'">
-        <i class="fas fa-cog"></i> Configuración
-    </button>
-
-    <button class="menu-btn danger" id="btnLogoutSidebar">
-        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-    </button>
-
-</nav>
+            <!-- Botones del sidebar: data-section = id de la sección a mostrar -->
+            <nav class="sidebar-menu">
+                <button class="menu-btn active" data-section="resumen">
+                    <i class="fas fa-home"></i> Resumen
+                </button>
+                <button class="menu-btn" data-section="favoritos">
+                    <i class="fas fa-heart"></i> Favoritos <span class="badge" id="favCount">0</span>
+                </button>
+                <button class="menu-btn" data-section="visitas">
+                    <i class="fas fa-calendar-check"></i> Visitas
+                </button>
+                <button class="menu-btn" data-section="mensajes">
+                    <i class="fas fa-envelope"></i> Mensajes <span class="badge new" id="msgCount">3</span>
+                </button>
+                <button class="menu-btn" data-section="configuracion">
+                    <i class="fas fa-cog"></i> Configuración
+                </button>
+                <button class="menu-btn danger" id="btnLogoutSidebar">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </button>
+            </nav>
         </aside>
 
         <!-- Contenido de las secciones -->
@@ -172,7 +159,6 @@
                 </div>
             </div>
 
-    <!-- (Hecho por Miguel) -->
     <!-- JS centralizado (Firebase Auth) -->
     <script type="module" src="login.js"></script>
     <script>
@@ -183,6 +169,5 @@
         });
     </script>
     <script src="prestige-chatbot.js"></script>
-    <!-- (final de Miguel) -->
 </body>
 </html>
