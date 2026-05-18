@@ -10,9 +10,320 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
+    <!-- (Hecho por Miguel) -->
+    <style id="prestige-fx-gestionamos">
+        /* === Animaciones y efectos Prestige - gestionamos.html === */
+        html { scroll-behavior: smooth; }
+
+        @keyframes pfFadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pfFadeDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pfScaleIn { from { opacity:0; transform:scale(.92); } to { opacity:1; transform:scale(1); } }
+        @keyframes pfBounceIn { 0%{opacity:0; transform:scale(.6);} 60%{opacity:1; transform:scale(1.08);} 100%{transform:scale(1);} }
+        @keyframes pfFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+        @keyframes pfPulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(197,160,89,.45);} 50%{box-shadow:0 0 0 14px rgba(197,160,89,0);} }
+        @keyframes pfSpin { to { transform: rotate(360deg); } }
+        @keyframes pfShake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+        @keyframes pfDashFlow {
+            0% { background-position: 0 0, 0 100%, 0 0, 100% 0; }
+            100% { background-position: 32px 0, -32px 100%, 0 -32px, 100% 32px; }
+        }
+        @keyframes pfConfetti { 0%{opacity:1; transform:translate3d(0,0,0) rotate(0);} 100%{opacity:0; transform:translate3d(var(--cx),120vh,0) rotate(720deg);} }
+        @keyframes pfModalIn { from{opacity:0; transform:translate(-50%,-40%) scale(.85);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
+        @keyframes pfOverlayIn { from{opacity:0;} to{opacity:1;} }
+        @keyframes pfCheck { 0%{stroke-dashoffset:48;} 100%{stroke-dashoffset:0;} }
+        @keyframes pfCircle { 0%{stroke-dashoffset:166;} 100%{stroke-dashoffset:0;} }
+        @keyframes pfGradient { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+        @keyframes pfThumbPop { from{opacity:0; transform:scale(.6) rotate(-6deg);} to{opacity:1; transform:scale(1) rotate(0);} }
+
+        /* Barra de progreso de scroll arriba */
+        .pf-scroll-progress {
+            position: fixed; top: 0; left: 0;
+            height: 4px; width: 0%;
+            background: linear-gradient(90deg, #c5a059, #e9c97f, #c5a059);
+            background-size: 200% 100%;
+            animation: pfGradient 4s ease infinite;
+            z-index: 9999;
+            box-shadow: 0 0 12px rgba(197,160,89,.6);
+            transition: width .12s ease-out;
+            pointer-events: none;
+        }
+
+        /* Hero con animación de entrada y orbes flotantes */
+        .hero-contacto-premium { position: relative; overflow: hidden; }
+        .hero-contacto-premium::before {
+            content: ""; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(197,160,89,.15), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(197,160,89,.10), transparent 50%);
+            pointer-events: none;
+            animation: pfFloat 8s ease-in-out infinite;
+        }
+        .hero-contacto-premium h1 {
+            animation: pfFadeDown .9s cubic-bezier(.2,.7,.2,1) both, pfGradient 6s ease infinite;
+            background: linear-gradient(90deg, currentColor 0%, #c5a059 50%, currentColor 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-contacto-premium p { animation: pfFadeUp .9s cubic-bezier(.2,.7,.2,1) .25s both; }
+
+        /* Formulario con entrada general */
+        .contacto-form-premium { animation: pfScaleIn .9s cubic-bezier(.2,.7,.2,1) .4s both; }
+
+        /* Section titles con underline animado */
+        .form-section-title {
+            position: relative; overflow: hidden;
+            transition: color .3s ease, transform .4s ease;
+        }
+        .form-section-title::after { transition: width .6s cubic-bezier(.2,.7,.2,1) !important; }
+        .contacto-form-premium:hover .form-section-title::after { width: 80px !important; }
+        .form-section-title:hover { transform: translateX(6px); }
+
+        /* Inputs con validación visual */
+        .input-group-premium { transition: transform .3s ease; position: relative; }
+        .input-group-premium:focus-within { transform: translateY(-4px); }
+        .input-group-premium input,
+        .input-group-premium select,
+        .input-group-premium textarea {
+            transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease, background-color .3s ease !important;
+        }
+        .input-group-premium input:focus,
+        .input-group-premium select:focus,
+        .input-group-premium textarea:focus {
+            box-shadow: 0 8px 24px rgba(197,160,89,.22) !important;
+        }
+        .input-group-premium label { transition: all .3s cubic-bezier(.2,.7,.2,1) !important; }
+        .input-group-premium.pf-valid input,
+        .input-group-premium.pf-valid select,
+        .input-group-premium.pf-valid textarea {
+            border-color: #22c55e !important;
+            box-shadow: 0 4px 14px rgba(34,197,94,.18) !important;
+        }
+        .input-group-premium.pf-invalid input,
+        .input-group-premium.pf-invalid select,
+        .input-group-premium.pf-invalid textarea {
+            border-color: #ef4444 !important;
+            animation: pfShake .35s ease;
+        }
+        .input-group-premium.pf-valid::after {
+            content: "✓";
+            position: absolute; right: 14px; top: 14px;
+            color: #22c55e; font-weight: 700; font-size: 1.1rem;
+            animation: pfBounceIn .35s ease;
+            pointer-events: none;
+        }
+
+        /* Zona de subida de fotos (drag & drop visual) */
+        .input-group-premium[style*="dashed"] {
+            position: relative;
+            transition: transform .4s cubic-bezier(.2,.7,.2,1),
+                        box-shadow .4s ease, background-color .4s ease, border-color .4s ease !important;
+            background-image:
+                linear-gradient(90deg, #c5a059 50%, transparent 50%),
+                linear-gradient(90deg, #c5a059 50%, transparent 50%),
+                linear-gradient(0deg, #c5a059 50%, transparent 50%),
+                linear-gradient(0deg, #c5a059 50%, transparent 50%);
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+            background-size: 16px 2px, 16px 2px, 2px 16px, 2px 16px;
+            background-position: 0 0, 0 100%, 0 0, 100% 0;
+            border: none !important;
+        }
+        .input-group-premium[style*="dashed"]:hover,
+        .input-group-premium[style*="dashed"].pf-drag-over {
+            transform: translateY(-5px) scale(1.015);
+            box-shadow: 0 18px 40px rgba(197,160,89,.28) !important;
+            background-color: rgba(197,160,89,.10) !important;
+            animation: pfDashFlow 1.2s linear infinite;
+        }
+        .input-group-premium[style*="dashed"].pf-drag-over::before {
+            content: "Suelta aquí tus imágenes";
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: #c5a059; font-size: 1.2rem;
+            background: rgba(255,255,255,.85);
+            border-radius: 8px;
+            pointer-events: none;
+            animation: pfFadeUp .2s ease both;
+        }
+
+        /* Preview de imágenes seleccionadas */
+        .pf-photo-preview {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin-top: 18px;
+        }
+        .pf-photo-thumb {
+            position: relative;
+            width: 80px; height: 80px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(15,23,42,.18);
+            animation: pfThumbPop .4s cubic-bezier(.2,.7,.2,1) both;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .pf-photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .pf-photo-thumb:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 22px rgba(197,160,89,.4);
+        }
+        .pf-photo-thumb::after {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(15,23,42,.5));
+            opacity: 0; transition: opacity .3s ease;
+        }
+        .pf-photo-thumb:hover::after { opacity: 1; }
+
+        /* Checkbox con pop */
+        .checkbox-group input[type="checkbox"] { transition: transform .25s ease; }
+        .checkbox-group input[type="checkbox"]:checked { animation: pfBounceIn .5s ease; transform: scale(1.15); }
+        .checkbox-group { transition: color .3s ease; }
+        .checkbox-group:hover { color: #c5a059; }
+
+        /* Botón submit con shimmer, magnetic y loading spinner */
+        .btn-submit-premium {
+            position: relative; overflow: hidden;
+            transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, letter-spacing .35s ease !important;
+            background-image: linear-gradient(110deg, #c5a059 0%, #d4b878 40%, #c5a059 80%) !important;
+            background-size: 200% 100% !important;
+            will-change: transform;
+        }
+        .btn-submit-premium::before {
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.4) 50%, transparent 100%);
+            transition: left .7s ease;
+            pointer-events: none;
+        }
+        .btn-submit-premium:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 30px rgba(197,160,89,.45) !important;
+            letter-spacing: 1.5px;
+        }
+        .btn-submit-premium:hover::before { left: 150%; }
+        .btn-submit-premium:active { transform: translateY(-1px) scale(.99); }
+        .btn-submit-premium.pf-loading { color: transparent !important; pointer-events: none; }
+        .btn-submit-premium.pf-loading::after {
+            content: ""; position: absolute; top: 50%; left: 50%;
+            width: 22px; height: 22px; margin: -11px 0 0 -11px;
+            border: 3px solid rgba(255,255,255,.4); border-top-color: #fff;
+            border-radius: 50%; animation: pfSpin .8s linear infinite;
+        }
+
+        /* Indicador de progreso del formulario */
+        .pf-form-progress {
+            position: sticky; top: 0;
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px 14px; margin-bottom: 18px;
+            background: linear-gradient(90deg, rgba(255,255,255,.7), rgba(255,255,255,.95));
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            border: 1px solid rgba(197,160,89,.25);
+            font-size: .85rem; font-weight: 600; color: #0f172a;
+            z-index: 5;
+            box-shadow: 0 4px 14px rgba(15,23,42,.06);
+        }
+        .pf-form-progress-bar { flex: 1; height: 6px; background: rgba(15,23,42,.08); border-radius: 3px; overflow: hidden; }
+        .pf-form-progress-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #c5a059, #e9c97f);
+            transition: width .4s cubic-bezier(.2,.7,.2,1);
+            box-shadow: 0 0 8px rgba(197,160,89,.5);
+        }
+        .pf-form-progress-pct { min-width: 38px; text-align: right; color: #c5a059; }
+
+        /* Scroll reveal */
+        [data-pf-reveal] {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+            will-change: opacity, transform;
+        }
+        [data-pf-reveal].pf-visible { opacity: 1; transform: translateY(0); }
+
+        /* Header con sombra al scroll */
+        .header-prestige { transition: box-shadow .4s ease, backdrop-filter .4s ease; }
+        .header-prestige.pf-scrolled { box-shadow: 0 6px 24px rgba(15,23,42,.12); }
+
+        /* Botón "volver arriba" */
+        .pf-back-to-top {
+            position: fixed; bottom: 24px; left: 24px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: linear-gradient(135deg, #c5a059, #d4b878);
+            color: #fff; border: none; cursor: pointer;
+            font-size: 1.4rem; font-weight: 700;
+            box-shadow: 0 8px 22px rgba(197,160,89,.45);
+            opacity: 0; visibility: hidden;
+            transform: translateY(20px) scale(.8);
+            transition: opacity .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), visibility .35s ease, box-shadow .35s ease;
+            z-index: 9998;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pf-back-to-top.pf-show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .pf-back-to-top:hover { transform: translateY(-6px) scale(1.08); box-shadow: 0 14px 30px rgba(197,160,89,.6); }
+
+        /* Modal de éxito + Confeti */
+        .pf-modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(15,23,42,.65);
+            backdrop-filter: blur(6px);
+            z-index: 10000; display: none;
+            animation: pfOverlayIn .35s ease both;
+        }
+        .pf-modal-overlay.pf-show { display: block; }
+        .pf-modal {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff; color: #0f172a;
+            padding: 40px 36px 32px; border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(15,23,42,.35);
+            text-align: center; min-width: 320px; max-width: 90vw;
+            z-index: 10001;
+            animation: pfModalIn .5s cubic-bezier(.2,.7,.2,1) both;
+            border-top: 4px solid #c5a059;
+        }
+        .pf-modal h3 { margin: 12px 0 8px; font-family: 'Playfair Display', serif; }
+        .pf-modal p { margin: 0 0 22px; color: #64748b; }
+        .pf-modal button {
+            background: linear-gradient(135deg, #c5a059, #d4b878);
+            color: #fff; border: none; padding: 12px 28px;
+            border-radius: 8px; cursor: pointer; font-weight: 600;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .pf-modal button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(197,160,89,.45); }
+        .pf-checkmark { width: 70px; height: 70px; margin: 0 auto; }
+        .pf-checkmark circle {
+            stroke: #22c55e; stroke-width: 4; fill: none;
+            stroke-dasharray: 166; stroke-dashoffset: 166;
+            animation: pfCircle .6s cubic-bezier(.65,0,.45,1) forwards;
+        }
+        .pf-checkmark path {
+            stroke: #22c55e; stroke-width: 5; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 48; stroke-dashoffset: 48;
+            animation: pfCheck .4s cubic-bezier(.65,0,.45,1) .5s forwards;
+        }
+        .pf-confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 10002; overflow: hidden; }
+        .pf-confetti {
+            position: absolute; top: -10vh;
+            width: 10px; height: 14px;
+            opacity: 0;
+            animation: pfConfetti 2.4s cubic-bezier(.2,.6,.4,1) forwards;
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+    <!-- (final de Miguel) -->
     <script src="theme.js"></script>
 </head>
 <body>
+
+    <!-- (Hecho por Miguel) -->
+    <div class="pf-scroll-progress" id="pfScrollProgress" aria-hidden="true"></div>
+    <!-- (final de Miguel) -->
 
     <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
@@ -44,7 +355,14 @@
     <main class="contacto-wrapper-grid">
         <section class="contacto-form-premium full-width-form">
             <form action="#" method="POST">
-                
+                <!-- (Hecho por Miguel) -->
+                <div class="pf-form-progress" id="pfFormProgress" role="progressbar" aria-label="Progreso del formulario">
+                    <span>Progreso del formulario</span>
+                    <div class="pf-form-progress-bar"><div class="pf-form-progress-fill" id="pfFormProgressFill"></div></div>
+                    <span class="pf-form-progress-pct" id="pfFormProgressPct">0%</span>
+                </div>
+                <!-- (final de Miguel) -->
+
                 <h3 class="form-section-title">Datos Personales</h3>
                 <div class="grid-2-col">
                     <div class="input-group-premium">
@@ -128,6 +446,9 @@
                     <label for="fotos_inmueble" style="position: static; display: block; margin-bottom: 10px; color: #0f172a; font-weight: 600; font-size: 1.1rem;">📸 Sube fotos de tu inmueble</label>
                     <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">Puedes seleccionar varias imágenes a la vez.</p>
                     <input type="file" id="fotos_inmueble" multiple accept="image/*" style="height: auto; padding: 10px; border: none; background: transparent; cursor: pointer;">
+                    <!-- (Hecho por Miguel) -->
+                    <div class="pf-photo-preview" id="pfPhotoPreview" aria-live="polite"></div>
+                    <!-- (final de Miguel) -->
                 </div>
 
                 <div style="text-align: center; margin-top: 30px;">
@@ -227,6 +548,288 @@
 
     <script type="module" src="login.js"></script>
     <script src="prestige-chatbot.js"></script>
+
+    <!-- (Hecho por Miguel) -->
+    <button type="button" class="pf-back-to-top" id="pfBackToTop" aria-label="Volver arriba" title="Volver arriba">↑</button>
+    <div class="pf-confetti-wrap" id="pfConfettiWrap" aria-hidden="true"></div>
+    <div class="pf-modal-overlay" id="pfModalOverlay">
+        <div class="pf-modal" role="dialog" aria-modal="true" aria-labelledby="pfModalTitle">
+            <svg class="pf-checkmark" viewBox="0 0 70 70">
+                <circle cx="35" cy="35" r="28"/>
+                <path d="M21 36 L31 46 L50 25"/>
+            </svg>
+            <h3 id="pfModalTitle">¡Inmueble enviado!</h3>
+            <p id="pfModalText">Revisaremos la información y nos pondremos en contacto contigo en breve.</p>
+            <button type="button" id="pfModalClose">Perfecto</button>
+        </div>
+    </div>
+
+    <script>
+        // === Interacciones Prestige - gestionamos.html ===
+        (function () {
+            'use strict';
+
+            function ready(fn) {
+                if (document.readyState !== 'loading') fn();
+                else document.addEventListener('DOMContentLoaded', fn);
+            }
+
+            ready(function () {
+                // --- Barra de progreso de scroll arriba ---
+                var progressBar = document.getElementById('pfScrollProgress');
+                function updateScrollProgress() {
+                    var h = document.documentElement;
+                    var max = (h.scrollHeight - h.clientHeight) || 1;
+                    progressBar.style.width = ((h.scrollTop / max) * 100) + '%';
+                }
+
+                // --- Header con sombra al scroll ---
+                var header = document.querySelector('.header-prestige');
+                function updateHeader() {
+                    if (window.scrollY > 30) header.classList.add('pf-scrolled');
+                    else header.classList.remove('pf-scrolled');
+                }
+
+                // --- Botón volver arriba ---
+                var btnTop = document.getElementById('pfBackToTop');
+                function updateBackToTop() {
+                    if (window.scrollY > 320) btnTop.classList.add('pf-show');
+                    else btnTop.classList.remove('pf-show');
+                }
+                btnTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+                // --- Parallax sutil en el hero ---
+                var hero = document.querySelector('.hero-contacto-premium');
+                function updateParallax() {
+                    if (!hero) return;
+                    var rect = hero.getBoundingClientRect();
+                    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+                    var offset = window.scrollY * 0.25;
+                    hero.style.backgroundPosition = 'center calc(50% + ' + offset + 'px)';
+                }
+
+                var ticking = false;
+                window.addEventListener('scroll', function () {
+                    if (!ticking) {
+                        window.requestAnimationFrame(function () {
+                            updateScrollProgress();
+                            updateHeader();
+                            updateBackToTop();
+                            updateParallax();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+                updateScrollProgress(); updateHeader(); updateBackToTop();
+
+                // --- Scroll reveal ---
+                var revealTargets = document.querySelectorAll('.contacto-form-premium .form-section-title, .contacto-form-premium .grid-2-col, .contacto-form-premium .grid-3-col, .contacto-form-premium .grid-4-col, .contacto-form-premium .input-group-premium, footer');
+                revealTargets.forEach(function (el) { el.setAttribute('data-pf-reveal', ''); });
+                if ('IntersectionObserver' in window) {
+                    var io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('pf-visible');
+                                io.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+                    revealTargets.forEach(function (el) { io.observe(el); });
+                } else {
+                    revealTargets.forEach(function (el) { el.classList.add('pf-visible'); });
+                }
+
+                // --- Validación visual en tiempo real ---
+                var inputs = document.querySelectorAll('.contacto-form-premium .input-group-premium input:not([type="file"]), .contacto-form-premium .input-group-premium select, .contacto-form-premium .input-group-premium textarea');
+                function validateField(el) {
+                    var group = el.closest('.input-group-premium');
+                    if (!group || group.querySelector('input[type="file"]')) return;
+                    if (el.value.trim() === '') {
+                        group.classList.remove('pf-valid', 'pf-invalid'); return;
+                    }
+                    if (el.checkValidity()) {
+                        group.classList.add('pf-valid'); group.classList.remove('pf-invalid');
+                    } else {
+                        group.classList.add('pf-invalid'); group.classList.remove('pf-valid');
+                    }
+                }
+                inputs.forEach(function (el) {
+                    el.addEventListener('blur', function () { validateField(el); });
+                    el.addEventListener('input', function () {
+                        var group = el.closest('.input-group-premium');
+                        if (group && group.classList.contains('pf-invalid') && el.checkValidity()) {
+                            group.classList.remove('pf-invalid');
+                            group.classList.add('pf-valid');
+                        }
+                        updateFormProgress();
+                    });
+                    el.addEventListener('change', updateFormProgress);
+                });
+
+                // --- Indicador de progreso del formulario ---
+                var progressFill = document.getElementById('pfFormProgressFill');
+                var progressPct = document.getElementById('pfFormProgressPct');
+                function updateFormProgress() {
+                    var total = inputs.length;
+                    var done = 0;
+                    inputs.forEach(function (el) {
+                        if (el.value.trim() !== '' && el.checkValidity()) done++;
+                    });
+                    var pct = total ? Math.round((done / total) * 100) : 0;
+                    progressFill.style.width = pct + '%';
+                    progressPct.textContent = pct + '%';
+                }
+                updateFormProgress();
+
+                // --- Drag & drop visual + preview de fotos ---
+                var inputFotos = document.getElementById('fotos_inmueble');
+                var zonaFotos = inputFotos ? inputFotos.closest('.input-group-premium') : null;
+                var preview = document.getElementById('pfPhotoPreview');
+
+                if (zonaFotos && inputFotos && preview) {
+                    ['dragenter', 'dragover'].forEach(function (evt) {
+                        zonaFotos.addEventListener(evt, function (e) {
+                            e.preventDefault(); e.stopPropagation();
+                            zonaFotos.classList.add('pf-drag-over');
+                        });
+                    });
+                    ['dragleave', 'drop'].forEach(function (evt) {
+                        zonaFotos.addEventListener(evt, function (e) {
+                            e.preventDefault(); e.stopPropagation();
+                            zonaFotos.classList.remove('pf-drag-over');
+                        });
+                    });
+                    zonaFotos.addEventListener('drop', function (e) {
+                        var files = e.dataTransfer && e.dataTransfer.files;
+                        if (files && files.length) {
+                            try {
+                                var dt = new DataTransfer();
+                                for (var i = 0; i < files.length; i++) {
+                                    if (files[i].type.indexOf('image') === 0) dt.items.add(files[i]);
+                                }
+                                inputFotos.files = dt.files;
+                                inputFotos.dispatchEvent(new Event('change'));
+                            } catch (_) { /* navegadores antiguos */ }
+                        }
+                    });
+
+                    inputFotos.addEventListener('change', function () {
+                        preview.innerHTML = '';
+                        var n = inputFotos.files.length;
+                        if (n > 0) {
+                            var labelFotos = zonaFotos.querySelector('label');
+                            if (labelFotos) {
+                                labelFotos.textContent = '✅ ' + n + ' imagen' + (n > 1 ? 'es' : '') + ' lista' + (n > 1 ? 's' : '') + ' para enviar';
+                                labelFotos.style.color = '#16a34a';
+                            }
+                            for (var i = 0; i < Math.min(n, 12); i++) {
+                                (function (file, idx) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (ev) {
+                                        var div = document.createElement('div');
+                                        div.className = 'pf-photo-thumb';
+                                        div.style.animationDelay = (idx * 60) + 'ms';
+                                        var img = document.createElement('img');
+                                        img.src = ev.target.result;
+                                        img.alt = file.name;
+                                        div.appendChild(img);
+                                        preview.appendChild(div);
+                                    };
+                                    reader.readAsDataURL(file);
+                                })(inputFotos.files[i], i);
+                            }
+                            if (n > 12) {
+                                var extra = document.createElement('div');
+                                extra.className = 'pf-photo-thumb';
+                                extra.style.display = 'flex';
+                                extra.style.alignItems = 'center';
+                                extra.style.justifyContent = 'center';
+                                extra.style.background = '#c5a059';
+                                extra.style.color = '#fff';
+                                extra.style.fontWeight = '700';
+                                extra.textContent = '+' + (n - 12);
+                                preview.appendChild(extra);
+                            }
+                        }
+                    });
+                }
+
+                // --- Magnetic effect en botón submit ---
+                var btnSubmit = document.querySelector('.btn-submit-premium');
+                if (btnSubmit) {
+                    btnSubmit.addEventListener('mousemove', function (e) {
+                        var r = btnSubmit.getBoundingClientRect();
+                        var x = e.clientX - r.left - r.width / 2;
+                        var y = e.clientY - r.top - r.height / 2;
+                        btnSubmit.style.transform = 'translate(' + (x * .15) + 'px,' + (y * .25 - 4) + 'px) scale(1.02)';
+                    });
+                    btnSubmit.addEventListener('mouseleave', function () { btnSubmit.style.transform = ''; });
+                }
+
+                // --- Modal de éxito + Confeti ---
+                var modalOverlay = document.getElementById('pfModalOverlay');
+                var modalClose = document.getElementById('pfModalClose');
+                var confettiWrap = document.getElementById('pfConfettiWrap');
+                var colores = ['#c5a059', '#e9c97f', '#0f172a', '#22c55e', '#fff'];
+
+                function lanzarConfeti(n) {
+                    for (var i = 0; i < n; i++) {
+                        var c = document.createElement('span');
+                        c.className = 'pf-confetti';
+                        c.style.left = (Math.random() * 100) + 'vw';
+                        c.style.background = colores[Math.floor(Math.random() * colores.length)];
+                        c.style.setProperty('--cx', ((Math.random() - .5) * 200) + 'px');
+                        c.style.animationDelay = (Math.random() * .4) + 's';
+                        c.style.animationDuration = (1.8 + Math.random() * 1.4) + 's';
+                        c.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+                        if (Math.random() > .5) c.style.borderRadius = '50%';
+                        confettiWrap.appendChild(c);
+                        setTimeout((function (el) { return function () { el.remove(); }; })(c), 3200);
+                    }
+                }
+                function abrirModal() { modalOverlay.classList.add('pf-show'); lanzarConfeti(90); }
+                function cerrarModal() { modalOverlay.classList.remove('pf-show'); }
+                modalClose.addEventListener('click', cerrarModal);
+                modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) cerrarModal(); });
+
+                // Intercept alert() solo para éxito
+                var alertOriginal = window.alert;
+                window.alert = function (msg) {
+                    var s = String(msg || '');
+                    if (s.indexOf('éxito') !== -1 || s.indexOf('exito') !== -1) {
+                        document.getElementById('pfModalTitle').textContent = '¡Inmueble enviado!';
+                        document.getElementById('pfModalText').textContent = 'Revisaremos la información y nos pondremos en contacto contigo en breve.';
+                        abrirModal();
+                        return;
+                    }
+                    alertOriginal(msg);
+                };
+
+                // --- Loading spinner durante envío ---
+                var formulario = document.querySelector('.contacto-form-premium form');
+                if (formulario && btnSubmit) {
+                    formulario.addEventListener('submit', function () {
+                        btnSubmit.classList.add('pf-loading');
+                        var checker = setInterval(function () {
+                            if (!btnSubmit.innerText.match(/ENVIANDO|PROCESANDO/i) && !btnSubmit.disabled) {
+                                btnSubmit.classList.remove('pf-loading');
+                                clearInterval(checker);
+                            }
+                        }, 200);
+                    });
+                    formulario.addEventListener('reset', function () {
+                        document.querySelectorAll('.input-group-premium').forEach(function (g) {
+                            g.classList.remove('pf-valid', 'pf-invalid');
+                        });
+                        if (preview) preview.innerHTML = '';
+                        updateFormProgress();
+                    });
+                }
+            });
+        })();
+    </script>
+    <!-- (final de Miguel) -->
 
 </body>
 </html>
