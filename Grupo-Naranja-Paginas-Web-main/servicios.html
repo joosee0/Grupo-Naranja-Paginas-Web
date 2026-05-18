@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios | Inmobiliaria</title>
+    <link rel="stylesheet" href="servicios.css">
+    <!-- (Hecho por Miguel) -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <!-- (final de Miguel) -->
+    <style>
+        /* --- Logo PRESTIGE en dorado --- */
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        /* --- Menú desplegable Contacto --- */
+        nav ul li.dropdown {
+            position: relative;
+        }
+
+        nav ul li.dropdown .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            min-width: 250px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 10px 0;
+            z-index: 1000;
+            border-top: 4px solid var(--accent-color);
+            list-style: none;
+            flex-direction: column !important;
+            gap: 0 !important;
+        }
+
+        nav ul li.dropdown:hover .dropdown-menu {
+            display: flex !important;
+        }
+
+        nav ul li.dropdown .dropdown-menu li {
+            width: 100%;
+            display: block;
+        }
+
+        nav ul li.dropdown .dropdown-menu li a {
+            display: block;
+            padding: 14px 22px;
+            color: #334155 !important;
+            font-size: 0.95rem !important;
+            text-transform: none !important;
+            font-weight: 500 !important;
+        }
+
+        nav ul li.dropdown .dropdown-menu li a:hover {
+            background-color: var(--bg-light) !important;
+            color: var(--accent-color) !important;
+            padding-left: 28px;
+        }
+
+        nav ul li a.active {
+            color: var(--accent-color);
+        }
+    </style>
+    <link rel="stylesheet" href="theme.css">
+    <script src="theme.js"></script>
+</head>
+<body>
+    <header class="header-prestige">
+        <!-- (Hecho por Miguel) -->
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <!-- (final de Miguel) -->
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html" class="active">Servicios</a></li>
+                <li><a href="login.html">Login</a></li>
+                <!-- (Hecho por Miguel) -->
+                <li id="userMenu"></li>
+                <!-- (final de Miguel) -->
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="servicios">
+        <h2 style="grid-column: 1 / -1; text-align: center; margin-bottom: 3rem; font-size: 2.8rem; color: var(--primary-color);">
+            Nuestros Servicios
+        </h2>
+
+        <div class="card">
+            <h3>Venta de Propiedades</h3>
+            <p>Compra y venta de casas, departamentos, locales comerciales y terrenos. Te acompañamos en todo el proceso para que consigas la mejor operación.</p>
+        </div>
+
+        <div class="card">
+            <h3>Alquiler Residencial y Comercial</h3>
+            <p>Alquiler de inmuebles para vivir o para tu negocio. Gestionamos contratos, garantías y todo lo necesario para que sea seguro y sencillo.</p>
+        </div>
+
+        <div class="card">
+            <h3>Asesoría Inmobiliaria</h3>
+            <p>Evaluación de mercado, tasaciones profesionales y asesoramiento personalizado para inversores y particulares.</p>
+        </div>
+
+        <div class="card">
+            <h3>Gestión de Propiedades</h3>
+            <p>Administración completa de tu inmueble: cobro de alquileres, mantenimiento, atención a inquilinos y documentación legal.</p>
+        </div>
+
+        <div class="card">
+            <h3>Inversión Inmobiliaria</h3>
+            <p>Te ayudamos a encontrar las mejores oportunidades de inversión con alto retorno y bajo riesgo.</p>
+        </div>
+
+        <div class="card">
+            <h3>Reformas y Puesta en Valor</h3>
+            <p>Proyectos de remodelación para aumentar el valor de tu propiedad antes de vender o alquilar.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Inmobiliaria. Todos los derechos reservados.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+            Tel: (123) 456-7890 | Email: info@inmobiliaria.com
+        </p>
+    </footer>
+
+    <!-- (Hecho por Miguel) -->
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
+    <!-- (final de Miguel) -->
+
+</body>
+</html>
