@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuración - Inmobiliaria Prestige</title>
 
-    <!--  Fonts  -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
-    <!--  Estilos  -->
+    <!-- Estilos -->
     <link rel="stylesheet" href="style2.css">
 </head>
 
 <body>
 
-    <!--  HEADER  -->
-    <header class="settings-header">
-        <div class="logo-container">
-            <h1>Prestige</h1>
-        </div>
+    <!-- HEADER -->
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
 
         <nav>
             <ul class="nav-links">
@@ -40,7 +40,7 @@
                     </ul>
                 </li>
                 <li class="theme-toggle-li">
-                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
                         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     </button>
@@ -51,29 +51,35 @@
     </header>
 
 
-    <!--  CONTENIDO PRINCIPAL  -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="settings-page">
 
-        <!-- ── Sidebar  -->
+        <!-- Sidebar -->
         <aside class="settings-sidebar">
 
             <!-- Perfil -->
             <div class="profile-card">
-                <img src="https://i.pravatar.cc/300?img=12" alt="Foto de perfil" id="profilePreview">
                 <input type="file" id="uploadPhoto" accept="image/*" hidden>
+                
+                <!-- Avatar con inicial o imagen -->
+                <div class="avatar-large" id="profileAvatar">
+                    <span id="avatarInitials">IG</span>
+                    <label for="uploadPhoto" class="avatar-edit" title="Cambiar foto">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                </div>
                 
                 <h2 id="sidebarName">Irene Gómez</h2>
                 <p>Cliente Premium</p>
-                
-                <button type="button" class="change-photo-btn" id="changePhotoBtn">
-                    <i class="fas fa-camera"></i> Cambiar foto
-                </button>
             </div>
 
             <!-- Menú de navegación -->
             <nav class="sidebar-menu">
-                <a href="#cuenta" class="sidebar-link active">
-                    <i class="fas fa-user"></i> Cuenta
+                <a href="perfil.html" class="sidebar-link active">
+                    <i class="fas fa-user"></i> Perfil
+                </a>
+                <a href="#cuenta" class="sidebar-link">
+                    <i class="fas fa-id-card"></i> Cuenta
                 </a>
                 <a href="#seguridad" class="sidebar-link">
                     <i class="fas fa-lock"></i> Seguridad
@@ -94,10 +100,11 @@
                     <i class="fas fa-circle-question"></i> Ayuda
                 </a>
             </nav>
+            
         </aside>
 
 
-        <!--  Contenido derecho  -->
+        <!-- Contenido derecho -->
         <section class="settings-content">
 
             <!-- Cuenta -->
@@ -111,33 +118,33 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" value="Irene">
+                            <input type="text" id="nombre" name="nombre" value="Irene" required>
                         </div>
                         <div class="form-group">
                             <label for="apellidos">Apellidos</label>
-                            <input type="text" id="apellidos" value="Gómez García">
+                            <input type="text" id="apellidos" name="apellidos" value="Gómez García" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Correo electrónico</label>
-                            <input type="email" id="email" value="irenegomezgarcia29@gmail.com">
+                            <input type="email" id="email" name="email" value="irenegomezgarcia29@gmail.com" required>
                         </div>
                         <div class="form-group">
                             <label for="telefono">Teléfono</label>
-                            <input type="tel" id="telefono" placeholder="+34 600 000 000">
+                            <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000" pattern="^\+34\s?[6-9]\d{2}\s?\d{3}\s?\d{3}$">
                         </div>
                         <div class="form-group">
                             <label for="ciudad">Ciudad</label>
-                            <input type="text" id="ciudad" value="Dos Hermanas">
+                            <input type="text" id="ciudad" name="ciudad" value="Dos Hermanas">
                         </div>
                         <div class="form-group">
                             <label for="fechaNacimiento">Fecha de nacimiento</label>
-                            <input type="date" id="fechaNacimiento">
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="bio">Biografía</label>
-                        <textarea id="bio" rows="5" placeholder="Cuéntanos algo sobre ti..."></textarea>
+                        <textarea id="bio" name="bio" rows="5" placeholder="Cuéntanos algo sobre ti..."></textarea>
                     </div>
 
                     <button type="submit" class="save-btn">Guardar cambios</button>
@@ -155,15 +162,15 @@
                 <form id="securityForm" class="settings-form">
                     <div class="form-group">
                         <label for="currentPassword">Contraseña actual</label>
-                        <input type="password" id="currentPassword">
+                        <input type="password" id="currentPassword" name="currentPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="newPassword">Nueva contraseña</label>
-                        <input type="password" id="newPassword">
+                        <input type="password" id="newPassword" name="newPassword" minlength="8" required>
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirmar contraseña</label>
-                        <input type="password" id="confirmPassword">
+                        <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" required>
                     </div>
 
                     <div class="security-options">
@@ -173,7 +180,7 @@
                                 <p>Mayor protección para tu cuenta.</p>
                             </div>
                             <label class="switch">
-                                <input type="checkbox" id="twoFactor">
+                                <input type="checkbox" id="twoFactor" name="twoFactor">
                                 <span></span>
                             </label>
                         </div>
@@ -184,7 +191,7 @@
                                 <p>Recibir notificaciones de accesos.</p>
                             </div>
                             <label class="switch">
-                                <input type="checkbox" id="loginAlerts" checked>
+                                <input type="checkbox" id="loginAlerts" name="loginAlerts" checked>
                                 <span></span>
                             </label>
                         </div>
@@ -209,7 +216,7 @@
                             <p>Otros usuarios podrán ver tu perfil.</p>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" id="publicProfile" checked>
+                            <input type="checkbox" id="publicProfile" name="publicProfile" checked>
                             <span></span>
                         </label>
                     </div>
@@ -220,7 +227,7 @@
                             <p>Permitir mensajes de otros usuarios.</p>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" id="privateMessages" checked>
+                            <input type="checkbox" id="privateMessages" name="privateMessages" checked>
                             <span></span>
                         </label>
                     </div>
@@ -241,7 +248,7 @@
                             <h4>Nuevos mensajes</h4>
                             <p>Recibir aviso de mensajes nuevos.</p>
                         </div>
-                        <input type="checkbox" id="notifyMessages" checked>
+                        <input type="checkbox" id="notifyMessages" name="notifyMessages" checked>
                     </div>
 
                     <div class="notification-card">
@@ -249,7 +256,7 @@
                             <h4>Promociones</h4>
                             <p>Ofertas y propiedades destacadas.</p>
                         </div>
-                        <input type="checkbox" id="notifyOffers">
+                        <input type="checkbox" id="notifyOffers" name="notifyOffers">
                     </div>
 
                     <div class="notification-card">
@@ -257,13 +264,13 @@
                             <h4>Visitas programadas</h4>
                             <p>Recordatorios de tus citas.</p>
                         </div>
-                        <input type="checkbox" id="notifyVisits" checked>
+                        <input type="checkbox" id="notifyVisits" name="notifyVisits" checked>
                     </div>
                 </div>
             </section>
 
 
-            <!--  Preferencias -->
+            <!-- Preferencias -->
             <section id="preferencias" class="settings-section">
                 <div class="section-header">
                     <h2>Preferencias</h2>
@@ -273,16 +280,16 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="themeSelect">Modo visual</label>
-                        <select id="themeSelect">
+                        <select id="themeSelect" name="themeSelect">
                             <option value="light">Claro</option>
                             <option value="dark">Oscuro</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Idioma</label>
-                        <select>
-                            <option>Español</option>
-                            <option>English</option>
+                        <label for="languageSelect">Idioma</label>
+                        <select id="languageSelect" name="languageSelect">
+                            <option value="es" selected>Español</option>
+                            <option value="en">English</option>
                         </select>
                     </div>
                 </div>
@@ -291,7 +298,7 @@
             </section>
 
 
-            <!--  Actividad -->
+            <!-- Actividad -->
             <section id="actividad" class="settings-section">
                 <div class="section-header">
                     <h2>Actividad reciente</h2>
@@ -317,7 +324,7 @@
             </section>
 
 
-            <!--  Ayuda -->
+            <!-- Ayuda -->
             <section id="ayuda" class="settings-section">
                 <div class="section-header">
                     <h2>Centro de ayuda</h2>
@@ -329,22 +336,22 @@
                         <i class="fas fa-headset"></i>
                         <h4>Soporte técnico</h4>
                         <p>Contacta con nuestro equipo.</p>
-                        <button type="button">Contactar</button>
+                        <button type="button" class="btn-help">Contactar</button>
                     </div>
                     <div class="help-card">
                         <i class="fas fa-circle-question"></i>
                         <h4>Preguntas frecuentes</h4>
                         <p>Consulta dudas comunes</p>
-                        <button type="button">Ver más</button>
+                        <button type="button" class="btn-help">Ver más</button>
                     </div>
                 </div>
             </section>
 
 
-            <!--  Zona peligrosa -->
+            <!-- Zona peligrosa -->
             <section class="settings-section danger-zone">
                 <div class="section-header">
-                    <h2>Zona peligrosa</h2>
+                    <h2>Eliminar Cuenta</h2>
                     <p>Acciones permanentes.</p>
                 </div>
 
@@ -360,8 +367,7 @@
         </section>
     </main>
 
-
-    <!--  JAVASCRIPT  -->
+    <!-- JAVASCRIPT -->
     <script src="configuracion.js"></script>
 </body>
 </html>
