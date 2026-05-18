@@ -6,7 +6,7 @@
 
     /* --- GROQ 
     groq: {
-    apiKey: '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',  
+    apiKey: '',  
     model: 'llama-3.3-70b-versatile',
       endpoint: 'https://api.groq.com/openai/v1/chat/completions',
     },
