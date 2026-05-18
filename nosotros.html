@@ -7,16 +7,20 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- Variables de Color y Ajustes Generales --- */
+        /* ==========================================================================
+           1. VARIABLES Y RESET GENERAL
+           ========================================================================== */
         :root {
             --primary-color: #0f172a; 
             --accent-color: #c5a059;  
             --text-color: #334155;    
             --bg-light: #f8fafc;      
             --white: #ffffff;
+            --border-color: #e2e8f0;
+            --transition-speed: 0.3s;
         }
 
         * {
@@ -31,29 +35,37 @@
             background-color: var(--bg-light);
             line-height: 1.7;
             scroll-behavior: smooth; 
+            overflow-x: hidden;
         }
 
-        /* --- Scrollbar Personalizada --- */
-        ::-webkit-scrollbar {
-            width: 12px;
+        /* ==========================================================================
+           2. SCROLLBAR PERSONALIZADA
+           ========================================================================== */
+        ::-webkit-scrollbar { 
+            width: 12px; 
         }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-light);
+        
+        ::-webkit-scrollbar-track { 
+            background: var(--bg-light); 
         }
+        
         ::-webkit-scrollbar-thumb {
             background: var(--primary-color);
             border-radius: 6px;
             border: 3px solid var(--bg-light);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
+        
+        ::-webkit-scrollbar-thumb:hover { 
+            background: var(--accent-color); 
         }
 
-        h1, h2, h3, .logo {
-            font-family: 'Playfair Display', serif;
+        h1, h2, h3, .logo { 
+            font-family: 'Playfair Display', serif; 
         }
 
-        /* --- Cabecera / Navegación --- */
+        /* ==========================================================================
+           3. CABECERA Y NAVEGACIÓN
+           ========================================================================== */
         header {
             background-color: var(--primary-color);
             padding: 1.5rem 5%;
@@ -69,588 +81,1042 @@
 
         header.header-scrolled {
             padding: 0.8rem 5%;
-            background-color: rgba(15, 23, 42, 0.92);
-            backdrop-filter: blur(8px);
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
         }
 
-        .logo {
-            color: var(--white);
-            font-size: 1.8rem;
-            letter-spacing: 1px;
-            transition: transform 0.3s ease;
+        .logo { 
+            color: var(--white); 
+            font-size: 1.8rem; 
+            letter-spacing: 1px; 
+            transition: transform var(--transition-speed) ease; 
+        }
+        
+        .logo:hover { 
+            transform: scale(1.02); 
+        }
+        
+        .logo span { 
+            color: var(--accent-color); 
         }
 
-        .logo:hover {
-            transform: scale(1.02);
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 2.5rem; 
+            align-items: center; 
         }
-
-        .logo span {
-            color: var(--accent-color);
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2.5rem;
-        }
-
+        
         nav ul li a {
-            color: var(--white);
-            text-decoration: none;
+            color: var(--white); 
+            text-decoration: none; 
             font-size: 0.95rem;
-            font-weight: 400;
-            text-transform: uppercase;
+            font-weight: 400; 
+            text-transform: uppercase; 
             letter-spacing: 0.5px;
-            position: relative;
-            transition: color 0.3s ease;
+            position: relative; 
+            transition: color var(--transition-speed) ease;
         }
-
+        
         nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
+            content: ''; 
+            position: absolute; 
+            width: 0; 
             height: 2px;
-            bottom: -4px;
-            left: 0;
+            bottom: -4px; 
+            left: 0; 
             background-color: var(--accent-color);
-            transition: width 0.3s ease;
+            transition: width var(--transition-speed) ease;
+        }
+        
+        nav ul li a:hover::after, 
+        nav ul li a.active::after { 
+            width: 100%; 
+        }
+        
+        nav ul li a:hover, 
+        nav ul li a.active { 
+            color: var(--accent-color); 
         }
 
-        nav ul li a:hover::after, nav ul li a.active::after {
-            width: 100%;
+        /* Menú desplegable */
+        .dropdown { 
+            position: relative; 
         }
-
-        nav ul li a:hover, nav ul li a.active {
-            color: var(--accent-color);
-        }
-
-        /* --- Menú desplegable Contacto --- */
-        .dropdown {
-            position: relative;
-        }
-
+        
         .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
+            display: none; 
+            position: absolute; 
+            top: 100%; 
             left: 0;
-            background-color: var(--white);
+            background-color: var(--white); 
             min-width: 250px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
             border-radius: 8px;
-            padding: 10px 0;
-            z-index: 1000;
+            padding: 10px 0; 
+            z-index: 1000; 
             border-top: 4px solid var(--accent-color);
-            list-style: none;
-            flex-direction: column !important;
+            list-style: none; 
+            flex-direction: column !important; 
             gap: 0 !important;
             animation: fadeInDown 0.3s ease forwards;
         }
-
+        
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .dropdown:hover .dropdown-menu {
-            display: flex !important;
+        
+        .dropdown:hover .dropdown-menu { 
+            display: flex !important; 
         }
-
-        .dropdown-menu li {
-            width: 100%;
-            display: block;
+        
+        .dropdown-menu li { 
+            width: 100%; 
+            display: block; 
         }
-
+        
         .dropdown-menu li a {
-            display: block;
-            padding: 14px 22px;
-            color: #334155 !important;
-            font-size: 0.95rem !important;
+            display: block; 
+            padding: 14px 22px; 
+            color: var(--text-color) !important;
+            font-size: 0.95rem !important; 
             text-transform: none !important;
-            font-weight: 500 !important;
-            letter-spacing: normal;
-            transition: all 0.3s ease;
+            font-weight: 500 !important; 
+            transition: all var(--transition-speed) ease;
         }
-
-        .dropdown-menu li a::after {
-            display: none;
-        }
-
+        
         .dropdown-menu li a:hover {
             background-color: var(--bg-light) !important;
-            color: var(--accent-color) !important;
+            color: var(--accent-color) !important; 
             padding-left: 28px;
         }
 
-        /* --- Hero Section --- */
+        /* Botón Theme Toggle */
+        .theme-toggle {
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            padding: 8px;
+        }
+        
+        .theme-toggle svg { 
+            width: 20px; 
+            height: 20px; 
+            fill: none; 
+            stroke: var(--white); 
+            stroke-width: 2; 
+            transition: stroke var(--transition-speed) ease; 
+        }
+        
+        .theme-toggle:hover svg { 
+            stroke: var(--accent-color); 
+        }
+
+        /* ==========================================================================
+           4. CLASES DE ANIMACIÓN (SCROLL REVEAL)
+           ========================================================================== */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(60px); 
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1); 
+        }
+        
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.25s; }
+        .delay-3 { transition-delay: 0.4s; }
+        .delay-4 { transition-delay: 0.55s; }
+
+        /* ==========================================================================
+           5. HERO SECTION
+           ========================================================================== */
         .hero {
             background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), 
                         url('https://images.unsplash.com/photo-1613490908578-7521199ed260?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            background-attachment: fixed;
-            height: 50vh;
+            background-attachment: fixed; 
+            height: 50vh; 
             min-height: 400px;
-            display: flex;
-            align-items: center;
+            display: flex; 
+            align-items: center; 
             justify-content: center;
-            text-align: center;
+            text-align: center; 
             color: var(--white);
         }
-
+        
         .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 4rem; 
+            margin-bottom: 1rem; 
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            animation: slideUpFade 1s ease forwards;
-            opacity: 0;
-            transform: translateY(30px);
+            animation: slideDownFade 1.2s cubic-bezier(0.5, 0, 0, 1) forwards; 
         }
-
+        
         .hero-content p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 1px;
+            font-size: 1.2rem; 
+            font-weight: 300; 
+            letter-spacing: 1px; 
             color: #cbd5e1;
-            animation: slideUpFade 1s ease forwards 0.3s;
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 0; 
+            animation: slideUpFade 1.2s cubic-bezier(0.5, 0, 0, 1) forwards 0.4s; 
+        }
+        
+        @keyframes slideDownFade { 
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); } 
         }
 
-        @keyframes slideUpFade {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes slideUpFade { 
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* --- Contenedor General --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
+        /* ==========================================================================
+           6. CONTENEDOR GENERAL Y TÍTULOS
+           ========================================================================== */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 5rem 2rem; 
         }
 
-        /* --- Nuestra Historia --- */
-        .historia-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+        .section-title {
+            text-align: center; 
+            font-size: 2.5rem; 
+            color: var(--primary-color); 
+            margin-bottom: 4rem;
+            position: relative;
         }
 
-        .historia-texto h2 {
-            font-size: 2.8rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
+        /* ==========================================================================
+           7. NUESTRA HISTORIA Y MISIÓN
+           ========================================================================== */
+        .historia-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 4rem; 
+            align-items: center; 
         }
-
+        
+        .historia-texto h2 { 
+            font-size: 2.8rem; 
+            color: var(--primary-color); 
+            margin-bottom: 1.5rem; 
+        }
+        
         .historia-texto h2::after {
-            content: '';
-            display: block;
-            width: 60px;
+            content: ''; 
+            display: block; 
+            width: 60px; 
             height: 3px;
-            background-color: var(--accent-color);
-            margin-top: 10px;
+            background-color: var(--accent-color); 
+            margin-top: 10px; 
             transition: width 0.5s ease;
         }
         
-        .historia-texto:hover h2::after {
-            width: 100px;
+        .historia-texto:hover h2::after { 
+            width: 100px; 
+        }
+        
+        .historia-texto p { 
+            margin-bottom: 1.5rem; 
+            font-size: 1.05rem; 
+            color: var(--text-color); 
+        }
+        
+        .historia-img { 
+            overflow: hidden; 
+            border-radius: 12px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+        }
+        
+        .historia-img img { 
+            width: 100%; 
+            height: 500px; 
+            object-fit: cover; 
+            transition: transform 1.5s ease; 
+            display: block; 
+        }
+        
+        .historia-img:hover img { 
+            transform: scale(1.08); 
         }
 
-        .historia-texto p {
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            color: #475569;
+        .mision-vision { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 3rem; 
+            margin-top: 4rem; 
         }
-
-        .historia-img {
-            overflow: hidden;
+        
+        .mv-card {
+            background: var(--white); 
+            padding: 3rem; 
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        
+        .mv-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .mv-card h3 { 
+            color: var(--primary-color); 
+            font-size: 1.8rem; 
+            margin-bottom: 1rem; 
+        }
+        
+        .mv-card p { 
+            color: var(--text-color); 
+            font-size: 1rem; 
         }
 
-        .historia-img img {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-            display: block;
+        /* ==========================================================================
+           8. TARJETAS DE VALORES 3D
+           ========================================================================== */
+        .valores { 
+            background-color: var(--white); 
         }
-
-        .historia-img:hover img {
-            transform: scale(1.05);
+        
+        .valores-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2.5rem; 
         }
-
-        /* --- Tarjetas de Valores --- */
-        .valores {
-            background-color: var(--white);
-        }
-
-        .valores h2, .equipo h2, .testimonios h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 4rem;
-        }
-
-        .valores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .valor-card {
-            background: transparent;
+        
+        .valor-card { 
+            background: transparent; 
             height: 280px; 
             perspective: 1000px; 
-            border: none;
+            border: none; 
         }
-
+        
         .valor-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
             text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
             transform-style: preserve-3d; 
         }
-
-        .valor-card:hover .valor-card-inner {
-            transform: rotateY(180deg);
+        
+        .valor-card:hover .valor-card-inner { 
+            transform: rotateY(180deg); 
         }
-
+        
         .valor-card-front, .valor-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden; 
-            border-radius: 12px;
+            border-radius: 12px; 
             padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #e2e8f0;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            border: 1px solid var(--border-color);
         }
-
-        .valor-card-front {
-            background: var(--bg-light);
-            color: var(--primary-color);
+        
+        .valor-card-front { 
+            background: var(--bg-light); 
+            color: var(--primary-color); 
         }
-
-        .valor-card-front h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
+        
+        .valor-card-front h3 { 
+            font-size: 1.5rem; 
+            color: var(--primary-color); 
         }
-
+        
         .valor-card-front h3::after {
-            content: '';
-            display: block;
-            width: 40px;
+            content: ''; 
+            display: block; 
+            width: 40px; 
             height: 2px;
-            background-color: var(--accent-color);
+            background-color: var(--accent-color); 
             margin: 12px auto 0 auto;
         }
-
+        
         .valor-card-back {
-            background: var(--primary-color);
+            background: var(--primary-color); 
             color: var(--white);
             transform: rotateY(180deg); 
             border-color: var(--accent-color);
         }
-
-        .valor-card-back p {
-            font-size: 1rem;
-            color: #cbd5e1;
-            line-height: 1.6;
+        
+        .valor-card-back p { 
+            font-size: 1rem; 
+            color: #cbd5e1; 
+            line-height: 1.6; 
         }
 
-        /* --- Sección Estadísticas --- */
-        .stats-section {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: 4rem 2rem;
-            text-align: center;
-            position: relative;
+        /* ==========================================================================
+           9. EL ESTÁNDAR PRESTIGE (MÉTODO)
+           ========================================================================== */
+        .metodo { 
+            padding: 5rem 2rem; 
+            background-color: var(--bg-light); 
+        }
+        
+        .metodo-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        
+        .paso-card { 
+            text-align: center; 
+            padding: 2rem; 
+            background: var(--white); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+            transition: transform var(--transition-speed);
         }
 
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://www.transparenttextures.com/patterns/cubes.png');
-            opacity: 0.1;
+        .paso-card:hover {
+            transform: translateY(-10px);
+            border-bottom: 3px solid var(--accent-color);
         }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item h3 {
-            font-size: 3.5rem;
+        
+        .paso-numero {
+            width: 60px; 
+            height: 60px; 
+            background-color: var(--primary-color); 
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-        }
-
-        .stat-item p {
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #cbd5e1;
-        }
-
-        /* --- Equipo Directivo --- */
-        .equipo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-        }
-
-        .miembro {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .miembro:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        }
-
-        .miembro .img-container {
-            overflow: hidden;
-        }
-
-        .miembro img {
-            width: 100%;
-            height: 380px;
-            object-fit: cover;
-            object-position: center top;
-            transition: transform 0.8s ease;
-            display: block;
-        }
-
-        .miembro:hover img {
-            transform: scale(1.08);
-        }
-
-        .miembro-info {
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- Testimonios VIP --- */
-        .testimonios {
-            padding: 5rem 2rem;
-        }
-
-        .testimonios-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonio-card {
-            padding: 2.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-color);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            position: relative;
-        }
-
-        .testimonio-card::before {
-            content: '❝';
-            font-size: 4rem;
-            color: var(--accent-color);
-            opacity: 0.2;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-family: serif;
-        }
-
-        .testimonio-card p {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cliente-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .cliente-avatar {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            color: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
             justify-content: center;
+            font-size: 1.5rem; 
+            font-family: 'Playfair Display', serif; 
             font-weight: bold;
+            margin: 0 auto 1.5rem auto; 
+            border: 2px solid var(--accent-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .paso-card:hover .paso-numero {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+        
+        .paso-card h3 { 
+            font-size: 1.3rem; 
+            margin-bottom: 1rem; 
+            color: var(--primary-color); 
+        }
+        
+        .paso-card p { 
+            font-size: 0.95rem; 
+            color: var(--text-color); 
+        }
+
+        /* ==========================================================================
+           10. ESTADÍSTICAS ANIMADAS
+           ========================================================================== */
+        .stats-section {
+            background-color: var(--primary-color); 
+            color: var(--white);
+            padding: 5rem 2rem; 
+            text-align: center; 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats-section::before {
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png'); 
+            opacity: 0.05;
+        }
+        
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 2rem; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 1; 
+        }
+        
+        .stat-item h3 { 
+            font-size: 3.5rem; 
+            color: var(--accent-color); 
+            margin-bottom: 0.5rem; 
+            font-family: 'Inter', sans-serif; 
+            font-weight: 700; 
+        }
+        
+        .stat-item p { 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #cbd5e1; 
+        }
+
+        /* ==========================================================================
+           11. EQUIPO DIRECTIVO
+           ========================================================================== */
+        .equipo { 
+            background-color: var(--white); 
+        }
+        
+        .equipo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 3rem; 
+        }
+        
+        .miembro { 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+            transition: transform 0.4s ease, box-shadow 0.4s ease; 
+            background: var(--bg-light); 
+        }
+        
+        .miembro:hover { 
+            transform: translateY(-12px); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15); 
+        }
+        
+        .miembro .img-container { 
+            overflow: hidden; 
+        }
+        
+        .miembro img { 
+            width: 100%; 
+            height: 380px; 
+            object-fit: cover; 
+            object-position: center top; 
+            transition: transform 0.8s ease; 
+            display: block; 
+        }
+        
+        .miembro:hover img { 
+            transform: scale(1.08); 
+        }
+        
+        .miembro-info { 
+            padding: 2rem; 
+            text-align: center; 
+            position: relative; 
+            z-index: 2; 
+        }
+        
+        .miembro-info h3 { 
+            color: var(--primary-color); 
+            margin-bottom: 0.5rem; 
+        }
+        
+        .cargo { 
+            color: var(--accent-color); 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            margin-bottom: 1rem; 
+        }
+
+        /* ==========================================================================
+           12. PREMIOS Y RECONOCIMIENTOS
+           ========================================================================== */
+        .premios {
+            background-color: var(--bg-light);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .premios-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .premio-card {
+            flex: 1;
+            min-width: 250px;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform var(--transition-speed);
+            border-bottom: 2px solid transparent;
+        }
+
+        .premio-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .premio-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .premio-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
             font-size: 1.2rem;
         }
 
-        .cliente-nombre span {
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            text-transform: uppercase;
+        .premio-card p {
+            font-size: 0.9rem;
+            color: var(--text-color);
         }
 
-        /* ========================================================
-           PARCHE INTELIGENTE: MODO CLARO VS MODO OSCURO
-           ======================================================== */
+        /* ==========================================================================
+           13. RESPONSABILIDAD SOCIAL CORPORATIVA (RSC)
+           ========================================================================== */
+        .rsc-section {
+            padding: 5rem 2rem;
+            background-color: var(--white);
+        }
+
+        .rsc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rsc-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 50%;
+            height: 200%;
+            background: rgba(197, 160, 89, 0.1);
+            transform: rotate(30deg);
+        }
+
+        .rsc-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .rsc-content h2 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .rsc-content p {
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* ==========================================================================
+           14. ALIANZAS ESTRATÉGICAS (CON FIX DE CONTRASTE)
+           ========================================================================== */
+        .alianzas { 
+            padding: 5rem 2rem; 
+            background-color: var(--white); 
+            border-top: 1px solid var(--border-color); 
+            text-align: center;
+        }
         
-        /* --- ESTADO POR DEFECTO (MODO CLARO) --- */
-        #directiva .miembro, #directiva .miembro-info { background-color: #ffffff !important; }
-        #directiva .miembro-info h3 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
-        #directiva .cargo { color: #c5a059 !important; -webkit-text-fill-color: #c5a059 !important; }
-        #directiva .descripcion { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
+        .alianzas h2 { 
+            margin-bottom: 3rem; 
+            font-size: 2.5rem; 
+            color: var(--primary-color);
+        }
+        
+        .alianzas-grid { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 4rem; 
+            flex-wrap: wrap; 
+        }
+        
+        .alianzas-item { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+            color: var(--text-color); 
+            font-weight: bold; 
+            transition: all var(--transition-speed) ease; 
+            cursor: default; 
+            opacity: 0.6;
+        }
+        
+        .alianzas-item:hover { 
+            color: var(--accent-color); 
+            transform: scale(1.1); 
+            opacity: 1;
+        }
 
-        #opiniones { background-color: #ffffff !important; }
-        #opiniones h2 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
-        #opiniones .testimonio-card { background-color: #f8fafc !important; }
-        #opiniones .testimonio-card p { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
-        #opiniones .cliente-nombre h4 { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+        /* ==========================================================================
+           15. PREGUNTAS FRECUENTES (ACORDEÓN)
+           ========================================================================== */
+        .faq-section {
+            padding: 5rem 2rem;
+            background-color: var(--bg-light);
+        }
 
-        /* --- ESTADO AL ACTIVAR MODO OSCURO --- */
-        /* Fondos azules oscuros */
-        body.dark #opiniones, body.dark-mode #opiniones, body.dark-theme #opiniones, body[data-theme="dark"] #opiniones,
-        body.dark #directiva, body.dark-mode #directiva, body.dark-theme #directiva, body[data-theme="dark"] #directiva {
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow var(--transition-speed);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 1.5rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--accent-color);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            transition: transform var(--transition-speed);
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.5, 0, 0, 1);
+            background: var(--white);
+        }
+
+        .faq-answer p {
+            padding: 0 2rem 1.5rem 2rem;
+            color: var(--text-color);
+        }
+
+        /* ==========================================================================
+           16. TESTIMONIOS VIP
+           ========================================================================== */
+        .testimonios { 
+            padding: 5rem 2rem; 
+            background-color: var(--white); 
+        }
+        
+        .testimonios-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 2.5rem; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        
+        .testimonio-card {
+            padding: 2.5rem; 
+            border-radius: 12px; 
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            position: relative; 
+            background: var(--bg-light);
+            transition: transform var(--transition-speed);
+        }
+
+        .testimonio-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .testimonio-card::before {
+            content: '❝'; 
+            font-size: 4rem; 
+            color: var(--accent-color); 
+            opacity: 0.2;
+            position: absolute; 
+            top: 10px; 
+            left: 20px; 
+            font-family: serif;
+        }
+        
+        .testimonio-card p { 
+            font-style: italic; 
+            margin-bottom: 1.5rem; 
+            position: relative; 
+            z-index: 1; 
+            color: var(--text-color); 
+        }
+        
+        .cliente-info { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        
+        .cliente-avatar {
+            width: 50px; 
+            height: 50px; 
+            background-color: var(--primary-color); 
+            color: var(--accent-color);
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-weight: bold; 
+            font-size: 1.2rem;
+        }
+        
+        .cliente-nombre h4 { 
+            color: var(--primary-color); 
+            margin-bottom: 2px; 
+        }
+        
+        .cliente-nombre span { 
+            color: var(--accent-color); 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           17. PARCHE INTELIGENTE: MODO OSCURO GLOBAL
+           ========================================================================== */
+        body.dark, 
+        body.dark-mode, 
+        body.dark-theme, 
+        body[data-theme="dark"] {
             background-color: #0f172a !important;
+            color: #cbd5e1 !important;
         }
 
-        /* Títulos de sección en blanco */
-        body.dark #opiniones h2, body.dark-mode #opiniones h2, body.dark-theme #opiniones h2, body[data-theme="dark"] #opiniones h2,
-        body.dark #directiva h2, body.dark-mode #directiva h2, body.dark-theme #directiva h2, body[data-theme="dark"] #directiva h2 {
+        body.dark .valores, 
+        body.dark .equipo, 
+        body.dark .alianzas,
+        body.dark .metodo, 
+        body.dark .testimonios,
+        body.dark .premios,
+        body.dark .faq-section,
+        body.dark .rsc-section { 
+            background-color: #0f172a !important; 
+        }
+
+        body.dark h2, 
+        body.dark h3, 
+        body.dark .alianzas h2,
+        body.dark .section-title,
+        body.dark .faq-question,
+        body.dark .premio-card h4 {
             color: #ffffff !important; 
             -webkit-text-fill-color: #ffffff !important;
         }
 
-        /* Tarjetas con un azul marino ligeramente más claro que el fondo */
-        body.dark #directiva .miembro, body.dark-mode #directiva .miembro, body.dark-theme #directiva .miembro, body[data-theme="dark"] #directiva .miembro,
-        body.dark #directiva .miembro-info, body.dark-mode #directiva .miembro-info, body.dark-theme #directiva .miembro-info, body[data-theme="dark"] #directiva .miembro-info,
-        body.dark #opiniones .testimonio-card, body.dark-mode #opiniones .testimonio-card, body.dark-theme #opiniones .testimonio-card, body[data-theme="dark"] #opiniones .testimonio-card {
+        body.dark .mv-card, 
+        body.dark .paso-card, 
+        body.dark .miembro, 
+        body.dark .miembro-info, 
+        body.dark .testimonio-card,
+        body.dark .premio-card,
+        body.dark .faq-item,
+        body.dark .faq-answer {
             background-color: #1e293b !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            border-color: #334155 !important;
         }
 
-        /* Nombres en blanco para que resalten */
-        body.dark #directiva .miembro-info h3, body.dark-mode #directiva .miembro-info h3, body.dark-theme #directiva .miembro-info h3, body[data-theme="dark"] #directiva .miembro-info h3,
-        body.dark #opiniones .cliente-nombre h4, body.dark-mode #opiniones .cliente-nombre h4, body.dark-theme #opiniones .cliente-nombre h4, body[data-theme="dark"] #opiniones .cliente-nombre h4 {
-            color: #ffffff !important; 
-            -webkit-text-fill-color: #ffffff !important;
+        body.dark p, 
+        body.dark .historia-texto p, 
+        body.dark .mv-card p, 
+        body.dark .paso-card p, 
+        body.dark .descripcion, 
+        body.dark .testimonio-card p,
+        body.dark .faq-answer p {
+            color: #94a3b8 !important; 
+            -webkit-text-fill-color: #94a3b8 !important;
         }
 
-        /* Textos y descripciones en gris claro */
-        body.dark #directiva .descripcion, body.dark-mode #directiva .descripcion, body.dark-theme #directiva .descripcion, body[data-theme="dark"] #directiva .descripcion,
-        body.dark #opiniones .testimonio-card p, body.dark-mode #opiniones .testimonio-card p, body.dark-theme #opiniones .testimonio-card p, body[data-theme="dark"] #opiniones .testimonio-card p {
-            color: #cbd5e1 !important; 
-            -webkit-text-fill-color: #cbd5e1 !important;
+        /* FIX ALIANZAS FOTO */
+        body.dark .alianzas { 
+            border-top-color: #1e293b !important; 
         }
-        /* ======================================================== */
+        
+        body.dark .alianzas-item { 
+            color: #94a3b8 !important; 
+            opacity: 0.8;
+        }
+        
+        body.dark .alianzas-item:hover { 
+            color: var(--accent-color) !important; 
+            opacity: 1;
+        }
 
-        /* --- Banner CTA Final --- */
+        body.dark .rsc-container {
+            background: #1e293b;
+            box-shadow: none;
+            border: 1px solid #334155;
+        }
+
+        /* ==========================================================================
+           18. BANNER CTA FINAL Y FOOTER
+           ========================================================================== */
         .cta-final {
             background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
                         url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
-            padding: 6rem 2rem;
-            text-align: center;
+            padding: 6rem 2rem; 
+            text-align: center; 
             color: var(--white);
         }
-
-        .cta-final h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--white);
+        
+        .cta-final h2 { 
+            font-size: 3rem; 
+            margin-bottom: 1rem; 
+            color: var(--white); 
         }
-
-        .cta-final p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            color: #cbd5e1;
+        
+        .cta-final p { 
+            font-size: 1.2rem; 
+            margin-bottom: 2.5rem; 
+            color: #cbd5e1; 
         }
-
+        
         .btn-gold {
-            display: inline-block;
-            background-color: var(--accent-color);
+            display: inline-block; 
+            background-color: var(--accent-color); 
             color: var(--primary-color);
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 1rem 2.5rem; 
+            font-size: 1.1rem; 
+            font-weight: 600; 
             text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            border-radius: 50px; 
+            transition: all var(--transition-speed) ease; 
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1px; 
             box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
         }
-
-        .btn-gold:hover {
-            background-color: var(--white);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(255, 255, 255, 0.2);
+        
+        .btn-gold:hover { 
+            background-color: var(--white); 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 25px rgba(255, 255, 255, 0.2); 
         }
 
-        /* --- Footer --- */
         footer {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background-color: var(--primary-color); 
+            color: var(--white); 
             text-align: center;
-            padding: 2rem;
+            padding: 2rem; 
             border-top: 4px solid var(--accent-color);
         }
-
-        footer p {
-            opacity: 0.8;
-            font-size: 0.9rem;
+        
+        footer p { 
+            opacity: 0.8; 
+            font-size: 0.9rem; 
         }
 
-        /* --- Clases Scroll Reveal --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.3s; }
-        .delay-3 { transition-delay: 0.5s; }
-
-        /* --- Responsive Design (Móviles) --- */
+        /* ==========================================================================
+           19. MEDIA QUERIES (MÓVILES)
+           ========================================================================== */
         @media (max-width: 768px) {
-            .historia-grid { grid-template-columns: 1fr; }
-            .historia-img img { height: 350px; }
-            nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
-            header { flex-direction: column; gap: 1rem; }
-            header.header-scrolled { padding: 1rem 5%; }
-            .hero-content h1 { font-size: 2.5rem; }
-            .hero, .cta-final { background-attachment: scroll; }
-            .cta-final h2 { font-size: 2.2rem; }
+            .historia-grid, .mision-vision, .rsc-container { 
+                grid-template-columns: 1fr; 
+                gap: 2rem;
+                flex-direction: column;
+                padding: 2rem;
+            }
+            .historia-img img { 
+                height: 350px; 
+            }
+            nav ul { 
+                gap: 1rem; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+            }
+            header { 
+                flex-direction: column; 
+                gap: 1rem; 
+            }
+            header.header-scrolled { 
+                padding: 1rem 5%; 
+            }
+            .hero-content h1 { 
+                font-size: 2.5rem; 
+            }
+            .hero, .cta-final { 
+                background-attachment: scroll; 
+            }
+            .cta-final h2 { 
+                font-size: 2.2rem; 
+            }
         }
     </style>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <script src="theme.js"></script>
-    </head>
+</head>
 <body>
 
     <header class="header-prestige">
@@ -670,74 +1136,110 @@
                         <li><a href="buscamos.html">Díganos qué busca</a></li>
                     </ul>
                 </li>
-
                 <li class="theme-toggle-li">
-                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
-                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <button type="button" class="theme-toggle" onclick="document.body.classList.toggle('dark')" aria-label="Cambiar tema">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
                     </button>
                 </li>
             </ul>
         </nav>
     </header>
+
     <section class="hero">
         <div class="hero-content">
             <h1>Sobre Nosotros</h1>
-            <p>Construyendo sueños, encontrando hogares desde 2005</p>
+            <p>Construyendo sueños, elevando el nivel de vida desde 2005</p>
         </div>
     </section>
 
     <main class="container">
         <section class="historia-grid">
-            <div class="historia-texto reveal">
+            <div class="historia-texto reveal-left">
                 <h2>Nuestra Historia</h2>
-                <p>En Inmobiliaria Prestige, llevamos más de 15 años dedicados a conectar a las personas con sus hogares ideales. Fundada en 2005, comenzamos como una pequeña agencia local con un objetivo claro: ofrecer un servicio transparente, honesto y sumamente personalizado.</p>
-                <p>Hoy en día, somos líderes en el sector inmobiliario de lujo, contando con una amplia cartera de propiedades exclusivas y un equipo de profesionales apasionados por el mercado de bienes raíces. Entendemos que adquirir una propiedad es una de las decisiones más importantes de tu vida, y estamos aquí para acompañarte con la máxima discreción y excelencia.</p>
+                <p>En Inmobiliaria Prestige, llevamos más de 15 años dedicados a conectar a las personas con sus hogares ideales. Fundada en 2005, comenzamos como una pequeña boutique inmobiliaria en el corazón de la ciudad, con un objetivo inquebrantable: redefinir la experiencia de compra de lujo.</p>
+                <p>A lo largo de los años, hemos crecido orgánicamente gracias a la confianza de nuestros clientes. Hoy en día, somos un referente internacional en el mercado de bienes raíces de alto standing, gestionando carteras exclusivas y operando con un equipo de élite.</p>
             </div>
-            <div class="historia-img reveal delay-1">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Fachada de una espectacular casa moderna con piscina">
+            <div class="historia-img reveal-right delay-1">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Villa moderna de lujo">
+            </div>
+        </section>
+
+        <section class="mision-vision">
+            <div class="mv-card reveal delay-1">
+                <h3>Nuestra Misión</h3>
+                <p>Proporcionar un asesoramiento inmobiliario de máxima calidad, sustentado en la ética profesional y la innovación tecnológica. Nos dedicamos a proteger el patrimonio de nuestros clientes asegurando transacciones rentables, discretas y seguras en el competitivo mercado de alto standing.</p>
+            </div>
+            <div class="mv-card reveal delay-2">
+                <h3>Nuestra Visión</h3>
+                <p>Ser la firma inmobiliaria de referencia a nivel global, reconocida no solo por nuestro volumen de ventas, sino por la excelencia de nuestra operativa, el profundo conocimiento de los mercados emergentes y nuestra inquebrantable dedicación a la satisfacción del cliente.</p>
             </div>
         </section>
     </main>
 
-    <section class="valores">
+    <section class="valores" id="valores">
         <div class="container">
-            <h2 class="reveal">Por qué elegirnos</h2>
+            <h2 class="section-title reveal">Nuestros Pilares</h2>
             <div class="valores-grid">
-                
                 <div class="valor-card reveal delay-1">
                     <div class="valor-card-inner">
                         <div class="valor-card-front">
                             <h3>Confianza Absoluta</h3>
                         </div>
                         <div class="valor-card-back">
-                            <p>Operamos con total transparencia para que te sientas seguro en cada transacción. Protegemos tus intereses como si fueran los nuestros.</p>
+                            <p>Operamos con total transparencia. Realizamos auditorías due diligence en cada propiedad para que te sientas completamente seguro en tu inversión.</p>
                         </div>
                     </div>
                 </div>
-
                 <div class="valor-card reveal delay-2">
                     <div class="valor-card-inner">
                         <div class="valor-card-front">
-                            <h3>Experiencia de Mercado</h3>
+                            <h3>Visión Global</h3>
                         </div>
                         <div class="valor-card-back">
-                            <p>Nuestro profundo conocimiento del sector nos permite identificar las mejores oportunidades de inversión y guiarte con precisión técnica.</p>
+                            <p>Nuestro conocimiento macroeconómico nos permite identificar las mejores oportunidades de inversión antes de que lleguen al mercado abierto.</p>
                         </div>
                     </div>
                 </div>
-
                 <div class="valor-card reveal delay-3">
                     <div class="valor-card-inner">
                         <div class="valor-card-front">
-                            <h3>Atención Exclusiva</h3>
+                            <h3>Discreción VIP</h3>
                         </div>
                         <div class="valor-card-back">
-                            <p>Diseñamos un plan a medida para ti. Escuchamos tus necesidades para encontrar la propiedad que encaje perfectamente con tu estilo de vida.</p>
+                            <p>Entendemos el valor de la privacidad. Garantizamos Acuerdos de Confidencialidad estrictos para todos nuestros clientes y operaciones.</p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <section class="metodo">
+        <div class="container">
+            <h2 class="section-title reveal">El Estándar Prestige</h2>
+            <div class="metodo-grid">
+                <div class="paso-card reveal delay-1">
+                    <div class="paso-numero">1</div>
+                    <h3>Descubrimiento</h3>
+                    <p>Auditoría inicial privada para comprender sus expectativas financieras y estilo de vida.</p>
+                </div>
+                <div class="paso-card reveal delay-2">
+                    <div class="paso-numero">2</div>
+                    <h3>Curaduría</h3>
+                    <p>Filtrado exhaustivo del mercado, presentando propiedades que superan controles de calidad.</p>
+                </div>
+                <div class="paso-card reveal delay-3">
+                    <div class="paso-numero">3</div>
+                    <h3>Negociación Legal</h3>
+                    <p>Nuestros abogados gestionan la viabilidad urbanística para asegurar las mejores condiciones.</p>
+                </div>
+                <div class="paso-card reveal delay-4">
+                    <div class="paso-numero">4</div>
+                    <h3>Concierge 360º</h3>
+                    <p>Servicio post-venta integral: desde la mudanza hasta el diseño de interiores.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -746,91 +1248,159 @@
         <div class="stats-grid reveal">
             <div class="stat-item">
                 <h3 class="counter" data-target="15">0</h3>
-                <p>Años de Experiencia</p>
+                <p>Años Liderando</p>
             </div>
             <div class="stat-item">
-                <h3 class="counter" data-target="450">0</h3>
-                <p>Propiedades Vendidas</p>
+                <h3 class="counter" data-target="850">0</h3>
+                <p>Operaciones Cerradas</p>
             </div>
             <div class="stat-item">
                 <h3 class="counter" data-target="100">0</h3>
                 <p>% Satisfacción</p>
             </div>
             <div class="stat-item">
-                <h3 class="counter" data-target="50">0</h3>
-                <p>Millones Gestionados</p>
+                <h3 class="counter" data-target="120">0</h3>
+                <p>Millones en Cartera</p>
             </div>
         </div>
     </section>
 
     <section class="equipo" id="directiva">
         <div class="container">
-            <h2 class="reveal">Nuestro Equipo Directivo</h2>
+            <h2 class="section-title reveal">Liderazgo Corporativo</h2>
             <div class="equipo-grid">
                 <div class="miembro reveal delay-1">
                     <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carlos Mendoza, Director General">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Carlos Mendoza">
                     </div>
                     <div class="miembro-info">
                         <h3>Carlos Mendoza</h3>
-                        <p class="cargo">Director General</p>
-                        <p class="descripcion">Con más de 20 años de experiencia liderando el sector de propiedades de alto standing.</p>
+                        <p class="cargo">CEO & Fundador</p>
+                        <p class="descripcion">Ex-banquero de inversión con 20 años de experiencia estructurando operaciones inmobiliarias de alto nivel en Europa y Emiratos Árabes.</p>
                     </div>
                 </div>
                 <div class="miembro reveal delay-2">
                     <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laura Torres, Directora de Ventas">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laura Torres">
                     </div>
                     <div class="miembro-info">
                         <h3>Laura Torres</h3>
-                        <p class="cargo">Directora de Ventas</p>
-                        <p class="descripcion">Especialista en negociaciones complejas y diseño de estrategias para clientes VIP.</p>
+                        <p class="cargo">Directora de Operaciones (COO)</p>
+                        <p class="descripcion">Máster en Derecho Inmobiliario. Especialista en auditoría legal, negociaciones complejas y diseño de estrategias para Family Offices.</p>
                     </div>
                 </div>
                 <div class="miembro reveal delay-3">
                     <div class="img-container">
-                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roberto Silva, Asesor Senior">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Roberto Silva">
                     </div>
                     <div class="miembro-info">
                         <h3>Roberto Silva</h3>
-                        <p class="cargo">Asesor Senior</p>
-                        <p class="descripcion">Experto en el mercado local, arquitectura contemporánea y valoraciones inmobiliarias exactas.</p>
+                        <p class="cargo">Director de Arquitectura</p>
+                        <p class="descripcion">Arquitecto colegiado encargado de valorar el potencial estructural y de diseño de cada activo que entra en nuestra cartera premium.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <section class="premios">
+        <h2 class="section-title reveal">Reconocimientos de la Industria</h2>
+        <div class="premios-grid">
+            <div class="premio-card reveal delay-1">
+                <div class="premio-icon">🏆</div>
+                <h4>Best Luxury Broker 2023</h4>
+                <p>Otorgado por la European Real Estate Association por excelencia en servicio.</p>
+            </div>
+            <div class="premio-card reveal delay-2">
+                <div class="premio-icon">🌟</div>
+                <h4>Excellence in Marketing</h4>
+                <p>Galardón internacional por innovadoras campañas visuales de propiedades.</p>
+            </div>
+            <div class="premio-card reveal delay-3">
+                <div class="premio-icon">💎</div>
+                <h4>Top Sales Volume</h4>
+                <p>Reconocimiento a la agencia con mayor volumen de transacciones prime.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rsc-section">
+        <div class="rsc-container reveal">
+            <div class="rsc-content">
+                <h2>Construyendo un Futuro Sostenible</h2>
+                <p>En Prestige, creemos que el verdadero lujo debe ser responsable. Por cada propiedad vendida, destinamos un porcentaje a proyectos de reforestación local y desarrollo de viviendas sociales eficientes.</p>
+                <p>Nuestro compromiso con la huella de carbono cero en todas nuestras operaciones de oficina ha sido certificado en 2025.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="alianzas">
+        <h2 class="reveal">Partners y Alianzas de Prestigio</h2>
+        <div class="alianzas-grid reveal delay-1">
+            <div class="alianzas-item">PORSCHE DESIGN</div>
+            <div class="alianzas-item">CHRISTIE'S ART</div>
+            <div class="alianzas-item">BAKER & MCKENZIE</div>
+            <div class="alianzas-item">ELITE CONCIERGE</div>
+            <div class="alianzas-item">B&B ITALIA</div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <h2 class="section-title reveal">Preguntas Frecuentes</h2>
+        <div class="faq-container">
+            <div class="faq-item reveal delay-1">
+                <button class="faq-question">¿Gestionan propiedades fuera de la ciudad?</button>
+                <div class="faq-answer">
+                    <p>Sí, contamos con una red internacional de partners que nos permite localizar y gestionar activos inmobiliarios exclusivos en las principales capitales europeas y zonas costeras premium.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal delay-2">
+                <button class="faq-question">¿Qué incluye el servicio de "Concierge"?</button>
+                <div class="faq-answer">
+                    <p>Nuestro servicio Concierge se encarga de todo tras la firma: contratación de suministros, seguridad privada, búsqueda de colegios internacionales, diseño de interiores y personal doméstico especializado.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal delay-3">
+                <button class="faq-question">¿Cómo aseguran la privacidad de las operaciones?</button>
+                <div class="faq-answer">
+                    <p>Trabajamos mediante contratos NDA (Non-Disclosure Agreement) blindados. Muchas de nuestras propiedades se operan en modo "Off-Market", por lo que nunca aparecen en portales públicos de internet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="testimonios" id="opiniones">
-        <h2 class="reveal">Experiencias de nuestros clientes</h2>
+        <h2 class="section-title reveal">Experiencias de nuestra red exclusiva</h2>
         <div class="testimonios-grid">
             <div class="testimonio-card reveal delay-1">
-                <p>"Un trato impecable y muy profesional. Encontraron la villa perfecta para mi familia en un tiempo récord, entendiendo al instante lo que buscábamos."</p>
+                <p>"La capacidad de Prestige para acceder a propiedades que ni siquiera estaban en venta es impresionante. Cerraron una negociación que parecía imposible."</p>
                 <div class="cliente-info">
-                    <div class="cliente-avatar">J</div>
+                    <div class="cliente-avatar">A</div>
                     <div class="cliente-nombre">
-                        <h4>Jaime R.</h4>
-                        <span>Inversor Privado</span>
+                        <h4>Alexander W.</h4>
+                        <span>CEO Tecnológico</span>
                     </div>
                 </div>
             </div>
             <div class="testimonio-card reveal delay-2">
-                <p>"Profesionalidad absoluta. La discreción y el servicio VIP que ofrecen desde el minuto uno no tienen rival en el mercado inmobiliario actual."</p>
+                <p>"La discreción es fundamental en mi posición. Carlos y su equipo manejaron toda la compra de mi villa con un hermetismo absoluto."</p>
                 <div class="cliente-info">
-                    <div class="cliente-avatar">R</div>
+                    <div class="cliente-avatar">M</div>
                     <div class="cliente-nombre">
-                        <h4>Rafael G.</h4>
-                        <span>Propietario VIP</span>
+                        <h4>María S.</h4>
+                        <span>Deportista de Élite</span>
                     </div>
                 </div>
             </div>
             <div class="testimonio-card reveal delay-3">
-                <p>"Vendieron mi ático en el centro superando mis expectativas de precio. Todo el proceso fue transparente, rápido y sin dolores de cabeza."</p>
+                <p>"Vendieron nuestro ático histórico en un tiempo récord y a un inversor extranjero. La gestión documental que realizó Laura fue simplemente brillante."</p>
                 <div class="cliente-info">
-                    <div class="cliente-avatar">P</div>
+                    <div class="cliente-avatar">E</div>
                     <div class="cliente-nombre">
-                        <h4>Pablo M.</h4>
-                        <span>Empresario</span>
+                        <h4>Eduardo P.</h4>
+                        <span>Family Office Director</span>
                     </div>
                 </div>
             </div>
@@ -838,14 +1408,14 @@
     </section>
 
     <section class="cta-final reveal">
-        <h2>¿Listo para encontrar la casa de sus sueños?</h2>
-        <p>Déjese asesorar por los mejores expertos en propiedades exclusivas.</p>
-        <a href="contacto.html" class="btn-gold">Hablemos de su futuro hogar</a>
+        <h2>¿Preparado para dar el siguiente paso?</h2>
+        <p>Agende una reunión privada y confidencial con uno de nuestros Directores.</p>
+        <a href="contacto.html" class="btn-gold">Solicitar Asesoría Privada</a>
     </section>
 
     <footer>
         <div class="container" style="padding: 2rem;">
-            <p>&copy; 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Inmobiliaria Prestige. Excelencia en cada detalle. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -853,7 +1423,8 @@
     <script src="prestige-chatbot.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Header Sticky
+            
+            // 1. Header Sticky
             const header = document.querySelector('header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
@@ -863,8 +1434,28 @@
                 }
             });
 
-            // Animaciones de Scroll y Contadores
-            const revealElements = document.querySelectorAll('.reveal');
+            // 2. Lógica del Acordeón FAQ Animado
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const activeQuestion = document.querySelector('.faq-question.active');
+                    if (activeQuestion && activeQuestion !== question) {
+                        activeQuestion.classList.remove('active');
+                        activeQuestion.nextElementSibling.style.maxHeight = null;
+                    }
+
+                    question.classList.toggle('active');
+                    const answer = question.nextElementSibling;
+                    if (question.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    } else {
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
+
+            // 3. Animaciones Scroll Reveal y Contadores Automáticos
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
             let countersStarted = false; 
 
             const revealOptions = {
@@ -878,10 +1469,11 @@
                     
                     entry.target.classList.add('active');
                     
+                    // Iniciar contadores si llegamos a la sección de stats
                     if (entry.target.classList.contains('stats-grid') && !countersStarted) {
                         countersStarted = true;
                         const counters = document.querySelectorAll('.counter');
-                        const speed = 200; 
+                        const speed = 150; 
 
                         counters.forEach(counter => {
                             const updateCount = () => {
@@ -891,7 +1483,7 @@
 
                                 if (count < target) {
                                     counter.innerText = Math.ceil(count + inc);
-                                    setTimeout(updateCount, 15);
+                                    setTimeout(updateCount, 20);
                                 } else {
                                     if(target === 100) {
                                         counter.innerText = target + '%';
@@ -903,7 +1495,6 @@
                             updateCount();
                         });
                     }
-
                     observer.unobserve(entry.target);
                 });
             }, revealOptions);
@@ -913,6 +1504,5 @@
             });
         });
     </script>
-
 </body>
 </html>
