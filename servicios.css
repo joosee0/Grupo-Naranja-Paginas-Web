@@ -5,15 +5,12 @@
     --bg-light: #f8fafc;
     --white: #ffffff;
 }
-
-/* Reset */
-* {
+ {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Tipografía */
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text-color);
@@ -25,7 +22,6 @@ h1, h2, h3, .logo {
     font-family: 'Playfair Display', serif;
 }
 
-/* HEADER */
 header {
     background-color: var(--primary-color);
     padding: 1.5rem 5%;
@@ -60,7 +56,6 @@ nav ul li a:hover {
     color: var(--accent-color);
 }
 
-/* Botón reutilizable */
 .btn {
     background-color: var(--accent-color);
     color: var(--white);
@@ -75,7 +70,7 @@ nav ul li a:hover {
     background-color: #a88445;
 }
 
-/* --- SECCIÓN SERVICIOS (adaptada para esta página) --- */
+/
 .servicios {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -111,7 +106,7 @@ nav ul li a:hover {
     font-size: 1rem;
 }
 
-/* Footer (para mantener la misma estética en todas las páginas) */
+/
 footer {
     background-color: var(--primary-color);
     color: var(--white);
@@ -121,7 +116,6 @@ footer {
     border-top: 3px solid var(--accent-color);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
