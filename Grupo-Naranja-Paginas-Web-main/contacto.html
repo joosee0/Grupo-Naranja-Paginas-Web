@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto General | Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <!-- (Hecho por Miguel) -->
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <style id="prestige-anim-contacto">
+        /* === Animaciones Prestige - contacto.html === */
+        @keyframes prestigeFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes prestigeFadeDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes prestigeFadeLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes prestigeFadeRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes prestigeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes prestigeShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes prestigePulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+        }
+
+        /* Hero con entrada animada */
+        .hero-contacto-premium h1 {
+            animation: prestigeFadeDown 0.9s cubic-bezier(.2,.7,.2,1) both;
+        }
+        .hero-contacto-premium p {
+            animation: prestigeFadeUp 0.9s cubic-bezier(.2,.7,.2,1) 0.25s both;
+        }
+
+        /* Sidebar con info de contacto: slide-in desde la izquierda */
+        .contacto-info-premium {
+            animation: prestigeFadeLeft 0.9s cubic-bezier(.2,.7,.2,1) 0.4s both;
+        }
+        .contacto-form-premium {
+            animation: prestigeFadeRight 0.9s cubic-bezier(.2,.7,.2,1) 0.5s both;
+        }
+
+        /* Items de info con stagger */
+        .info-list .item {
+            opacity: 0;
+            animation: prestigeFadeLeft 0.7s cubic-bezier(.2,.7,.2,1) both;
+            transition: transform 0.35s ease, background-color 0.3s ease;
+            padding: 6px;
+            border-radius: 8px;
+        }
+        .info-list .item:nth-child(1) { animation-delay: 0.7s; }
+        .info-list .item:nth-child(2) { animation-delay: 0.85s; }
+        .info-list .item:nth-child(3) { animation-delay: 1s; }
+        .info-list .item:hover {
+            transform: translateX(8px);
+            background-color: rgba(197, 160, 89, 0.08);
+        }
+        .info-list .item:hover .icon-svg {
+            animation: prestigeFloat 1.4s ease-in-out infinite;
+            background-color: #c5a059;
+            transform: scale(1.15);
+        }
+        .icon-svg {
+            transition: transform 0.35s ease, background-color 0.3s ease;
+        }
+
+        /* Mapa con fade y leve zoom */
+        .contacto-info-premium > div:last-child {
+            animation: prestigeFadeUp 0.9s ease 1.1s both;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        .contacto-info-premium > div:last-child:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(197, 160, 89, 0.25);
+        }
+
+        /* Inputs con micro-interacciones */
+        .input-group-premium {
+            transition: transform 0.3s ease;
+        }
+        .input-group-premium:focus-within {
+            transform: translateY(-3px);
+        }
+        .input-group-premium input,
+        .input-group-premium select,
+        .input-group-premium textarea {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease !important;
+        }
+        .input-group-premium input:focus,
+        .input-group-premium select:focus,
+        .input-group-premium textarea:focus {
+            box-shadow: 0 6px 20px rgba(197, 160, 89, 0.18) !important;
+        }
+        .input-group-premium label {
+            transition: all 0.3s cubic-bezier(.2,.7,.2,1) !important;
+        }
+
+        /* Checkbox con pop */
+        .checkbox-group input[type="checkbox"] {
+            transition: transform 0.25s ease;
+        }
+        .checkbox-group input[type="checkbox"]:checked {
+            animation: prestigePulseGlow 0.8s ease;
+            transform: scale(1.15);
+        }
+        .checkbox-group {
+            transition: color 0.3s ease;
+        }
+        .checkbox-group:hover {
+            color: #c5a059;
+        }
+
+        /* Botón submit con shimmer y elevación */
+        .btn-submit-premium {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(.2,.7,.2,1),
+                        box-shadow 0.35s ease,
+                        letter-spacing 0.35s ease !important;
+            background-image: linear-gradient(110deg, #c5a059 0%, #d4b878 40%, #c5a059 80%) !important;
+            background-size: 200% 100% !important;
+        }
+        .btn-submit-premium::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            transition: left 0.7s ease;
+        }
+        .btn-submit-premium:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 30px rgba(197, 160, 89, 0.45) !important;
+            letter-spacing: 1.5px;
+        }
+        .btn-submit-premium:hover::before {
+            left: 100%;
+        }
+        .btn-submit-premium:active {
+            transform: translateY(-1px) scale(0.99);
+        }
+
+        /* Form section titles: underline animado */
+        .form-section-title {
+            position: relative;
+            overflow: hidden;
+        }
+        .form-section-title::after {
+            transition: width 0.6s cubic-bezier(.2,.7,.2,1) !important;
+        }
+        .contacto-form-premium:hover .form-section-title::after {
+            width: 80px !important;
+        }
+
+        /* Scroll reveal */
+        [data-prestige-reveal] {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+            will-change: opacity, transform;
+        }
+        [data-prestige-reveal].prestige-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header con efecto sutil al hacer scroll */
+        .header-prestige {
+            transition: box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        .header-prestige.prestige-scrolled {
+            box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Footer con borde animado */
+        footer {
+            transition: border-top-color 0.5s ease;
+        }
+
+        /* Respetar reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+    </style>
+    <!-- (final de Miguel) -->
+    <script src="theme.js"></script>
+</head>
+<body>
+
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li class="dropdown">
+                    <a href="contacto.html" class="active">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-contacto-premium">
+        <h1>Contacta con nosotros</h1>
+        <p>Visítanos en nuestras oficinas o envíanos un mensaje directo.</p>
+    </section>
+
+    <main class="contacto-wrapper-grid">
+        <aside class="contacto-info-premium">
+            <div class="info-list">
+                <div class="item">
+                    <span class="icon-svg pin-icon"></span>
+                    <div>
+                        <strong>Nuestra Sede</strong>
+                        <p>Av. de la Innovación 45<br>Alcalá de Guadaíra, Sevilla</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon-svg phone-icon"></span>
+                    <div>
+                        <strong>Llámanos</strong>
+                        <p>+34 900 123 456</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon-svg email-icon"></span>
+                    <div>
+                        <strong>Correo Electrónico</strong>
+                        <p>info@inmobiliariaprestige.com</p>
+                    </div>
+                </div>
+            </div>
+            <div style="border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50742.66826620593!2d-5.88566455!3d37.3364947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c0da4034aa3%3A0x6b29d9e602ea0396!2sAlcal%C3%A1%20de%20Guada%C3%ADra%2C%20Seville!5e0!3m2!1sen!2ses!4v1712668500000!5m2!1sen!2ses" width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </aside>
+
+        <section class="contacto-form-premium">
+            <form action="#" method="POST">
+                <div class="grid-2-col">
+                    <div class="input-group-premium">
+                        <input type="text" id="nombre" required placeholder=" ">
+                        <label for="nombre">Nombre completo</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="email" id="email" required placeholder=" ">
+                        <label for="email">Correo electrónico</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="tel" id="telefono" required placeholder=" ">
+                        <label for="telefono">Teléfono de contacto</label>
+                    </div>
+                    <div class="input-group-premium">
+                        <input type="text" id="direccion" placeholder=" ">
+                        <label for="direccion">Asunto</label>
+                    </div>
+                </div>
+                
+                <div class="input-group-premium">
+                    <textarea id="mensaje" required placeholder=" "></textarea>
+                    <label for="mensaje">Díganos detalladamente lo que necesita</label>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <label class="checkbox-group">
+                        <input type="checkbox" required> 
+                        <span>He leído y acepto la Política de Privacidad</span>
+                    </label>
+                    <button type="submit" class="btn-submit-premium">Enviar Mensaje</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer style="background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; border-top: 4px solid var(--accent-color);">
+        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+    </footer>
+
+<script type="module">
+        // 1. Importamos Firebase y la Base de Datos (Firestore)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        // 2. TUS CLAVES SECRETAS (Las de tu proyecto)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqxCob5bDM7KfPy9ADjKccEDv4ouwiXS4",
+            authDomain: "inmobiliaria-pr0yec.firebaseapp.com",
+            projectId: "inmobiliaria-pr0yec",
+            storageBucket: "inmobiliaria-pr0yec.firebasestorage.app",
+            messagingSenderId: "771460096132",
+            appId: "1:771460096132:web:b5a75c933eb1db555f22d1"
+        };
+
+        // 3. Inicializamos la conexión con Firebase y Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 4. Capturamos el formulario
+        const formulario = document.querySelector('form');
+
+        // 5. Le decimos qué hacer cuando se pulse "Enviar"
+        formulario.addEventListener('submit', async function(evento) {
+            evento.preventDefault(); // Evita que la página se recargue
+
+            // Cambiamos el texto del botón para dar feedback al usuario
+            const boton = formulario.querySelector('.btn-submit-premium');
+            const textoOriginal = boton.innerText;
+            boton.innerText = "ENVIANDO...";
+
+            try {
+                // Guardamos los datos en la base de datos en la colección "contactos_generales"
+                const docRef = await addDoc(collection(db, "contactos_generales"), {
+                    nombre: document.getElementById('nombre').value,
+                    email: document.getElementById('email').value,
+                    telefono: document.getElementById('telefono').value,
+                    asunto: document.getElementById('direccion').value, // El id del HTML es "direccion"
+                    mensaje: document.getElementById('mensaje').value,
+                    fecha: new Date().toISOString() // Guarda la fecha y hora
+                });
+
+                // Mensaje de éxito
+                alert("¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.");
+                formulario.reset(); // Limpia el formulario para que quede en blanco
+
+            } catch (error) {
+                console.error("Error al guardar: ", error);
+                alert("Hubo un error al enviar el mensaje. Revisa la consola.");
+            } finally {
+                // Devolvemos el botón a la normalidad
+                boton.innerText = textoOriginal;
+            }
+        });
+    </script>
+    
+    <!-- (Hecho por Miguel) -->
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
+    <script>
+        // === Interacciones Prestige - contacto.html ===
+        document.addEventListener('DOMContentLoaded', function () {
+            // Marcar elementos para scroll reveal
+            var revealTargets = document.querySelectorAll('.contacto-form-premium .grid-2-col, .contacto-form-premium .input-group-premium, .contacto-form-premium .form-section-title, .contacto-info-premium .item, footer');
+            revealTargets.forEach(function (el) {
+                el.setAttribute('data-prestige-reveal', '');
+            });
+
+            // IntersectionObserver para activar la animación al entrar en viewport
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('prestige-visible');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+                revealTargets.forEach(function (el) { io.observe(el); });
+            } else {
+                // Fallback: mostrar todo
+                revealTargets.forEach(function (el) { el.classList.add('prestige-visible'); });
+            }
+
+            // Header con sombra al hacer scroll
+            var header = document.querySelector('.header-prestige');
+            if (header) {
+                var onScroll = function () {
+                    if (window.scrollY > 30) header.classList.add('prestige-scrolled');
+                    else header.classList.remove('prestige-scrolled');
+                };
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+
+            // Pequeño ripple visual al pulsar el botón de envío
+            var btn = document.querySelector('.btn-submit-premium');
+            if (btn) {
+                btn.addEventListener('click', function () {
+                    btn.style.animation = 'none';
+                    requestAnimationFrame(function () {
+                        btn.style.animation = 'prestigePulseGlow 0.6s ease';
+                    });
+                });
+            }
+        });
+    </script>
+    <!-- (final de Miguel) -->
+
+</body>
+</html>

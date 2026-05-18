@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Inmobiliaria Prestige</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- (Hecho por Miguel) -->
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <script src="theme.js"></script>
+    <!-- (final de Miguel) -->
+</head>
+
+<body class="pagina-privada">
+    <!-- Si no está logueado, volver al login -->
+    <script>
+        if (localStorage.getItem("logged") !== "true") {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <!-- (Hecho por Miguel) -->
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li id="userMenu"></li>
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
+            </ul>
+            <button class="mobile-toggle" aria-label="Menú"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+    <!-- (final de Miguel) -->
+
+    <!-- Layout principal del perfil -->
+    <main class="perfil-layout">
+        
+        <!-- Sidebar con menú lateral -->
+        <aside class="perfil-sidebar">
+            <div class="sidebar-header">
+                <div class="avatar-large" id="avatarPreview">
+                    <span id="avatarInitial">U</span>
+                    <label for="avatarUpload" class="avatar-edit" title="Cambiar foto">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatarUpload" accept="image/*" hidden>
+                </div>
+                <h3 id="sidebarUserName">Usuario</h3>
+                <p class="user-role">Cliente</p>
+            </div>
+            
+    <!-- Sidebar -->
+<nav class="sidebar-menu">
+
+    <button class="menu-btn active" onclick="window.location.href='perfil.html'">
+        <i class="fas fa-home"></i> Resumen
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='favoritos.html'">
+        <i class="fas fa-heart"></i> Favoritos
+        <span class="badge" id="favCount">0</span>
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='visitas.html'">
+        <i class="fas fa-calendar-check"></i> Visitas
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='mensajes.html'">
+        <i class="fas fa-envelope"></i> Mensajes
+        <span class="badge new" id="msgCount">3</span>
+    </button>
+
+    <button class="menu-btn" onclick="window.location.href='configuracion.html'">
+        <i class="fas fa-cog"></i> Configuración
+    </button>
+
+    <button class="menu-btn danger" id="btnLogoutSidebar">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </button>
+
+</nav>
+        </aside>
+
+        <!-- Contenido de las secciones -->
+        <section class="perfil-content">
+            
+            <!-- Sección: Resumen (activa por defecto) -->
+            <div id="resumen" class="perfil-section active">
+                <header class="section-header">
+                    <h1>Resumen de cuenta</h1>
+                </header>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-heart stat-icon"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statFavoritos">0</span>
+                            <span class="stat-label">Favoritos</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-calendar-check stat-icon"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statVisitas">0</span>
+                            <span class="stat-label">Visitas programadas</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-envelope stat-icon"></i>
+                        <div class="stat-info">
+                            <span class="stat-value" id="statMensajes">3</span>
+                            <span class="stat-label">Mensajes sin leer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-section">
+                    <h2>Actividad reciente</h2>
+                    <ul class="activity-list">
+                        <li class="activity-item">
+                            <i class="fas fa-heart activity-icon"></i>
+                            <div class="activity-content">
+                                <p>Añadiste <strong>Villa Mediterránea</strong> a favoritos</p>
+                                <span class="activity-time">Hace 2 horas</span>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <i class="fas fa-calendar activity-icon"></i>
+                            <div class="activity-content">
+                                <p>Programaste visita para <strong>Ático Centro</strong></p>
+                                <span class="activity-time">Ayer</span>
+                            </div>
+                        </li>
+                        <li class="activity-item">
+                            <i class="fas fa-comment activity-icon"></i>
+                            <div class="activity-content">
+                                <p>Respondimos a tu consulta sobre financiación</p>
+                                <span class="activity-time">Hace 3 días</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección: Favoritos -->
+            <div id="favoritos" class="perfil-section">
+                <header class="section-header">
+                    <h1>Mis propiedades favoritas</h1>
+                </header>
+                <div class="properties-grid" id="favoritesList">
+                    <p class="empty-state">Aún no tienes propiedades guardadas. <a href="propiedades.html">Explorar</a></p>
+                </div>
+            </div>
+
+    <!-- (Hecho por Miguel) -->
+    <!-- JS centralizado (Firebase Auth) -->
+    <script type="module" src="login.js"></script>
+    <script>
+        // Bind manual del logout dentro del perfil
+        document.getElementById("btnLogoutManual")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (confirm("¿Cerrar sesión?")) logout();
+        });
+    </script>
+    <script src="prestige-chatbot.js"></script>
+    <!-- (final de Miguel) -->
+</body>
+</html>

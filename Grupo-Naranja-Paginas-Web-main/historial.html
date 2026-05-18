@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial - Mi Perfil | Inmobiliaria Prestige</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Tus hojas de estilo existentes -->
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    <!-- Opcional: crea este archivo si quieres estilos específicos para esta página -->
+    <link rel="stylesheet" href="historial.css">
+</head>
+
+<body class="profile-page">
+
+    <!-- HEADER COMPARTIDO -->
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+    </header>
+
+    <div class="profile-container">
+
+        <!-- SIDEBAR DE NAVEGACIÓN -->
+        <aside class="profile-sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">Mi Perfil</span>
+            </div>
+            <nav class="profile-nav">
+                <ul class="nav-menu">
+                    <li><a href="perfil.html" class="nav-link">Perfil</a></li>
+                    <li><a href="historial.html" class="nav-link active">Historial</a></li>
+                    <li><a href="favoritos.html" class="nav-link">Favoritos</a></li>
+                    <li><a href="visitas.html" class="nav-link"> Visitas <span id="visit-count" class="badge">0</span></a></li>
+                    <li><a href="notificaciones.html" class="nav-link"> Mensajes</a></li>
+                    <li><a href="configuracion.html" class="nav-link"> Configuración</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="profile-content">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Historial de Navegación</h1>
+                    <p class="page-subtitle">Registro de tus accesos a la plataforma</p>
+                </div>
+            </div>
+
+            <!-- RESUMEN -->
+            <div class="section-card">
+                <div class="section-card-header">
+                    <h2 class="section-title">📈 Resumen</h2>
+                </div>
+                <div class="section-card-body">
+                    <p><strong>Total de visitas:</strong> <span id="totalVisitas">0</span></p>
+                    <p><strong>Último acceso:</strong> <span id="ultimaVisita">Sin registros</span></p>
+                </div>
+            </div>
+
+            <!-- TABLA DE HISTORIAL -->
+            <div class="section-card">
+                <div class="section-card-header">
+                    <h2 class="section-title">📋 Registro Detallado</h2>
+                </div>
+                <div class="section-card-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha y Hora</th>
+                                <th>Página</th>
+                                <th>Origen</th>
+                                <th>Resolución</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaHistorial">
+                            <tr><td colspan="5">Cargando historial...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- HISTORIAL DE SESIÓN (API Performance) -->
+            <div class="section-card">
+                <div class="section-card-header">
+                    <h2 class="section-title">🔄 Sesión Actual</h2>
+                </div>
+                <div class="section-card-body">
+                    <ul id="historialSesion" class="session-list">
+                        <li>Analizando navegación...</li>
+                    </ul>
+                    <p class="note">Nota: Por políticas de privacidad del navegador, solo se muestran datos accesibles vía Performance API.</p>
+                </div>
+            </div>
+
+            <!-- BOTONES DE GESTIÓN -->
+            <div class="section-card">
+                <div class="section-card-body actions">
+                    <button id="btnGuardar" class="btn btn-secondary">📥 Registrar visita ahora</button>
+                    <button id="btnBorrar" class="btn btn-danger">🗑️ Borrar historial</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="historial.js"></script>
+</body>
+</html>
