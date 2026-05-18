@@ -1,7 +1,4 @@
-// login.js — Autenticación con Firebase
-// Inmobiliaria Prestige
 
-// (Hecho por Miguel)
 
 // Imports de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
@@ -43,7 +40,7 @@ function mostrarError(texto, color = "#dc2626") {
     box.textContent = texto;
 }
 
-// Traducir errores de Firebase
+// Traducir errores
 function traducirError(err) {
     const errores = {
         "auth/invalid-email": "El correo no es válido.",
@@ -56,167 +53,169 @@ function traducirError(err) {
     return errores[err?.code] || "Error: " + (err?.message || "desconocido");
 }
 
-// Cambiar entre login y registro
+// Toggle login / registro
 function toggleForm(e) {
     if (e) e.preventDefault();
-    
+
     const loginForm = document.getElementById("loginForm");
     const registerForm = document.getElementById("registerForm");
     const titulo = document.getElementById("titulo");
     const toggleLink = document.getElementById("toggleLink");
-    
+
     if (!loginForm || !registerForm) return;
-    
+
     mostrarError("");
-    
+
     const mostrandoLogin = loginForm.style.display !== "none";
-    
+
     loginForm.style.display = mostrandoLogin ? "none" : "block";
     registerForm.style.display = mostrandoLogin ? "block" : "none";
-    
+
     if (titulo) {
-        titulo.textContent = mostrandoLogin ? "Crea tu cuenta" : "Accede a tu cuenta";
+        titulo.textContent = mostrandoLogin
+            ? "Crea tu cuenta"
+            : "Accede a tu cuenta";
     }
+
     if (toggleLink) {
-        toggleLink.textContent = mostrandoLogin 
-            ? "¿Ya tienes cuenta? Iniciar sesión" 
+        toggleLink.textContent = mostrandoLogin
+            ? "¿Ya tienes cuenta? Iniciar sesión"
             : "¿No tienes cuenta? Crear cuenta";
     }
 }
 
-// Iniciar sesión con Firebase
+// LOGIN
 async function loginUser(e) {
     if (e) e.preventDefault();
-    
+
     const email = document.getElementById("user")?.value?.trim() || "";
     const pass = document.getElementById("pass")?.value || "";
-    
+
     mostrarError("");
-    
+
     try {
         await signInWithEmailAndPassword(auth, email, pass);
-        window.location.href = "perfil.html";
+
+        // mejor replace que href
+        window.location.replace("perfil.html");
+
     } catch (err) {
         mostrarError(traducirError(err));
     }
+
     return false;
 }
 
-// Registrar usuario con Firebase
+// REGISTRO
 async function registerUser(e) {
     if (e) e.preventDefault();
-    
+
     const email = document.getElementById("newUser")?.value?.trim() || "";
     const pass = document.getElementById("newPass")?.value || "";
-    
+
     mostrarError("");
-    
+
     if (pass.length < 6) {
         mostrarError("La contraseña debe tener al menos 6 caracteres");
         return false;
     }
-    
+
     try {
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        
-        // Guardar usuario en Firestore
-        try {
-            await setDoc(doc(db, "usuarios", cred.user.uid), {
-                uid: cred.user.uid,
-                email: cred.user.email,
-                nombre: email.split("@")[0],
-                fechaRegistro: serverTimestamp(),
-                proveedor: "email"
-            });
-        } catch (errDb) {
-            console.warn("No se pudo guardar en Firestore:", errDb);
-        }
-        
+
+        await setDoc(doc(db, "usuarios", cred.user.uid), {
+            uid: cred.user.uid,
+            email: cred.user.email,
+            nombre: email.split("@")[0],
+            fechaRegistro: serverTimestamp(),
+            proveedor: "email"
+        });
+
         mostrarError("✅ Cuenta creada. Redirigiendo...", "#16a34a");
+
         setTimeout(() => {
-            window.location.href = "perfil.html";
-        }, 1200);
-        
+            window.location.replace("perfil.html");
+        }, 1000);
+
     } catch (err) {
         mostrarError(traducirError(err));
     }
+
     return false;
 }
 
-// Cerrar sesión
+// LOGOUT
 async function logout() {
-    try {
-        await signOut(auth);
-    } catch (err) {
-        console.error("Error al cerrar sesión:", err);
-    }
-    window.location.href = "login.html";
+    await signOut(auth);
+    window.location.replace("login.html");
 }
 
-// Actualizar menú de usuario
+// MENÚ USUARIO
 function actualizarMenu(user) {
     const menu = document.getElementById("userMenu");
     if (!menu) return;
-    
+
     if (user) {
         const nombre = user.email?.split("@")[0] || "Usuario";
+
         menu.innerHTML = `
             <a href="perfil.html" style="color:#c5a059;">👤 ${nombre}</a>
             <a href="#" id="btnLogout" style="margin-left:12px;color:#666;">Salir</a>
         `;
-        // Añadir evento al botón de logout dinámico
+
         document.getElementById("btnLogout")?.addEventListener("click", (e) => {
             e.preventDefault();
             logout();
         });
+
     } else {
         menu.innerHTML = `<a href="login.html" style="color:#fff;">Iniciar Sesión</a>`;
     }
 }
 
-// Cargar datos en perfil.html
+// PERFIL
 function cargarPerfil(user) {
     if (!document.body.classList.contains("pagina-privada")) return;
     if (!user) return;
-    
+
     const nombre = user.email?.split("@")[0] || "Usuario";
-    
-    const elNombre = document.getElementById("sidebarUserName") || document.getElementById("userName");
-    const elAvatar = document.getElementById("avatarInitial") || document.getElementById("userInitial");
-    
+
+    const elNombre = document.getElementById("sidebarUserName") ||
+document.getElementById("userName");
+
+    const elAvatar = document.getElementById("avatarInitial") ||
+document.getElementById("userInitial");
+
     if (elNombre) elNombre.textContent = nombre;
     if (elAvatar) elAvatar.textContent = nombre.charAt(0).toUpperCase();
 }
 
-// Listener de Firebase: se ejecuta cuando cambia el estado de auth
+// FIREBASE AUTH STATE (CORREGIDO)
 onAuthStateChanged(auth, (user) => {
+
     actualizarMenu(user);
     cargarPerfil(user);
-    
-    // Proteger páginas privadas
-    if (document.body.classList.contains("pagina-privada") && !user) {
-        window.location.href = "login.html";
-    }
+
+    const esPrivada = document.body.classList.contains("pagina-privada");
+    if (!esPrivada) return;
+
+    // Espera corta para evitar false null
+    setTimeout(() => {
+        if (!auth.currentUser) {
+            window.location.replace("login.html");
+        }
+    }, 600);
 });
 
-// Inicializar cuando cargue la página
-document.addEventListener("DOMContentLoaded", function() {
-    // Evento para el enlace de toggle
-    const toggleLink = document.getElementById("toggleLink");
-    if (toggleLink) {
-        toggleLink.addEventListener("click", toggleForm);
-    }
-    
-    // Eventos para los formularios
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", loginUser);
-    }
-    
-    const registerForm = document.getElementById("registerForm");
-    if (registerForm) {
-        registerForm.addEventListener("submit", registerUser);
-    }
-});
+// INIT
+document.addEventListener("DOMContentLoaded", () => {
 
-// (final de Miguel)
+    document.getElementById("toggleLink")
+        ?.addEventListener("click", toggleForm);
+
+    document.getElementById("loginForm")
+        ?.addEventListener("submit", loginUser);
+
+    document.getElementById("registerForm")
+        ?.addEventListener("submit", registerUser);
+});
