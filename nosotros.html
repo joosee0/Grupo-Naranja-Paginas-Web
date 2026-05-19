@@ -685,8 +685,23 @@
         }
 
         .premio-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .premio-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--accent-color);
+            fill: none;
+            stroke-width: 1.5;
+            transition: transform var(--transition-speed);
+        }
+
+        .premio-card:hover .premio-icon svg {
+            transform: scale(1.1);
         }
 
         .premio-card h4 {
@@ -752,7 +767,7 @@
         }
 
         /* ==========================================================================
-           14. ALIANZAS ESTRATÉGICAS (CON FIX DE CONTRASTE)
+           14. ALIANZAS ESTRATÉGICAS 
            ========================================================================== */
         .alianzas { 
             padding: 5rem 2rem; 
@@ -942,7 +957,7 @@
         }
 
         /* ==========================================================================
-           17. PARCHE INTELIGENTE: MODO OSCURO GLOBAL
+           17. PARCHE INTELIGENTE: MODO OSCURO GLOBAL (CORREGIDO)
            ========================================================================== */
         body.dark, 
         body.dark-mode, 
@@ -959,20 +974,25 @@
         body.dark .testimonios,
         body.dark .premios,
         body.dark .faq-section,
-        body.dark .rsc-section { 
+        body.dark .rsc-section,
+        body.dark main { 
             background-color: #0f172a !important; 
         }
 
+        /* Corrección de todos los Títulos (Añadido h1, h4, h5) */
+        body.dark h1,
         body.dark h2, 
         body.dark h3, 
+        body.dark h4,
+        body.dark h5,
         body.dark .alianzas h2,
         body.dark .section-title,
-        body.dark .faq-question,
-        body.dark .premio-card h4 {
+        body.dark .faq-question {
             color: #ffffff !important; 
             -webkit-text-fill-color: #ffffff !important;
         }
 
+        /* Corrección de Tarjetas (Añadido .valor-card-front) */
         body.dark .mv-card, 
         body.dark .paso-card, 
         body.dark .miembro, 
@@ -980,12 +1000,14 @@
         body.dark .testimonio-card,
         body.dark .premio-card,
         body.dark .faq-item,
-        body.dark .faq-answer {
+        body.dark .faq-answer,
+        body.dark .valor-card-front {
             background-color: #1e293b !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
             border-color: #334155 !important;
         }
 
+        /* Textos descriptivos */
         body.dark p, 
         body.dark .historia-texto p, 
         body.dark .mv-card p, 
@@ -995,6 +1017,33 @@
         body.dark .faq-answer p {
             color: #94a3b8 !important; 
             -webkit-text-fill-color: #94a3b8 !important;
+        }
+
+        /* Corrección del Menú Desplegable (Dropdown) */
+        body.dark .dropdown-menu {
+            background-color: #1e293b !important;
+            border-top: 4px solid var(--accent-color) !important;
+        }
+        
+        body.dark .dropdown-menu li a {
+            color: #cbd5e1 !important;
+        }
+        
+        body.dark .dropdown-menu li a:hover {
+            background-color: #334155 !important;
+            color: var(--accent-color) !important;
+        }
+
+        /* Corrección de números de "El Estándar Prestige" */
+        body.dark .paso-numero {
+            background-color: #334155 !important;
+            border-color: var(--accent-color) !important;
+            color: var(--accent-color) !important;
+        }
+        
+        body.dark .paso-card:hover .paso-numero {
+            background-color: var(--accent-color) !important;
+            color: #ffffff !important;
         }
 
         /* FIX ALIANZAS FOTO */
@@ -1307,17 +1356,36 @@
         <h2 class="section-title reveal">Reconocimientos de la Industria</h2>
         <div class="premios-grid">
             <div class="premio-card reveal delay-1">
-                <div class="premio-icon">🏆</div>
+                <div class="premio-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>
+                </div>
                 <h4>Best Luxury Broker 2023</h4>
                 <p>Otorgado por la European Real Estate Association por excelencia en servicio.</p>
             </div>
             <div class="premio-card reveal delay-2">
-                <div class="premio-icon">🌟</div>
+                <div class="premio-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
                 <h4>Excellence in Marketing</h4>
                 <p>Galardón internacional por innovadoras campañas visuales de propiedades.</p>
             </div>
             <div class="premio-card reveal delay-3">
-                <div class="premio-icon">💎</div>
+                <div class="premio-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="6 3 18 3 22 9 12 22 2 9"></polygon>
+                        <polygon points="12 22 6 9 12 3 18 9"></polygon>
+                        <path d="M2 9h20"></path>
+                    </svg>
+                </div>
                 <h4>Top Sales Volume</h4>
                 <p>Reconocimiento a la agencia con mayor volumen de transacciones prime.</p>
             </div>
