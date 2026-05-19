@@ -808,4 +808,35 @@ footer del chat
   max-width: 200px;
   font-style: italic;
 }
+/* ============================================================
+   user agent de movil
+   ============================================================ */
+@media (max-width: 460px) {
+  #prestige-chatbot-widget {
+    bottom: 16px;
+    right: 16px;
+  }
  
+  #pc-window {
+    width: calc(100vw - 32px);
+    bottom: 74px;
+    right: 0;
+    max-height: 530px;
+    border-radius: var(--pc-radius);
+  }
+ 
+  .pc-bubble-msg {
+    max-width: 225px;
+  }
+ 
+  #pc-header {
+    padding: 16px 16px 14px;
+  }
+}
+ 
+@media (max-width: 360px) {
+  #pc-window {
+    width: calc(100vw - 20px);
+    right: -8px;
+  }
+}
