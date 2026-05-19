@@ -36,6 +36,7 @@
             line-height: 1.7;
             scroll-behavior: smooth; 
             overflow-x: hidden;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         /* ==========================================================================
@@ -957,7 +958,7 @@
         }
 
         /* ==========================================================================
-           17. PARCHE INTELIGENTE: MODO OSCURO GLOBAL (CORREGIDO)
+           17. PARCHE INTELIGENTE: MODO OSCURO GLOBAL (CORREGIDO DEFINITIVO)
            ========================================================================== */
         body.dark, 
         body.dark-mode, 
@@ -965,6 +966,7 @@
         body[data-theme="dark"] {
             background-color: #0f172a !important;
             color: #cbd5e1 !important;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         body.dark .valores, 
@@ -979,7 +981,7 @@
             background-color: #0f172a !important; 
         }
 
-        /* Corrección de todos los Títulos (Añadido h1, h4, h5) */
+        /* Títulos en modo oscuro (solucionado el bug de invisibilidad) */
         body.dark h1,
         body.dark h2, 
         body.dark h3, 
@@ -989,10 +991,8 @@
         body.dark .section-title,
         body.dark .faq-question {
             color: #ffffff !important; 
-            -webkit-text-fill-color: #ffffff !important;
         }
 
-        /* Corrección de Tarjetas (Añadido .valor-card-front) */
         body.dark .mv-card, 
         body.dark .paso-card, 
         body.dark .miembro, 
@@ -1007,7 +1007,6 @@
             border-color: #334155 !important;
         }
 
-        /* Textos descriptivos */
         body.dark p, 
         body.dark .historia-texto p, 
         body.dark .mv-card p, 
@@ -1016,10 +1015,8 @@
         body.dark .testimonio-card p,
         body.dark .faq-answer p {
             color: #94a3b8 !important; 
-            -webkit-text-fill-color: #94a3b8 !important;
         }
 
-        /* Corrección del Menú Desplegable (Dropdown) */
         body.dark .dropdown-menu {
             background-color: #1e293b !important;
             border-top: 4px solid var(--accent-color) !important;
@@ -1034,7 +1031,6 @@
             color: var(--accent-color) !important;
         }
 
-        /* Corrección de números de "El Estándar Prestige" */
         body.dark .paso-numero {
             background-color: #334155 !important;
             border-color: var(--accent-color) !important;
@@ -1046,7 +1042,6 @@
             color: #ffffff !important;
         }
 
-        /* FIX ALIANZAS FOTO */
         body.dark .alianzas { 
             border-top-color: #1e293b !important; 
         }
@@ -1161,9 +1156,8 @@
         }
     </style>
     
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="theme.css">
-    <link rel="stylesheet" href="prestige-chatbot.css">
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
     <script src="theme.js"></script>
 </head>
 <body>
@@ -1487,8 +1481,6 @@
         </div>
     </footer>
 
-    <script type="module" src="login.js"></script>
-    <script src="prestige-chatbot.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             
