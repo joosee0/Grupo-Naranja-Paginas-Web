@@ -1,134 +1,165 @@
 :root {
-    --primary-color: #0f172a;
-    --accent-color: #c5a059;
-    --text-color: #334155;
-    --bg-light: #f8fafc;
+    --gold: #c5a059;
+    --gold-dark: #a68549;
+    --dark: #0f172a;
+    --text: #334155;
     --white: #ffffff;
+    --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Tipografía */
 body {
+    background-color: #f8fafc;
+    background-image: url('https://www.transparenttextures.com/patterns/white-marble.png');
     font-family: 'Inter', sans-serif;
-    color: var(--text-color);
-    background-color: var(--bg-light);
-    line-height: 1.6;
+    margin: 0;
 }
 
-h1, h2, h3, .logo {
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-title {
     font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    text-align: center;
+    color: var(--dark);
+    margin: 60px 0;
+    font-weight: 700;
 }
 
-/* HEADER */
-header {
-    background-color: var(--primary-color);
-    padding: 1.5rem 5%;
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    color: var(--white);
-    font-size: 1.8rem;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-}
-
-nav ul li a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    transition: 0.3s;
-}
-
-nav ul li a:hover {
-    color: var(--accent-color);
-}
-
-/* Botón reutilizable */
-.btn {
-    background-color: var(--accent-color);
-    color: var(--white);
-    padding: 0.8rem 2rem;
-    text-decoration: none;
-    border-radius: 30px;
-    transition: 0.3s;
-    display: inline-block;
-}
-
-.btn:hover {
-    background-color: #a88445;
-}
-
-/* --- SECCIÓN SERVICIOS (adaptada para esta página) --- */
-.servicios {
+.servicios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    padding: 5rem 5%;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    padding: 0 8% 80px 8%;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
-.card {
+.service-card {
     background: var(--white);
-    padding: 2.5rem 1.5rem;
-    border-radius: 12px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(197, 160, 89, 0.1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: var(--transition);
+    position: relative;
+    animation: fadeInUp 0.8s ease backwards;
+}
+ 
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+.service-card:nth-child(4) { animation-delay: 0.4s; }
+.service-card:nth-child(5) { animation-delay: 0.5s; }
+.service-card:nth-child(6) { animation-delay: 0.6s; }
+
+.service-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(197, 160, 89, 0.15);
+    border-color: var(--gold);
+}
+
+.card-img-wrapper {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s scale;
+}
+
+.service-card:hover .card-img-wrapper img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 30px;
     text-align: center;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    border-color: var(--accent-color);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+.card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin: 0;
 }
 
-.card h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-}
-
-.card p {
-    color: #64748b;
+.card-content p {
     font-size: 1rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.btn-discover {
+    position: relative;
+    padding: 12px 35px;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--dark);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: var(--transition);
+    z-index: 1;
 }
 
-/* Footer (para mantener la misma estética en todas las páginas) */
-footer {
-    background-color: var(--primary-color);
+.btn-discover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transition: var(--transition);
+    z-index: -1;
+}
+
+.btn-discover:hover {
     color: var(--white);
-    text-align: center;
-    padding: 2.5rem 5%;
-    margin-top: 4rem;
-    border-top: 3px solid var(--accent-color);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
+.btn-discover:hover::before {
+    left: 0;
+}
 
-    .servicios {
-        padding: 3rem 5%;
-    }
+.service-card.highlighted {
+    background: linear-gradient(145deg, #ffffff, #fffdf9);
+    border: 2px solid var(--gold);
+}
+
+.service-card.highlighted::after {
+    content: 'RECOMENDADO';
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: var(--gold);
+    color: white;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-size: 0.7rem;
+    font-weight: bold;
 }

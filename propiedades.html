@@ -7,15 +7,470 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="theme.css">
-    <!-- (Hecho por Miguel) -->
-    <link rel="stylesheet" href="prestige-chatbot.css">
-    <!-- (final de Miguel) -->
-    <script src="theme.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        /* =====================================================
+           ESTILOS BASE (style.css + theme.css integrados)
+           ===================================================== */
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #c5a059;
+            --accent-light: rgba(197,160,89,.12);
+            --bg-color: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --surface: #f8fafc;
+        }
+        [data-theme="dark"] {
+            --primary-color: #f1f5f9;
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --card-bg: #1e293b;
+            --surface: #1e293b;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; color: var(--text-color); background: var(--bg-color); }
+
+        /* HEADER */
+        .header-prestige {
+            background: #0f172a;
+            padding: 18px 2.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 1000;
+            transition: padding 0.3s ease, box-shadow 0.3s ease;
+        }
+        .header-prestige.scrolled { padding-top: 8px; padding-bottom: 8px; box-shadow: 0 4px 24px rgba(0,0,0,.22); }
+        .logo { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.1rem; letter-spacing: 1px; }
+        .logo span { color: var(--accent-color); }
+        nav ul.nav-links { list-style: none; display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; }
+        nav ul.nav-links li a {
+            color: #cbd5e1; text-decoration: none; font-size: .85rem;
+            padding: 6px 12px; border-radius: 6px;
+            transition: color .2s, background .2s;
+            position: relative;
+        }
+        nav ul.nav-links li a:hover, nav ul.nav-links li a.active { color: #fff; background: rgba(197,160,89,.18); }
+        nav ul.nav-links li a::after {
+            content:''; position:absolute; bottom:-3px; left:50%; width:0; height:2px;
+            background:var(--accent-color); border-radius:2px;
+            transition:width .3s ease, left .3s ease;
+        }
+        nav ul.nav-links li a:hover::after, nav ul.nav-links li a.active::after { width:100%; left:0; }
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: #1e293b; border-radius: 8px; min-width: 200px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.3); z-index: 100; list-style: none; padding: .5rem 0;
+        }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu li a { display: block; padding: 8px 16px; color: #cbd5e1 !important; font-size: .84rem; border-radius: 0 !important; }
+        .dropdown-menu li a:hover { background: rgba(197,160,89,.15) !important; }
+        .theme-toggle {
+            background: rgba(197,160,89,.15); border: 1px solid rgba(197,160,89,.3);
+            border-radius: 6px; padding: 6px; cursor: pointer; color: var(--accent-color);
+            display: flex; align-items: center;
+        }
+        .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+        .icon-sun { display: none; }
+        [data-theme="dark"] .icon-moon { display: none; }
+        [data-theme="dark"] .icon-sun { display: block; }
+
+        /* HERO */
+        .hero-propiedades-premium {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-propiedades-premium::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 60% 50%, rgba(197,160,89,.08) 0%, transparent 60%);
+        }
+        .hero-propiedades-content { position: relative; z-index: 1; }
+        .hero-badge {
+            display: inline-block; background: rgba(197,160,89,.15);
+            border: 1px solid rgba(197,160,89,.35); color: var(--accent-color);
+            padding: 5px 16px; border-radius: 20px; font-size: .78rem;
+            letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+            margin-bottom: 1.2rem;
+            animation: heroUp 0.7s 0.1s ease both;
+        }
+        .hero-propiedades-premium h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem); color: #fff;
+            margin-bottom: .8rem;
+            animation: heroUp 0.7s 0.28s ease both;
+        }
+        .hero-propiedades-premium p {
+            color: #94a3b8; font-size: 1rem; max-width: 540px; margin: 0 auto; line-height: 1.7;
+            animation: heroUp 0.7s 0.44s ease both;
+        }
+        @keyframes heroUp { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+
+        /* FILTROS */
+        .filtros-section {
+            background: var(--card-bg);
+            border-top: 4px solid var(--accent-color);
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,.06);
+        }
+        .filtros-container { max-width: 1200px; margin: 0 auto; }
+        .filtros-titulo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; color: var(--primary-color);
+            margin-bottom: 1.4rem;
+        }
+        .filtro-busqueda-wrap {
+            display: flex; align-items: center; gap: 0;
+            position: relative; grid-column: 1 / -1; margin-bottom: .4rem;
+        }
+        .filtro-busqueda-wrap svg.search-icon {
+            position: absolute; left: 14px;
+            width: 17px; height: 17px; stroke: #94a3b8;
+            pointer-events: none; z-index: 1;
+        }
+        #busquedaTexto {
+            width: 100%; padding: 11px 14px 11px 42px;
+            border: 1.5px solid var(--border-color); border-radius: 10px;
+            font-family: 'Inter', sans-serif; font-size: .93rem;
+            color: var(--text-color); background: var(--bg-color);
+            transition: border-color .25s, box-shadow .25s; outline: none;
+        }
+        #busquedaTexto:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3.5px rgba(197,160,89,.14); background: #fffdf8; }
+        #busquedaTexto::placeholder { color: #94a3b8; }
+        .btn-clear-search {
+            position: absolute; right: 12px;
+            background: none; border: none; cursor: pointer;
+            color: #94a3b8; display: none; padding: 4px;
+            border-radius: 50%; transition: color .2s, background .2s;
+        }
+        .btn-clear-search:hover { color: #ef4444; background: rgba(239,68,68,.08); }
+        #busquedaTexto:not(:placeholder-shown) ~ .btn-clear-search { display: flex; }
+        .filtros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem; align-items: end;
+        }
+        .filtro-grupo { display: flex; flex-direction: column; gap: .4rem; }
+        .filtro-grupo label { font-size: .8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; }
+        .filtro-grupo select {
+            padding: 10px 14px; border: 1.5px solid var(--border-color);
+            border-radius: 10px; font-family: 'Inter', sans-serif; font-size: .9rem;
+            color: var(--text-color); background: var(--bg-color); cursor: pointer;
+            transition: border-color .25s, box-shadow .25s;
+        }
+        .filtro-grupo select:focus { border-color: var(--accent-color); box-shadow: 0 0 0 3.5px rgba(197,160,89,.14); outline: none; }
+        .filtro-grupo.active label { color: var(--primary-color); font-weight: 700; }
+        .filtro-grupo.active select { border-color: var(--accent-color); background: #fffdf8; }
+        .filtro-btn-wrap { display: flex; align-items: flex-end; }
+        .btn-buscar-propiedades {
+            width: 100%; padding: 11px 20px;
+            background: var(--accent-color); color: #fff;
+            border: none; border-radius: 10px;
+            font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: opacity .2s, transform .15s;
+            position: relative; overflow: hidden;
+        }
+        .btn-buscar-propiedades:hover { opacity: .9; }
+        .btn-buscar-propiedades:active { transform: scale(.97); }
+        .btn-buscar-propiedades::after {
+            content:''; position:absolute; top:0; left:-100%;
+            width:55%; height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);
+            transition: left .4s ease;
+        }
+        .btn-buscar-propiedades:hover::after { left:160%; }
+        .filtros-activos-bar {
+            display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;
+            margin-top:0; max-height:0; overflow:hidden;
+            transition:max-height .3s ease, margin-top .3s ease;
+        }
+        .filtros-activos-bar.visible { max-height:80px; margin-top:1.2rem; }
+        .filtro-tag {
+            display:inline-flex; align-items:center; gap:6px;
+            background:rgba(197,160,89,.12); color:#8b6914;
+            border:1px solid rgba(197,160,89,.32);
+            border-radius:20px; padding:4px 12px;
+            font-size:.78rem; font-weight:600; cursor:pointer;
+            transition:background .2s, transform .15s;
+            animation:tagIn .2s ease both;
+        }
+        .filtro-tag:hover { background:rgba(197,160,89,.22); transform:scale(1.04); }
+        @keyframes tagIn { from{opacity:0;transform:scale(.83)} to{opacity:1;transform:scale(1)} }
+        .filtro-tag .tx {
+            width:14px; height:14px; border-radius:50%;
+            background:rgba(0,0,0,.08);
+            display:flex; align-items:center; justify-content:center;
+            font-size:10px; transition:background .15s;
+        }
+        .filtro-tag:hover .tx { background:rgba(239,68,68,.22); }
+
+        /* MAIN */
+        .propiedades-main { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem 3rem; }
+        .propiedades-container {}
+        .resultados-header {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem; margin-bottom: 1.8rem;
+        }
+        .resultados-count { font-size: .9rem; color: var(--text-muted); }
+        .resultados-count strong { color: var(--primary-color); }
+        .view-toggle-wrap { display: flex; align-items: center; gap: 6px; }
+        .view-toggle-btn {
+            width: 34px; height: 34px; border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            background: var(--card-bg); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #94a3b8; transition: all .2s;
+        }
+        .view-toggle-btn svg { width: 16px; height: 16px; }
+        .view-toggle-btn.active { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
+        .view-toggle-btn:hover:not(.active) { border-color: var(--accent-color); color: var(--accent-color); }
+        .ordenar-grupo { display: flex; align-items: center; gap: 8px; }
+        .ordenar-grupo label { font-size: .82rem; color: var(--text-muted); white-space: nowrap; }
+        .ordenar-grupo select {
+            padding: 7px 12px; border: 1.5px solid var(--border-color);
+            border-radius: 8px; font-size: .84rem; background: var(--card-bg);
+            color: var(--text-color); cursor: pointer;
+        }
+        .ordenar-grupo select:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 0 2.5px rgba(197,160,89,.1); }
+
+        /* GRID */
+        .propiedades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+        .propiedades-grid.view-list { grid-template-columns: 1fr !important; }
+        .propiedades-grid.view-list .prop-card { display: grid; grid-template-columns: 300px 1fr; min-height: 200px; }
+        .propiedades-grid.view-list .prop-card-img-wrap { height: 100%; border-radius: 14px 0 0 14px; }
+        .propiedades-grid.view-list .prop-card-img-wrap img { height: 100%; object-fit: cover; }
+        .propiedades-grid.view-list .prop-card-body { display: flex; flex-direction: column; justify-content: center; padding: 1.6rem 1.8rem; }
+
+        /* CARD */
+        .prop-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0,0,0,.07);
+            transition: transform .3s ease, box-shadow .3s ease, opacity .5s ease;
+            opacity: 0; transform: translateY(28px) scale(.97);
+            cursor: pointer;
+        }
+        .prop-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+        .prop-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,.13); }
+        .prop-card.hidden { display: none; }
+        .prop-card-img-wrap {
+            position: relative; overflow: hidden; height: 220px;
+        }
+        .prop-card-img-wrap img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .5s ease;
+            background: linear-gradient(135deg,#e2e8f0,#f1f5f9);
+            display: block;
+        }
+        .prop-card:hover .prop-card-img-wrap img { transform: scale(1.05); }
+        .prop-card-img-wrap::before {
+            content:''; position:absolute; inset:0; z-index:1;
+            background:rgba(15,23,42,0); transition:background .4s ease;
+        }
+        .prop-card:hover .prop-card-img-wrap::before { background:rgba(15,23,42,.17); }
+        .prop-badge {
+            position: absolute; top: 14px; left: 14px; z-index: 2;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: .72rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+        }
+        .prop-badge--venta { background: var(--accent-color); color: #fff; }
+        .prop-badge--alquiler { background: #3b82f6; color: #fff; }
+        .prop-badge--obra-nueva { background: #10b981; color: #fff; }
+        .prop-badge--destacado {
+            background: rgba(197,160,89,.18); color: var(--accent-color);
+            border: 1px solid rgba(197,160,89,.35);
+            top: 46px !important;
+        }
+        .prop-badge--nuevo { background: #f59e0b; color: #fff; top: 46px !important; }
+        .prop-fav-btn {
+            position:absolute; top:14px; right:14px; z-index:5;
+            width:38px; height:38px; border-radius:50%;
+            background:rgba(255,255,255,.88); border:none; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            transition:background .2s, transform .2s, box-shadow .2s;
+            backdrop-filter:blur(6px);
+        }
+        .prop-fav-btn:hover { background:#fff; transform:scale(1.15); box-shadow:0 4px 14px rgba(0,0,0,.15); }
+        .prop-fav-btn svg { width:18px; height:18px; fill:none; stroke:#94a3b8; stroke-width:2; transition:stroke .2s, fill .2s; }
+        .prop-fav-btn.active svg { fill:#ef4444; stroke:#ef4444; }
+        .prop-card-body { padding: 1.4rem; }
+        .prop-precio { font-size: 1.25rem; font-weight: 700; color: var(--accent-color); margin-bottom: .4rem; }
+        .prop-precio-periodo { font-size: .8rem; font-weight: 500; color: var(--text-muted); }
+        .prop-titulo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary-color); margin-bottom: .5rem; line-height: 1.35; }
+        .prop-ubicacion { display: flex; align-items: center; gap: 5px; color: var(--text-muted); font-size: .82rem; margin-bottom: .9rem; }
+        .prop-features { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+        .prop-feature { display: flex; align-items: center; gap: 5px; font-size: .82rem; color: var(--text-muted); transition: color .2s, transform .18s; }
+        .prop-feature:hover { color: var(--accent-color); transform: translateY(-1px); }
+        .btn-ver-detalles {
+            width: 100%; padding: 10px; background: transparent;
+            border: 1.5px solid var(--accent-color); border-radius: 8px;
+            color: var(--accent-color); font-family: 'Inter', sans-serif;
+            font-size: .86rem; font-weight: 600; cursor: pointer;
+            transition: all .22s; position: relative; overflow: hidden;
+        }
+        .btn-ver-detalles:hover { background: var(--accent-color); color: #fff; letter-spacing: 1.1px; }
+        .btn-ver-detalles::after {
+            content:''; position:absolute; top:0; left:-100%;
+            width:55%; height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+            transition:left .38s ease;
+        }
+        .btn-ver-detalles:hover::after { left:160%; }
+        .no-results { display:none; grid-column:1/-1; text-align:center; padding:4rem 2rem; color:#64748b; }
+        .no-results svg { width:58px; height:58px; stroke:#cbd5e1; margin-bottom:1.2rem; display:block; margin-left:auto; margin-right:auto; }
+        .no-results h3 { font-size:1.4rem; color:var(--primary-color); margin-bottom:.5rem; }
+        .no-results.visible { display:block; }
+
+        /* SKELETON */
+        .prop-card.skeleton .prop-card-img-wrap { background: #e2e8f0; }
+        .prop-card.skeleton .prop-card-img-wrap img { display: none; }
+        .prop-card.skeleton .prop-card-img-wrap::after {
+            content:''; position:absolute; inset:0;
+            background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.6) 50%,transparent 100%);
+            background-size:200% 100%; animation:shimmer 1.4s infinite;
+        }
+        .prop-card.skeleton .prop-card-body > * { background:#e2e8f0; color:transparent!important; border-radius:6px; animation:shimmer-block 1.4s infinite; pointer-events:none; }
+        .prop-card.skeleton .prop-card-body > * svg { display:none; }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        @keyframes shimmer-block { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+        /* PAGINACIÓN */
+        .paginacion { display:flex; gap:.5rem; justify-content:center; align-items:center; margin-top:2.5rem; flex-wrap:wrap; }
+        .pag-btn {
+            width:40px; height:40px; border-radius:8px;
+            border:1.5px solid var(--border-color); background:var(--card-bg);
+            font-family:'Inter',sans-serif; font-size:.88rem;
+            color:var(--text-color); cursor:pointer; font-weight:600;
+            transition:all .22s ease;
+        }
+        .pag-btn:not(.pag-btn--activo):hover { background:rgba(197,160,89,.08); border-color:var(--accent-color); color:var(--accent-color); }
+        .pag-btn:active { transform:scale(.93); }
+        .pag-btn--activo { background:var(--accent-color); border-color:var(--accent-color); color:#fff; }
+        .pag-btn--next { width:auto; padding:0 16px; }
+
+        /* BOTÓN LIMPIAR */
+        .btn-limpiar {
+            display:none; align-items:center; gap:6px;
+            background:none; border:1px solid var(--border-color);
+            color:var(--text-muted); height:34px; padding:0 14px;
+            border-radius:20px; font-size:.82rem;
+            font-family:'Inter',sans-serif; cursor:pointer;
+            transition:all .22s; white-space:nowrap;
+        }
+        .btn-limpiar.visible { display:flex; }
+        .btn-limpiar:hover { border-color:#ef4444; color:#ef4444; background:rgba(239,68,68,.05); }
+        .btn-limpiar svg { width:13px; height:13px; }
+
+        /* MAPA SECTION */
+        .mapa-section { padding: 2.5rem 2rem 0; border-top: 1px solid var(--border-color); }
+        .mapa-section-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
+        .mapa-section-titulo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--primary-color); }
+        .btn-toggle-mapa {
+            display:flex; align-items:center; gap:7px;
+            background:none; border:1.5px solid var(--border-color);
+            color:var(--text-muted); padding:8px 16px; border-radius:20px;
+            font-size:.85rem; font-family:'Inter',sans-serif; cursor:pointer; transition:all .22s;
+        }
+        .btn-toggle-mapa:hover { border-color:var(--accent-color); color:var(--accent-color); }
+        .btn-toggle-mapa svg { width:15px; height:15px; }
+        #mapaContenedor { height:360px; overflow:hidden; max-height:0; transition:max-height .45s cubic-bezier(.4,0,.2,1); }
+        #mapaContenedor.open { max-height:400px; }
+        #mapaLeaflet { width:100%; height:360px; }
+        .leaflet-popup-content-wrapper { border-radius:12px!important; box-shadow:0 8px 30px rgba(0,0,0,.14)!important; }
+        .mapa-popup-precio { font-weight:700; color:var(--accent-color,#c5a059); font-size:.95rem; }
+        .mapa-popup-titulo { font-weight:600; color:#1e293b; font-size:.88rem; }
+        .mapa-popup-link { display:inline-block; margin-top:6px; font-size:.8rem; color:var(--accent-color,#c5a059); cursor:pointer; text-decoration:underline; }
+
+        /* MODAL */
+        .prop-modal-overlay {
+            position:fixed; inset:0; z-index:9000;
+            background:rgba(15,23,42,.62); backdrop-filter:blur(4px);
+            display:flex; align-items:center; justify-content:flex-end;
+            opacity:0; pointer-events:none; transition:opacity .3s ease;
+        }
+        .prop-modal-overlay.open { opacity:1; pointer-events:all; }
+        .prop-modal-panel {
+            width:min(560px,98vw); height:100vh; background:#fff;
+            display:flex; flex-direction:column; overflow-y:auto;
+            transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1);
+            box-shadow:-8px 0 40px rgba(0,0,0,.18);
+        }
+        .prop-modal-overlay.open .prop-modal-panel { transform:translateX(0); }
+        .prop-modal-img { width:100%; height:280px; object-fit:cover; flex-shrink:0; display:block; }
+        .prop-modal-close {
+            position:absolute; top:16px; right:16px; width:38px; height:38px; border-radius:50%;
+            background:rgba(255,255,255,.92); border:none; cursor:pointer;
+            display:flex; align-items:center; justify-content:center; backdrop-filter:blur(6px);
+            transition:background .2s, transform .2s; z-index:10;
+        }
+        .prop-modal-close:hover { background:#fff; transform:scale(1.1) rotate(90deg); }
+        .prop-modal-close svg { width:16px; height:16px; stroke:#1e293b; stroke-width:2.2; }
+        .prop-modal-body { padding:2rem; flex:1; }
+        .prop-modal-precio { font-size:1.7rem; font-weight:700; color:var(--accent-color); margin-bottom:.3rem; }
+        .prop-modal-titulo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--primary-color); margin-bottom:.5rem; line-height:1.3; }
+        .prop-modal-ubicacion { color:#64748b; font-size:.9rem; display:flex; align-items:center; gap:5px; margin-bottom:1.4rem; }
+        .prop-modal-features { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.6rem; }
+        .prop-modal-feat { display:flex; align-items:center; gap:6px; background:#f8fafc; border-radius:10px; padding:8px 14px; font-size:.88rem; color:#475569; }
+        .prop-modal-feat svg { width:16px; height:16px; stroke:var(--accent-color); }
+        .prop-modal-desc { color:#475569; line-height:1.7; font-size:.93rem; border-top:1px solid #f1f5f9; padding-top:1.2rem; margin-bottom:1.6rem; }
+        .prop-modal-badges { display:flex; gap:.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+        .prop-modal-map { width:100%; height:200px; border-radius:12px; overflow:hidden; margin-bottom:1.6rem; border:1px solid #e2e8f0; }
+        .prop-modal-footer { display:flex; gap:1rem; flex-wrap:wrap; }
+        .prop-modal-footer a, .prop-modal-footer button {
+            flex:1; min-width:140px; text-align:center; padding:13px 20px;
+            border-radius:10px; font-weight:600; font-size:.92rem; cursor:pointer;
+            transition:all .22s; text-decoration:none; font-family:'Inter',sans-serif;
+        }
+        .btn-modal-contacto { background:var(--accent-color); color:#fff!important; border:none; }
+        .btn-modal-contacto:hover { opacity:.88; transform:translateY(-1px); }
+        .btn-modal-fav { background:#fff; border:1.5px solid #e2e8f0; color:#475569!important; }
+        .btn-modal-fav:hover { border-color:#ef4444; color:#ef4444!important; }
+        .btn-modal-fav.active { border-color:#ef4444; color:#ef4444!important; background:rgba(239,68,68,.05); }
+
+        /* CTA */
+        .cta-propiedades { background:#0f172a; padding:4rem 2rem; text-align:center; }
+        .cta-propiedades h2 { font-family:'Playfair Display',serif; font-size:2rem; color:#fff; margin-bottom:.8rem; }
+        .cta-propiedades p { color:#94a3b8; margin-bottom:2rem; }
+        .btn-submit-premium {
+            background:var(--accent-color); color:#fff; padding:16px 40px;
+            border-radius:10px; font-weight:600; font-size:.95rem;
+            display:inline-block; text-decoration:none;
+            transition:opacity .2s, transform .2s;
+            animation:ctaPulse 3.2s ease-in-out infinite;
+        }
+        .btn-submit-premium:hover { opacity:.9; transform:translateY(-2px); animation:none; }
+        @keyframes ctaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(197,160,89,0)} 55%{box-shadow:0 0 0 9px rgba(197,160,89,.1)} }
+
+        /* FOOTER */
+        footer { background-color:#0f172a; color:#fff; text-align:center; padding:2rem; border-top:4px solid #c5a059; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-prestige { padding: 14px 1rem; }
+            nav ul.nav-links { gap: .15rem; }
+            nav ul.nav-links li a { padding: 5px 8px; font-size: .78rem; }
+            .propiedades-grid { grid-template-columns: 1fr; }
+            .propiedades-grid.view-list .prop-card { grid-template-columns: 1fr; }
+            .propiedades-grid.view-list .prop-card-img-wrap { height: 220px; border-radius: 14px 14px 0 0; }
+        }
+        #countNum { transition: opacity .25s; }
+        #countNum.updating { opacity: .35; }
+    </style>
 </head>
 <body>
-    <header class="header-prestige">
+    <header class="header-prestige" id="mainHeader">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
             <ul class="nav-links">
@@ -24,10 +479,7 @@
                 <li><a href="propiedades.html" class="active">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
                 <li><a href="login.html">Login</a></li>
-                <!-- (Hecho por Miguel) -->
                 <li id="userMenu"></li>
-                <!-- (final de Miguel) -->
-                <!-- Menú desplegable CONTACTO — idéntico al resto del sitio -->
                 <li class="dropdown">
                     <a href="contacto.html">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -36,9 +488,8 @@
                         <li><a href="buscamos.html">Díganos qué busca</a></li>
                     </ul>
                 </li>
-                
                 <li class="theme-toggle-li">
-                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
                         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     </button>
@@ -46,6 +497,7 @@
             </ul>
         </nav>
     </header>
+
     <section class="hero-propiedades-premium">
         <div class="hero-propiedades-content">
             <span class="hero-badge">Cartera Exclusiva</span>
@@ -53,13 +505,19 @@
             <p>Descubra nuestra selección de residencias de lujo en Sevilla y su área metropolitana.<br>Cada inmueble, una oportunidad única.</p>
         </div>
     </section>
+
     <section class="filtros-section">
         <div class="filtros-container">
             <h2 class="filtros-titulo">Encuentre su propiedad ideal</h2>
+            <div class="filtro-busqueda-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="busquedaTexto" placeholder="Buscar por nombre, zona o tipo de propiedad…" autocomplete="off">
+                <button class="btn-clear-search" id="btnClearSearch" aria-label="Limpiar búsqueda">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
             <div class="filtros-grid">
- 
-                <!-- Tipo de operación -->
-                <div class="filtro-grupo">
+                <div class="filtro-grupo" id="fg-operacion">
                     <label for="operacion">Tipo de operación</label>
                     <select id="operacion">
                         <option value="">Todas</option>
@@ -68,9 +526,7 @@
                         <option value="obra-nueva">Obra nueva</option>
                     </select>
                 </div>
- 
-                <!-- Tipo de inmueble -->
-                <div class="filtro-grupo">
+                <div class="filtro-grupo" id="fg-tipo">
                     <label for="tipo">Tipo de inmueble</label>
                     <select id="tipo">
                         <option value="">Todos</option>
@@ -81,9 +537,7 @@
                         <option value="finca">Finca / Cortijo</option>
                     </select>
                 </div>
- 
-                <!-- Provincia / Zona -->
-                <div class="filtro-grupo">
+                <div class="filtro-grupo" id="fg-zona">
                     <label for="zona">Zona</label>
                     <select id="zona">
                         <option value="">Todas las zonas</option>
@@ -94,9 +548,7 @@
                         <option value="la-rinconada">La Rinconada</option>
                     </select>
                 </div>
- 
-                <!-- Precio máximo -->
-                <div class="filtro-grupo">
+                <div class="filtro-grupo" id="fg-precio">
                     <label for="precio">Precio máximo</label>
                     <select id="precio">
                         <option value="">Sin límite</option>
@@ -107,9 +559,7 @@
                         <option value="2000000">Hasta 2.000.000 €</option>
                     </select>
                 </div>
- 
-                <!-- Habitaciones -->
-                <div class="filtro-grupo">
+                <div class="filtro-grupo" id="fg-habitaciones">
                     <label for="habitaciones">Habitaciones</label>
                     <select id="habitaciones">
                         <option value="">Cualquiera</option>
@@ -120,258 +570,1005 @@
                         <option value="5">5+</option>
                     </select>
                 </div>
- 
-                <!-- Botón buscar -->
                 <div class="filtro-grupo filtro-btn-wrap">
-                    <button class="btn-buscar-propiedades">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <button class="btn-buscar-propiedades" id="btnBuscar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         Buscar
                     </button>
                 </div>
- 
             </div>
+            <div class="filtros-activos-bar" id="filtrosActivosBar"></div>
         </div>
     </section>
+
     <main class="propiedades-main">
         <div class="propiedades-container">
- 
-            <!-- Encabezado de resultados -->
+
             <div class="resultados-header">
-                <p class="resultados-count"><strong>6 propiedades</strong> encontradas</p>
-                <div class="ordenar-grupo">
-                    <label for="ordenar">Ordenar por:</label>
-                    <select id="ordenar">
-                        <option value="destacado">Destacados</option>
-                        <option value="precio-asc">Precio: menor a mayor</option>
-                        <option value="precio-desc">Precio: mayor a menor</option>
-                        <option value="reciente">Más recientes</option>
-                    </select>
+                <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;">
+                    <p class="resultados-count"><strong id="countNum">18 propiedades</strong> encontradas</p>
+                    <button class="btn-limpiar" id="btnLimpiar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        Limpiar filtros
+                    </button>
+                </div>
+                <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                    <div class="view-toggle-wrap">
+                        <button class="view-toggle-btn active" id="btnGrid" title="Vista cuadrícula" aria-label="Vista cuadrícula">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        </button>
+                        <button class="view-toggle-btn" id="btnList" title="Vista lista" aria-label="Vista lista">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                        </button>
+                    </div>
+                    <div class="ordenar-grupo">
+                        <label for="ordenar">Ordenar por:</label>
+                        <select id="ordenar">
+                            <option value="destacado">Destacados</option>
+                            <option value="precio-asc">Precio: menor a mayor</option>
+                            <option value="precio-desc">Precio: mayor a menor</option>
+                            <option value="reciente">Más recientes</option>
+                        </select>
+                    </div>
                 </div>
             </div>
- 
- 
-            <div class="propiedades-grid">
- 
-                <!-- ——— PROPIEDAD 1 ——— -->
-                <article class="prop-card">
+
+            <!-- ==================== TODAS LAS PROPIEDADES (data-pagina="1/2/3") ==================== -->
+            <div class="propiedades-grid" id="propiedadesGrid">
+
+                <!-- ========== PÁGINA 1 ========== -->
+
+                <!-- P1 — Villa Alcalá -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="villa" data-zona="alcala"
+                    data-precio="1250000" data-hab="5" data-destacado="1" data-fecha="18" data-pagina="1"
+                    data-lat="37.3381" data-lng="-5.8480"
+                    data-desc="Exclusiva villa contemporánea con piscina infinita, jardín paisajístico y domótica integral. Acabados de primera calidad con amplias zonas de día y noche. Urbanización privada con seguridad 24h.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Villa moderna con piscina en Alcalá de Guadaíra" loading="lazy">
+                             alt="Villa moderna con piscina en Alcalá de Guadaíra" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">1.250.000 €</p>
                         <h3 class="prop-titulo">Villa Contemporánea con Piscina Infinita</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            Alcalá de Guadaíra, Sevilla
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Alcalá de Guadaíra, Sevilla</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                5 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                4 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                620 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>5 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>4 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>620 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
-                <!-- ——— PROPIEDAD 2 ——— -->
-                <article class="prop-card">
+
+                <!-- P2 — Ático Sevilla Capital -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="atico" data-zona="sevilla-capital"
+                    data-precio="895000" data-hab="3" data-destacado="0" data-fecha="17" data-pagina="1"
+                    data-lat="37.3886" data-lng="-5.9823"
+                    data-desc="Ático de diseño exclusivo en pleno corazón de Triana con terraza panorámica de 120 m² y vistas a la Torre del Oro. Cocina Bulthaup, suelos de mármol y ascensor privado.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Ático de lujo en Sevilla centro" loading="lazy">
+                             alt="Ático de lujo en Sevilla centro" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">895.000 €</p>
                         <h3 class="prop-titulo">Ático Exclusivo con Terraza Panorámica</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            Triana, Sevilla Capital
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Triana, Sevilla Capital</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                3 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                2 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                280 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>280 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
-                <!-- ——— PROPIEDAD 3 ——— -->
-                <article class="prop-card">
+
+                <!-- P3 — Chalet Dos Hermanas (alquiler) -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="villa" data-zona="dos-hermanas"
+                    data-precio="3500" data-alquiler="1" data-hab="4" data-destacado="0" data-fecha="16" data-pagina="1"
+                    data-lat="37.2974" data-lng="-5.9223"
+                    data-desc="Chalet premium en zona residencial tranquila con jardín privado de 800 m², piscina climatizada y garaje para 3 vehículos. Terraza cubierta perfecta para el verano sevillano.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Chalet adosado con jardín en Dos Hermanas" loading="lazy">
+                             alt="Chalet adosado con jardín en Dos Hermanas" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">3.500 € <span class="prop-precio-periodo">/mes</span></p>
                         <h3 class="prop-titulo">Chalet Premium con Jardín Privado</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            Dos Hermanas, Sevilla
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Dos Hermanas, Sevilla</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                4 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                3 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                380 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>4 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>3 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>380 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
-                <!-- ——— PROPIEDAD 4 ——— -->
-                <article class="prop-card">
+
+                <!-- P4 — Finca Alcalá -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="finca" data-zona="alcala"
+                    data-precio="2100000" data-hab="7" data-destacado="0" data-fecha="15" data-pagina="1"
+                    data-lat="37.3380" data-lng="-5.8300"
+                    data-desc="Impresionante finca señorial de 12 hectáreas con olivar centenario, cortijo restaurado, capilla privada y piscina olímpica. A solo 20 minutos del centro de Sevilla.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Finca cortijo en las afueras de Alcalá" loading="lazy">
+                             alt="Finca cortijo en las afueras de Alcalá" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <span class="prop-badge prop-badge--nuevo">Nuevo</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">2.100.000 €</p>
                         <h3 class="prop-titulo">Finca Señorial con Olivos y Piscina</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            Alcalá de Guadaíra, Sevilla
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Alcalá de Guadaíra, Sevilla</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                7 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                5 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                1.200 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>7 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>5 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>1.200 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
-                <!-- ——— PROPIEDAD 5 ——— -->
-                <article class="prop-card">
+
+                <!-- P5 — Piso Mairena -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="piso" data-zona="mairena"
+                    data-precio="450000" data-hab="3" data-destacado="0" data-fecha="14" data-pagina="1"
+                    data-lat="37.3476" data-lng="-6.0596"
+                    data-desc="Moderno piso de lujo con acabados contemporáneos y vistas despejadas al Guadalquivir. Cocina abierta, terraza de 40 m² y parking doble en el edificio. Comunidad con piscina.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso de lujo en Mairena del Aljarafe" loading="lazy">
+                             alt="Piso de lujo en Mairena del Aljarafe" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">450.000 €</p>
                         <h3 class="prop-titulo">Piso de Lujo con Vistas al Guadalquivir</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            Mairena del Aljarafe, Sevilla
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Mairena del Aljarafe, Sevilla</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                3 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                2 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                175 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>175 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
-                <!-- ——— PROPIEDAD 6 ——— -->
-                <article class="prop-card">
+
+                <!-- P6 — Adosado La Rinconada -->
+                <article class="prop-card"
+                    data-operacion="obra-nueva" data-tipo="adosado" data-zona="la-rinconada"
+                    data-precio="680000" data-hab="4" data-destacado="0" data-fecha="13" data-pagina="1"
+                    data-lat="37.4728" data-lng="-5.9845"
+                    data-desc="Adosado de obra nueva en exclusiva urbanización cerrada con piscina comunitaria, zona deportiva y parques. Entrega en 2026. Precios con IVA incluido y posibilidad de personalización.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80"
-                            alt="Casa adosada en La Rinconada" loading="lazy">
+                             alt="Casa adosada en La Rinconada" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                     </div>
                     <div class="prop-card-body">
                         <p class="prop-precio">680.000 €</p>
                         <h3 class="prop-titulo">Adosado de Obra Nueva en Urbanización Privada</h3>
-                        <p class="prop-ubicacion">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
-                            La Rinconada, Sevilla
-                        </p>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>La Rinconada, Sevilla</p>
                         <div class="prop-features">
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
-                                4 hab.
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>
-                                3 baños
-                            </span>
-                            <span class="prop-feature">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-                                290 m²
-                            </span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>4 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>3 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>290 m²</span>
                         </div>
-                        <a href="contacto.html" class="btn-ver-detalles">Ver detalles</a>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
                     </div>
                 </article>
- 
+
+                <!-- ========== PÁGINA 2 ========== -->
+
+                <!-- P7 — Piso Centro Histórico alquiler -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="piso" data-zona="sevilla-capital"
+                    data-precio="1800" data-alquiler="1" data-hab="2" data-destacado="0" data-fecha="12" data-pagina="2"
+                    data-lat="37.3922" data-lng="-5.9927"
+                    data-desc="Precioso piso reformado en el Barrio de Santa Cruz, a 2 minutos de la Catedral. Techos altos con vigas originales, suelo hidráulico restaurado y patio interior con plantas. Amueblado con gusto exquisito.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso en el centro histórico de Sevilla" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.800 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Piso con Encanto en Santa Cruz</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Santa Cruz, Sevilla Capital</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>2 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>1 baño</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>95 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P8 — Adosado Mairena obra nueva -->
+                <article class="prop-card"
+                    data-operacion="obra-nueva" data-tipo="adosado" data-zona="mairena"
+                    data-precio="520000" data-hab="4" data-destacado="1" data-fecha="11" data-pagina="2"
+                    data-lat="37.3500" data-lng="-6.0650"
+                    data-desc="Adosados de nueva construcción en Mairena del Aljarafe con 4 dormitorios, jardín privado de 120 m², garage para 2 coches y terraza. Comunidad con piscina y zona de juegos. Llaves en 2025.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Adosado obra nueva en Mairena del Aljarafe" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
+                        <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">520.000 €</p>
+                        <h3 class="prop-titulo">Adosado con Jardín en Mairena del Aljarafe</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Mairena del Aljarafe, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>4 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>3 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>210 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P9 — Piso alquiler Dos Hermanas -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="piso" data-zona="dos-hermanas"
+                    data-precio="1200" data-alquiler="1" data-hab="3" data-destacado="0" data-fecha="10" data-pagina="2"
+                    data-lat="37.2960" data-lng="-5.9290"
+                    data-desc="Luminoso piso en planta alta con orientación sur, reformado completamente en 2023. Tres dormitorios, dos baños, salón amplio y balcón. Garaje incluido en el precio del alquiler.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso luminoso en Dos Hermanas" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.200 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Piso Luminoso Reformado en Dos Hermanas</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Dos Hermanas, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>130 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P10 — Villa venta La Rinconada -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="villa" data-zona="la-rinconada"
+                    data-precio="780000" data-hab="5" data-destacado="0" data-fecha="9" data-pagina="2"
+                    data-lat="37.4700" data-lng="-5.9900"
+                    data-desc="Espectacular villa independiente en La Rinconada con piscina, garaje doble y jardín de 600 m². Cocina americana de diseño, climatización centralizada y paneles solares. Ideal para familias.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Villa moderna en La Rinconada" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">780.000 €</p>
+                        <h3 class="prop-titulo">Villa Independiente con Piscina y Solar</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>La Rinconada, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>5 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>3 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>420 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P11 — Ático alquiler Sevilla Capital -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="atico" data-zona="sevilla-capital"
+                    data-precio="2800" data-alquiler="1" data-hab="3" data-destacado="0" data-fecha="8" data-pagina="2"
+                    data-lat="37.3850" data-lng="-5.9780"
+                    data-desc="Ático de alquiler en el Arenal con terraza de 80 m², vistas a la Giralda y el río. Completamente equipado y amueblado al más alto nivel. Perfecto para ejecutivos o largas temporadas.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Ático de alquiler con terraza en Sevilla" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">2.800 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Ático con Vistas a la Giralda en Alquiler</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>El Arenal, Sevilla Capital</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>160 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P12 — Piso venta Alcalá -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="piso" data-zona="alcala"
+                    data-precio="295000" data-hab="3" data-destacado="0" data-fecha="7" data-pagina="2"
+                    data-lat="37.3370" data-lng="-5.8490"
+                    data-desc="Piso bien distribuido en Alcalá de Guadaíra, planta baja con jardín privado de 60 m². Tres habitaciones, dos baños, cocina equipada y trastero. Comunidad tranquila con piscina.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso con jardín en Alcalá de Guadaíra" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">295.000 €</p>
+                        <h3 class="prop-titulo">Piso Planta Baja con Jardín Privado</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Alcalá de Guadaíra, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>120 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- ========== PÁGINA 3 ========== -->
+
+                <!-- P13 — Finca Dos Hermanas venta -->
+                <article class="prop-card"
+                    data-operacion="venta" data-tipo="finca" data-zona="dos-hermanas"
+                    data-precio="1650000" data-hab="6" data-destacado="1" data-fecha="6" data-pagina="3"
+                    data-lat="37.2910" data-lng="-5.9100"
+                    data-desc="Magnífica finca rústica de 8 hectáreas con cortijo andaluz, bodega, cuadra y piscina. Ideal para uso residencial o como proyecto turístico. Infraestructura completa y acceso por camino asfaltado.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Finca rústica en Dos Hermanas" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--venta">Venta</span>
+                        <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.650.000 €</p>
+                        <h3 class="prop-titulo">Finca Rústica con Cortijo Andaluz</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Dos Hermanas, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>6 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>4 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>850 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P14 — Alquiler villa Mairena -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="villa" data-zona="mairena"
+                    data-precio="4200" data-alquiler="1" data-hab="5" data-destacado="0" data-fecha="5" data-pagina="3"
+                    data-lat="37.3520" data-lng="-6.0700"
+                    data-desc="Lujoso chalet en alquiler en Mairena del Aljarafe con 5 dormitorios, piscina privada, barbacoa y garaje para 4 coches. Urbanización privada con seguridad. Disponible desde octubre 2025.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Chalet de lujo en alquiler en Mairena" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">4.200 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Chalet de Lujo en Alquiler con Piscina Privada</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Mairena del Aljarafe, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>5 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>4 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>480 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P15 — Obra nueva piso Sevilla Capital -->
+                <article class="prop-card"
+                    data-operacion="obra-nueva" data-tipo="piso" data-zona="sevilla-capital"
+                    data-precio="385000" data-hab="3" data-destacado="0" data-fecha="4" data-pagina="3"
+                    data-lat="37.4000" data-lng="-5.9960"
+                    data-desc="Pisos de obra nueva en el barrio de San Pablo con calidades premium, terrazas amplias y garaje incluido. Eficiencia energética A+. Entrega prevista primer trimestre 2026. Personalización de acabados.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1622866306950-81d17097d458?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Pisos de obra nueva en Sevilla Capital" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">385.000 €</p>
+                        <h3 class="prop-titulo">Piso Obra Nueva Eficiencia A+ en San Pablo</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>San Pablo, Sevilla Capital</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>3 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>2 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>140 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P16 — Alquiler adosado La Rinconada -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="adosado" data-zona="la-rinconada"
+                    data-precio="1600" data-alquiler="1" data-hab="4" data-destacado="0" data-fecha="3" data-pagina="3"
+                    data-lat="37.4750" data-lng="-5.9820"
+                    data-desc="Adosado de alquiler en La Rinconada, urbanización familiar con piscina comunitaria. 4 dormitorios, 3 baños, jardín propio de 80 m², garaje y trastero. Zona muy tranquila y bien comunicada con Sevilla.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Adosado en alquiler en La Rinconada" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.600 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Adosado con Jardín en Alquiler</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>La Rinconada, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>4 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>3 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>180 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P17 — Villa obra nueva Alcalá -->
+                <article class="prop-card"
+                    data-operacion="obra-nueva" data-tipo="villa" data-zona="alcala"
+                    data-precio="950000" data-hab="5" data-destacado="0" data-fecha="2" data-pagina="3"
+                    data-lat="37.3420" data-lng="-5.8520"
+                    data-desc="Villas de obra nueva en Alcalá de Guadaíra con diseño bioclimático, domótica KNX, piscina propia y garaje doble. Parcelas de entre 800 y 1.200 m². Entrega 2026 con certificado A+.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Villa de obra nueva en Alcalá de Guadaíra" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
+                        <span class="prop-badge prop-badge--nuevo">Nuevo</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">950.000 €</p>
+                        <h3 class="prop-titulo">Villa Bioclimática de Obra Nueva</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Alcalá de Guadaíra, Sevilla</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>5 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>4 baños</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>520 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- P18 — Alquiler piso Sevilla Capital centro -->
+                <article class="prop-card"
+                    data-operacion="alquiler" data-tipo="piso" data-zona="sevilla-capital"
+                    data-precio="1500" data-alquiler="1" data-hab="2" data-destacado="0" data-fecha="1" data-pagina="3"
+                    data-lat="37.3880" data-lng="-5.9950"
+                    data-desc="Piso moderno en alquiler en pleno centro de Sevilla, totalmente reformado con electrodomésticos de primera. Dos dormitorios, salón con terraza y parking ópccional. Ideal para profesionales.">
+                    <div class="prop-card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso moderno en alquiler en el centro de Sevilla" loading="lazy"
+                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
+                        <span class="prop-badge prop-badge--alquiler">Alquiler</span>
+                        <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                    </div>
+                    <div class="prop-card-body">
+                        <p class="prop-precio">1.500 € <span class="prop-precio-periodo">/mes</span></p>
+                        <h3 class="prop-titulo">Piso Reformado en el Centro de Sevilla</h3>
+                        <p class="prop-ubicacion"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>Centro, Sevilla Capital</p>
+                        <div class="prop-features">
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9v9a2 2 0 002 2h14a2 2 0 002-2V9"/><path d="M3 9l2-6h14l2 6"/><line x1="3" y1="9" x2="21" y2="9"/></svg>2 hab.</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16"/><path d="M4 12V6a1 1 0 011-1h3a1 1 0 011 1v2"/><path d="M4 12v4a2 2 0 002 2h12a2 2 0 002-2v-4"/></svg>1 baño</span>
+                            <span class="prop-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>85 m²</span>
+                        </div>
+                        <button class="btn-ver-detalles" onclick="abrirModal(this.closest('.prop-card'))">Ver detalles</button>
+                    </div>
+                </article>
+
+                <!-- Estado vacío -->
+                <div class="no-results" id="noResults">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        <line x1="8" y1="11" x2="14" y2="11"/>
+                    </svg>
+                    <h3>Sin resultados</h3>
+                    <p>No hay propiedades que coincidan con los filtros seleccionados.<br>Pruebe a ampliar los criterios de búsqueda.</p>
+                </div>
+
             </div><!-- /propiedades-grid -->
- 
-            <!-- Paginación -->
-            <div class="paginacion">
-                <button class="pag-btn pag-btn--activo">1</button>
-                <button class="pag-btn">2</button>
-                <button class="pag-btn">3</button>
-                <button class="pag-btn pag-btn--next">Siguiente →</button>
+
+            <div class="paginacion" id="paginacion">
+                <button class="pag-btn pag-btn--activo" data-pag="1">1</button>
+                <button class="pag-btn" data-pag="2">2</button>
+                <button class="pag-btn" data-pag="3">3</button>
+                <button class="pag-btn pag-btn--next" data-pag="next">Siguiente →</button>
             </div>
- 
-        </div><!-- /propiedades-container -->
+
+        </div>
+
+        <!-- MAPA INTERACTIVO -->
+        <div class="mapa-section">
+            <div class="mapa-section-header">
+                <h2 class="mapa-section-titulo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2" style="vertical-align:middle;margin-right:7px"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3"/></svg>
+                    Localización de propiedades
+                </h2>
+                <button class="btn-toggle-mapa" id="btnToggleMapa">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-4 8 4 7-4v16l-7 4-8-4-7 4V6z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                    Ver en el mapa
+                </button>
+            </div>
+            <div id="mapaContenedor">
+                <div id="mapaLeaflet"></div>
+            </div>
+        </div>
     </main>
+
     <section class="cta-propiedades">
-        <div class="cta-propiedades-inner">
+        <div style="max-width:600px;margin:0 auto;">
             <h2>¿No encuentra lo que busca?</h2>
             <p>Cuéntenos sus preferencias y nuestro equipo localizará la propiedad perfecta para usted.</p>
-            <a href="buscamos.html" class="btn-submit-premium" style="display:inline-block; text-decoration:none; padding: 16px 40px;">Díganos qué busca</a>
+            <a href="buscamos.html" class="btn-submit-premium">Díganos qué busca</a>
         </div>
     </section>
-    <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2rem; border-top: 4px solid #c5a059;">
+
+    <footer>
         <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- (Hecho por Miguel) -->
-    <script type="module" src="login.js"></script>
-    <script src="prestige-chatbot.js"></script>
-    <!-- (final de Miguel) -->
+    <!-- MODAL DE DETALLE -->
+    <div class="prop-modal-overlay" id="propModal" role="dialog" aria-modal="true" aria-label="Detalle de propiedad">
+        <div class="prop-modal-panel" id="propModalPanel">
+            <button class="prop-modal-close" id="propModalClose" aria-label="Cerrar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <img class="prop-modal-img" id="modalImg" src="" alt="">
+            <div class="prop-modal-body">
+                <p class="prop-modal-precio" id="modalPrecio"></p>
+                <h2 class="prop-modal-titulo" id="modalTitulo"></h2>
+                <p class="prop-modal-ubicacion" id="modalUbicacion">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="3" fill="white"/></svg>
+                    <span id="modalUbicacionTxt"></span>
+                </p>
+                <div class="prop-modal-features" id="modalFeatures"></div>
+                <div class="prop-modal-badges" id="modalBadges"></div>
+                <p class="prop-modal-desc" id="modalDesc"></p>
+                <div class="prop-modal-map" id="modalMapContainer">
+                    <div id="modalMap" style="width:100%;height:200px;"></div>
+                </div>
+                <div class="prop-modal-footer">
+                    <a href="contacto.html" class="btn-modal-contacto">Solicitar información</a>
+                    <button class="btn-modal-fav" id="modalFavBtn">♡ Añadir a favoritos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    /* =============================================================
+       PROPIEDADES.HTML — SCRIPT PRINCIPAL v3
+       Paginación real + todas las mejoras originales preservadas
+       ============================================================= */
+    (function () {
+        'use strict';
+
+        /* ---- TEMA ---- */
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            try { localStorage.setItem('prestige_theme', isDark ? 'light' : 'dark'); } catch {}
+        }
+        window.toggleTheme = toggleTheme;
+        try {
+            const saved = localStorage.getItem('prestige_theme');
+            if (saved) document.documentElement.setAttribute('data-theme', saved);
+        } catch {}
+
+        /* ---- DOM ---- */
+        const selOp   = document.getElementById('operacion');
+        const selTip  = document.getElementById('tipo');
+        const selZon  = document.getElementById('zona');
+        const selPre  = document.getElementById('precio');
+        const selHab  = document.getElementById('habitaciones');
+        const selOrd  = document.getElementById('ordenar');
+        const inpTxt  = document.getElementById('busquedaTexto');
+        const btnClearTxt = document.getElementById('btnClearSearch');
+        const btnBuscar   = document.getElementById('btnBuscar');
+        const btnLimpiar  = document.getElementById('btnLimpiar');
+        const grid    = document.getElementById('propiedadesGrid');
+        const allCards = Array.from(grid.querySelectorAll('.prop-card'));
+        const countEl = document.getElementById('countNum');
+        const noRes   = document.getElementById('noResults');
+        const pag     = document.getElementById('paginacion');
+        const tagsBar = document.getElementById('filtrosActivosBar');
+
+        /* ---- PAGINACIÓN ---- */
+        const ITEMS_PER_PAGE = 6;
+        let currentPage = 1;
+        let filteredCards = []; // cards que pasan el filtro
+
+        /* ---- FAVORITOS ---- */
+        const FAV_KEY = 'prestige_favs';
+        function getFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch { return []; } }
+        function saveFavs(arr) { try { localStorage.setItem(FAV_KEY, JSON.stringify(arr)); } catch {} }
+        function getCardId(card) { return card.querySelector('.prop-titulo')?.textContent?.trim() || ''; }
+        function syncFavBtn(card) {
+            const favs = getFavs();
+            const id = getCardId(card);
+            const btn = card.querySelector('.prop-fav-btn');
+            if (btn) btn.classList.toggle('active', favs.includes(id));
+        }
+        allCards.forEach(syncFavBtn);
+
+        grid.addEventListener('click', e => {
+            const btn = e.target.closest('.prop-fav-btn');
+            if (!btn) return;
+            e.stopPropagation();
+            const card = btn.closest('.prop-card');
+            const id = getCardId(card);
+            let favs = getFavs();
+            if (favs.includes(id)) { favs = favs.filter(f => f !== id); btn.classList.remove('active'); }
+            else { favs.push(id); btn.classList.add('active'); }
+            saveFavs(favs);
+            btn.style.transform = 'scale(1.35)';
+            setTimeout(() => { btn.style.transform = ''; }, 220);
+        });
+
+        /* ---- STICKY HEADER ---- */
+        const header = document.getElementById('mainHeader');
+        const sentinel = document.createElement('div');
+        sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:100%;pointer-events:none';
+        document.body.prepend(sentinel);
+        new IntersectionObserver(([e]) => header.classList.toggle('scrolled', !e.isIntersecting),
+            { rootMargin: '-1px 0px 0px 0px', threshold: [1] }).observe(sentinel);
+
+        /* ---- SKELETON LOADING ---- */
+        allCards.forEach(card => {
+            const img = card.querySelector('img');
+            if (!img || img.complete) return;
+            card.classList.add('skeleton');
+            img.addEventListener('load',  () => card.classList.remove('skeleton'), { once: true });
+            img.addEventListener('error', () => card.classList.remove('skeleton'), { once: true });
+        });
+
+        /* ---- LAZY REVEAL ---- */
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObs.unobserve(entry.target); }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+        /* ---- ETIQUETAS ---- */
+        const LABELS = {
+            operacion:    { venta:'Venta', alquiler:'Alquiler', 'obra-nueva':'Obra nueva' },
+            tipo:         { villa:'Villa/Chalet', piso:'Piso/Apt.', atico:'Ático', adosado:'Adosado', finca:'Finca' },
+            zona:         { 'sevilla-capital':'Sevilla Capital', alcala:'Alcalá de Guadaíra', 'dos-hermanas':'Dos Hermanas', mairena:'Mairena Aljarafe', 'la-rinconada':'La Rinconada' },
+            precio:       { '300000':'≤300K€','500000':'≤500K€','800000':'≤800K€','1200000':'≤1.2M€','2000000':'≤2M€' },
+            habitaciones: { '1':'1+ hab.','2':'2+ hab.','3':'3+ hab.','4':'4+ hab.','5':'5+ hab.' }
+        };
+
+        /* ---- ORDENAR ---- */
+        function ordenarCards(cards) {
+            const ord = selOrd.value;
+            return [...cards].sort((a, b) => {
+                if (ord === 'precio-asc')  return +a.dataset.precio - +b.dataset.precio;
+                if (ord === 'precio-desc') return +b.dataset.precio - +a.dataset.precio;
+                if (ord === 'reciente')    return +b.dataset.fecha   - +a.dataset.fecha;
+                return +b.dataset.destacado - +a.dataset.destacado;
+            });
+        }
+
+        /* ---- RENDERIZAR PÁGINA ---- */
+        function renderPagina() {
+            const sorted = ordenarCards(filteredCards);
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end   = start + ITEMS_PER_PAGE;
+            const pageCards = sorted.slice(start, end);
+
+            // Ocultar todo
+            allCards.forEach(c => { c.classList.add('hidden'); c.classList.remove('visible'); });
+
+            // Mostrar solo las de esta página
+            pageCards.forEach((c, i) => {
+                c.classList.remove('hidden');
+                // reveal escalonado
+                setTimeout(() => revealObs.observe(c), i * 60);
+            });
+
+            // No results
+            noRes.classList.toggle('visible', filteredCards.length === 0);
+
+            // Actualizar paginación
+            const totalPages = Math.max(1, Math.ceil(filteredCards.length / ITEMS_PER_PAGE));
+            renderBotonesPag(totalPages);
+
+            // Scroll suave al inicio del grid
+            if (currentPage > 1) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderBotonesPag(totalPages) {
+            pag.innerHTML = '';
+            if (totalPages <= 1) return;
+            for (let p = 1; p <= totalPages; p++) {
+                const btn = document.createElement('button');
+                btn.className = 'pag-btn' + (p === currentPage ? ' pag-btn--activo' : '');
+                btn.dataset.pag = p;
+                btn.textContent = p;
+                pag.appendChild(btn);
+            }
+            if (currentPage < totalPages) {
+                const next = document.createElement('button');
+                next.className = 'pag-btn pag-btn--next';
+                next.dataset.pag = 'next';
+                next.textContent = 'Siguiente →';
+                pag.appendChild(next);
+            }
+        }
+
+        pag.addEventListener('click', e => {
+            const btn = e.target.closest('.pag-btn');
+            if (!btn) return;
+            const totalPages = Math.ceil(filteredCards.length / ITEMS_PER_PAGE);
+            if (btn.dataset.pag === 'next') { if (currentPage < totalPages) currentPage++; }
+            else currentPage = parseInt(btn.dataset.pag);
+            renderPagina();
+        });
+
+        /* ---- FILTRADO ---- */
+        function filtrar() {
+            const fOp  = selOp.value;
+            const fTip = selTip.value;
+            const fZon = selZon.value;
+            const fPre = selPre.value ? parseInt(selPre.value) : null;
+            const fHab = selHab.value ? parseInt(selHab.value) : null;
+            const fTxt = inpTxt.value.trim().toLowerCase();
+
+            filteredCards = allCards.filter(c => {
+                const esAlquiler = c.dataset.alquiler === '1';
+                if (fOp  && c.dataset.operacion !== fOp)  return false;
+                if (fTip && c.dataset.tipo      !== fTip) return false;
+                if (fZon && c.dataset.zona      !== fZon) return false;
+                if (fPre !== null && !esAlquiler && parseInt(c.dataset.precio) > fPre) return false;
+                if (fHab !== null && parseInt(c.dataset.hab) < fHab) return false;
+                if (fTxt) {
+                    const titulo = c.querySelector('.prop-titulo')?.textContent?.toLowerCase() || '';
+                    const ubicacion = c.querySelector('.prop-ubicacion')?.textContent?.toLowerCase() || '';
+                    const desc = (c.dataset.desc || '').toLowerCase();
+                    if (!titulo.includes(fTxt) && !ubicacion.includes(fTxt) && !desc.includes(fTxt)) return false;
+                }
+                return true;
+            });
+
+            currentPage = 1;
+
+            // Contador animado
+            countEl.classList.add('updating');
+            setTimeout(() => {
+                const n = filteredCards.length;
+                countEl.textContent = n === 1 ? '1 propiedad' : `${n} propiedades`;
+                countEl.classList.remove('updating');
+            }, 220);
+
+            const hayFiltros = !!(fOp || fTip || fZon || fPre || fHab || fTxt);
+            btnLimpiar.classList.toggle('visible', hayFiltros);
+
+            [
+                [selOp,  'fg-operacion'],
+                [selTip, 'fg-tipo'],
+                [selZon, 'fg-zona'],
+                [selPre, 'fg-precio'],
+                [selHab, 'fg-habitaciones'],
+            ].forEach(([sel, id]) => {
+                document.getElementById(id)?.classList.toggle('active', !!sel.value);
+            });
+
+            renderTags();
+            renderPagina();
+        }
+
+        /* ---- TAGS ---- */
+        function renderTags() {
+            tagsBar.innerHTML = '';
+            const activos = [
+                { sel: selOp,  key: 'operacion' },
+                { sel: selTip, key: 'tipo' },
+                { sel: selZon, key: 'zona' },
+                { sel: selPre, key: 'precio' },
+                { sel: selHab, key: 'habitaciones' },
+            ].filter(({ sel }) => sel.value);
+
+            if (inpTxt.value.trim()) {
+                const tag = document.createElement('span');
+                tag.className = 'filtro-tag';
+                tag.innerHTML = `"${inpTxt.value.trim()}" <span class="tx">✕</span>`;
+                tag.addEventListener('click', () => { inpTxt.value = ''; filtrar(); });
+                tagsBar.appendChild(tag);
+            }
+            tagsBar.classList.toggle('visible', activos.length > 0 || inpTxt.value.trim().length > 0);
+            activos.forEach(({ sel, key }) => {
+                const label = LABELS[key][sel.value] || sel.value;
+                const tag = document.createElement('span');
+                tag.className = 'filtro-tag';
+                tag.innerHTML = `${label} <span class="tx">✕</span>`;
+                tag.addEventListener('click', () => { sel.value = ''; filtrar(); });
+                tagsBar.appendChild(tag);
+            });
+        }
+
+        /* ---- BÚSQUEDA TEXTO ---- */
+        btnClearTxt.addEventListener('click', () => { inpTxt.value = ''; filtrar(); inpTxt.focus(); });
+        inpTxt.addEventListener('input', filtrar);
+
+        /* ---- VISTA LISTA/GRID ---- */
+        const btnGrid = document.getElementById('btnGrid');
+        const btnList = document.getElementById('btnList');
+        btnGrid.addEventListener('click', () => {
+            grid.classList.remove('view-list'); btnGrid.classList.add('active'); btnList.classList.remove('active');
+            try { localStorage.setItem('prestige_view', 'grid'); } catch {}
+        });
+        btnList.addEventListener('click', () => {
+            grid.classList.add('view-list'); btnList.classList.add('active'); btnGrid.classList.remove('active');
+            try { localStorage.setItem('prestige_view', 'list'); } catch {}
+        });
+        try { if (localStorage.getItem('prestige_view') === 'list') btnList.click(); } catch {}
+
+        /* ---- EVENTOS FILTROS ---- */
+        btnBuscar.addEventListener('click', filtrar);
+        [selOp, selTip, selZon, selPre, selHab].forEach(s => s.addEventListener('change', filtrar));
+        selOrd.addEventListener('change', () => renderPagina());
+        btnLimpiar.addEventListener('click', () => {
+            [selOp, selTip, selZon, selPre, selHab].forEach(s => s.value = '');
+            inpTxt.value = '';
+            filtrar();
+        });
+
+        // Arranque
+        filtrar();
+
+        /* ---- MODAL ---- */
+        const modal        = document.getElementById('propModal');
+        const modalClose   = document.getElementById('propModalClose');
+        const modalImg     = document.getElementById('modalImg');
+        const modalPrecio  = document.getElementById('modalPrecio');
+        const modalTitulo  = document.getElementById('modalTitulo');
+        const modalUbicTxt = document.getElementById('modalUbicacionTxt');
+        const modalFeat    = document.getElementById('modalFeatures');
+        const modalBadges  = document.getElementById('modalBadges');
+        const modalDesc    = document.getElementById('modalDesc');
+        const modalFavBtn  = document.getElementById('modalFavBtn');
+        let modalMap = null;
+        let currentCardForModal = null;
+
+        window.abrirModal = function(card) {
+            currentCardForModal = card;
+            const img    = card.querySelector('img');
+            const precio = card.querySelector('.prop-precio');
+            const titulo = card.querySelector('.prop-titulo');
+            const ubic   = card.querySelector('.prop-ubicacion');
+            const feats  = card.querySelectorAll('.prop-feature');
+            const badges = card.querySelectorAll('.prop-badge');
+            const lat    = parseFloat(card.dataset.lat) || 37.3891;
+            const lng    = parseFloat(card.dataset.lng) || -5.9845;
+            const desc   = card.dataset.desc || '';
+
+            modalImg.src = img ? img.src : '';
+            modalImg.alt = img ? img.alt : '';
+            modalPrecio.textContent  = precio ? precio.innerText : '';
+            modalTitulo.textContent  = titulo ? titulo.textContent : '';
+            modalUbicTxt.textContent = ubic ? ubic.textContent.trim() : '';
+            modalFeat.innerHTML = '';
+            feats.forEach(f => { const div = document.createElement('div'); div.className = 'prop-modal-feat'; div.innerHTML = f.innerHTML; modalFeat.appendChild(div); });
+            modalBadges.innerHTML = '';
+            badges.forEach(b => { const span = document.createElement('span'); span.className = b.className; span.textContent = b.textContent; modalBadges.appendChild(span); });
+            modalDesc.textContent = desc;
+
+            const favs = getFavs();
+            const cardId = getCardId(card);
+            modalFavBtn.classList.toggle('active', favs.includes(cardId));
+            modalFavBtn.textContent = favs.includes(cardId) ? '♥ En favoritos' : '♡ Añadir a favoritos';
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            setTimeout(() => {
+                if (modalMap) { modalMap.remove(); modalMap = null; }
+                modalMap = L.map('modalMap', { zoomControl: true, scrollWheelZoom: false });
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(modalMap);
+                const icon = L.divIcon({ html: '<div style="background:#c5a059;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>', className: '', iconSize: [14,14], iconAnchor: [7,7] });
+                L.marker([lat, lng], { icon }).addTo(modalMap);
+                modalMap.setView([lat, lng], 14);
+            }, 320);
+        };
+
+        modalFavBtn.addEventListener('click', () => {
+            if (!currentCardForModal) return;
+            const id = getCardId(currentCardForModal);
+            let favs = getFavs();
+            const btn = currentCardForModal.querySelector('.prop-fav-btn');
+            if (favs.includes(id)) {
+                favs = favs.filter(f => f !== id);
+                modalFavBtn.textContent = '♡ Añadir a favoritos'; modalFavBtn.classList.remove('active');
+                if (btn) btn.classList.remove('active');
+            } else {
+                favs.push(id);
+                modalFavBtn.textContent = '♥ En favoritos'; modalFavBtn.classList.add('active');
+                if (btn) btn.classList.add('active');
+            }
+            saveFavs(favs);
+        });
+
+        function cerrarModal() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+        modalClose.addEventListener('click', cerrarModal);
+        modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) cerrarModal(); });
+
+        /* ---- MAPA PRINCIPAL ---- */
+        const btnToggleMapa  = document.getElementById('btnToggleMapa');
+        const mapaContenedor = document.getElementById('mapaContenedor');
+        let mainMap = null;
+        let mapaAbierto = false;
+
+        btnToggleMapa.addEventListener('click', () => {
+            mapaAbierto = !mapaAbierto;
+            mapaContenedor.classList.toggle('open', mapaAbierto);
+            btnToggleMapa.innerHTML = mapaAbierto
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cerrar mapa'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l7-4 8 4 7-4v16l-7 4-8-4-7 4V6z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Ver en el mapa';
+
+            if (mapaAbierto && !mainMap) {
+                setTimeout(() => {
+                    mainMap = L.map('mapaLeaflet', { scrollWheelZoom: false });
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(mainMap);
+                    const icon = L.divIcon({ html: '<div style="background:#c5a059;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>', className: '', iconSize: [16,16], iconAnchor: [8,8] });
+                    const markers = [];
+                    allCards.forEach(card => {
+                        const lat = parseFloat(card.dataset.lat);
+                        const lng = parseFloat(card.dataset.lng);
+                        if (!lat || !lng) return;
+                        const titulo = card.querySelector('.prop-titulo')?.textContent || '';
+                        const precio = card.querySelector('.prop-precio')?.innerText || '';
+                        const marker = L.marker([lat, lng], { icon }).addTo(mainMap);
+                        marker.bindPopup(`<div style="min-width:160px"><p class="mapa-popup-precio">${precio}</p><p class="mapa-popup-titulo">${titulo}</p><span class="mapa-popup-link" onclick="abrirModal(document.querySelectorAll('.prop-card')[${allCards.indexOf(card)}])">Ver detalles →</span></div>`);
+                        markers.push(marker);
+                    });
+                    if (markers.length) { mainMap.fitBounds(L.featureGroup(markers).getBounds().pad(0.15)); }
+                    else { mainMap.setView([37.3891, -5.9845], 10); }
+                }, 300);
+            }
+        });
+
+    })();
+    </script>
 </body>
 </html>
