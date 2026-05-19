@@ -1,90 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Inmobiliaria Prestige</title>
-
-    <!-- Fuentes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
-    
     <script src="theme.js"></script>
 </head>
-
 <body class="login-page">
 
-    <!-- Header / Menú -->
     <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="propiedades.html">Propiedades</a></li>
-                <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="perfil.html">Perfil</a></li>
-                <li class="dropdown">
-                    <a href="contacto.html" class="active">Contacto ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="contacto.html">Contacto General</a></li>
-                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
-                        <li><a href="buscamos.html">Díganos qué busca</a></li>
-                    </ul>
-                </li>
-                <li class="theme-toggle-li">
-                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
-                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    </button>
-                </li>
+                <li><a href="login.html" class="active">Login</a></li>
+                <li id="userMenu"></li>
             </ul>
         </nav>
     </header>
 
-    <!-- LOGIN -->
     <section class="login">
         <div class="login-box">
-
             <h1>Inmobiliaria Prestige</h1>
             <p id="titulo">Accede a tu cuenta</p>
 
-            <!-- FORMULARIO LOGIN -->
             <form id="loginForm">
                 <input type="email" id="user" placeholder="Email" required>
                 <input type="password" id="pass" placeholder="Contraseña" required>
-                <button type="submit">Entrar</button>
+                <button type="submit" id="btnLogin">Entrar</button>
             </form>
 
-            <!-- FORMULARIO REGISTRO (oculto por defecto) -->
             <form id="registerForm" style="display:none;">
                 <input type="email" id="newUser" placeholder="Nuevo email" required>
                 <input type="password" id="newPass" placeholder="Contraseña (mín. 6 caracteres)" minlength="6" required>
                 <button type="submit">Crear cuenta</button>
             </form>
 
-            <!-- Mensajes de error/éxito -->
             <p id="error"></p>
-
-            <!-- Enlace para cambiar entre login/registro (sin onclick, lo maneja el JS) -->
-            <p>
-                <a href="#" id="toggleLink">¿No tienes cuenta? Crear cuenta</a>
-            </p>
-
+            <p><a href="#" id="toggleLink">¿No tienes cuenta? Crear cuenta</a></p>
         </div>
     </section>
 
-    <!-- Scripts: type="module" para Firebase + eventos manejados por JS -->
-    <script type="module" src="js/login.js"></script>
-    <script src="prestige-chatbot.js"></script>
+    <div id="modal2FA" class="modal-2fa-overlay" style="display: none;">
+        <div class="modal-2fa-card">
+            <h2>Verificación de Seguridad</h2>
+            <p>Introduce el código enviado a tu dispositivo.</p>
+            <input type="text" id="codigo2FA" placeholder="000000" maxlength="6">
+            <button id="btnVerificar2FA">Verificar Código</button>
+            <button id="btnCancelar2FA">Cancelar</button>
+        </div>
+    </div>
 
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
 </body>
 </html>
