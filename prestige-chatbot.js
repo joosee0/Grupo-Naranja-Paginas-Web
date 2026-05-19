@@ -6,6 +6,12 @@
      ======================================================================== */
   const AI_CONFIG = {
     provider: 'none', // Cambia a 'groq' o 'gemini' cuando configures tu clave
+    
+  together: {
+  apiKey: 'api key aqui',
+  model: 'meta-llama/Llama-3.3-70b-instruct-turbo', // Ejemplo de modelo
+  endpoint: 'https://together.xyz',
+},
  
     groq: {
       apiKey: 'api key aqui cuando la tenga',
