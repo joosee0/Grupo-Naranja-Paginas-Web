@@ -75,7 +75,7 @@
         }
         .nav-items a:hover, .nav-items a.active { color: var(--dorado); }
 
-        /* ==================== HERO SECTION (CON IMAGEN) ==================== */
+        /* ==================== HERO SECTION ==================== */
         .hero {
             position: relative;
             height: 85vh;
@@ -106,7 +106,7 @@
         }
         .btn-primary:hover { background-color: var(--dorado-hover); transform: translateY(-3px); }
 
-        /* ==================== CÓMO FUNCIONA ==================== */
+        /* ==================== TARJETAS INTERACTIVAS (FLIP CARDS) ==================== */
         .steps-section { padding: 80px 20px; background-color: var(--bg-principal); }
         .section-header { text-align: center; margin-bottom: 60px; }
         .section-header h2 {
@@ -117,18 +117,70 @@
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 40px; max-width: 1100px; margin: 0 auto;
         }
-        .step-card {
-            background: var(--bg-secundario); padding: 40px 30px;
-            text-align: center; border-radius: 8px;
+
+        /* Contenedor principal de la tarjeta */
+        .flip-card {
+            background-color: transparent;
+            height: 280px;
+            perspective: 1000px; /* Otorga el efecto 3D */
+            cursor: pointer;
+        }
+
+        /* Envoltorio interno que realiza el giro */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Giro al hacer hover */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Estilos comunes para parte frontal y trasera */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Parte frontal (oscura) */
+        .flip-card-front {
+            background: var(--bg-secundario);
             border: 1px solid var(--borde);
-            transition: transform 0.3s ease;
         }
-        .step-card:hover { transform: translateY(-10px); border-color: var(--dorado); }
-        .step-icon {
-            font-size: 40px; color: var(--dorado); margin-bottom: 20px;
+        .flip-card-front i {
+            font-size: 50px; color: var(--dorado); margin-bottom: 25px;
         }
-        .step-card h3 { font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; }
-        .step-card p { color: var(--texto-gris); font-size: 15px; }
+        .flip-card-front h3 {
+            font-family: var(--fuente-titulo); font-size: 24px; color: var(--texto-blanco);
+        }
+
+        /* Parte trasera (dorada) */
+        .flip-card-back {
+            background: linear-gradient(135deg, var(--dorado), var(--dorado-hover));
+            color: var(--bg-principal);
+            transform: rotateY(180deg);
+        }
+        .flip-card-back h3 {
+            font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; color: var(--bg-principal);
+        }
+        .flip-card-back p {
+            font-size: 16px; font-weight: 500; color: #1a1a1a; line-height: 1.5;
+        }
 
         /* ==================== FORMULARIO DE VALORACIÓN ==================== */
         .form-section { padding: 60px 20px 100px 20px; background-color: var(--bg-secundario); }
@@ -257,24 +309,50 @@
     <section class="steps-section" id="valoracion">
         <div class="section-header fade-in">
             <h2>Nuestra Metodología</h2>
-            <p style="color: var(--texto-gris);">Un proceso transparente y diseñado para maximizar sus beneficios.</p>
+            <p style="color: var(--texto-gris);">Pase el ratón sobre las tarjetas para conocer el proceso.</p>
         </div>
+        
         <div class="steps-grid">
-            <div class="step-card fade-in">
-                <i class="fa-solid fa-laptop-house step-icon"></i>
-                <h3>1. Solicitud Online</h3>
-                <p>Complete el formulario con los detalles básicos de su inmueble de forma rápida y segura en menos de 2 minutos.</p>
+            
+            <div class="flip-card fade-in">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-laptop-house"></i>
+                        <h3>1. Solicitud Online</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Paso 1</h3>
+                        <p>Complete el formulario con los detalles básicos de su inmueble de forma rápida y segura en menos de 2 minutos.</p>
+                    </div>
+                </div>
             </div>
-            <div class="step-card fade-in" style="transition-delay: 0.2s;">
-                <i class="fa-solid fa-chart-line step-icon"></i>
-                <h3>2. Análisis Comparativo</h3>
-                <p>Nuestros expertos cruzan sus datos con las últimas transacciones reales de su zona utilizando herramientas Big Data.</p>
+
+            <div class="flip-card fade-in" style="transition-delay: 0.2s;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>2. Análisis Comparativo</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Paso 2</h3>
+                        <p>Nuestros expertos cruzan sus datos con las últimas transacciones reales de su zona utilizando herramientas Big Data.</p>
+                    </div>
+                </div>
             </div>
-            <div class="step-card fade-in" style="transition-delay: 0.4s;">
-                <i class="fa-solid fa-file-signature step-icon"></i>
-                <h3>3. Informe Detallado</h3>
-                <p>Reciba un dossier completo con el precio óptimo de mercado y una estrategia de venta personalizada.</p>
+
+            <div class="flip-card fade-in" style="transition-delay: 0.4s;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <h3>3. Informe Detallado</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Paso 3</h3>
+                        <p>Reciba un dossier completo con el precio óptimo de mercado y una estrategia de venta personalizada.</p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -396,23 +474,21 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Configurar el Intersection Observer para el efecto Fade-In
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15 // El elemento debe estar 15% visible para animarse
+                threshold: 0.15
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Dejar de observar una vez que ya es visible
+                        observer.unobserve(entry.target); 
                     }
                 });
             }, observerOptions);
 
-            // Seleccionar todos los elementos con la clase fade-in
             const fadeElements = document.querySelectorAll('.fade-in');
             fadeElements.forEach(el => observer.observe(el));
         });
