@@ -7,7 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
+    <script src="theme.js"></script>
+    <!-- Preload imágenes página 1 para carga instantánea -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <style>
         /* =====================================================
@@ -36,43 +46,57 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; color: var(--text-color); background: var(--bg-color); }
 
-        /* HEADER */
+        /* HEADER — igual que style.css + index.html */
         .header-prestige {
-            background: #0f172a;
-            padding: 18px 2.5rem;
-            display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 1000;
-            transition: padding 0.3s ease, box-shadow 0.3s ease;
+            background-color: #0f172a;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            transition: all 0.4s ease-in-out;
         }
-        .header-prestige.scrolled { padding-top: 8px; padding-bottom: 8px; box-shadow: 0 4px 24px rgba(0,0,0,.22); }
-        .logo { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.1rem; letter-spacing: 1px; }
-        .logo span { color: var(--accent-color); }
-        nav ul.nav-links { list-style: none; display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; }
-        nav ul.nav-links li a {
-            color: #cbd5e1; text-decoration: none; font-size: .85rem;
-            padding: 6px 12px; border-radius: 6px;
-            transition: color .2s, background .2s;
-            position: relative;
+        .header-scrolled {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 8px 0;
         }
-        nav ul.nav-links li a:hover, nav ul.nav-links li a.active { color: #fff; background: rgba(197,160,89,.18); }
-        nav ul.nav-links li a::after {
-            content:''; position:absolute; bottom:-3px; left:50%; width:0; height:2px;
-            background:var(--accent-color); border-radius:2px;
-            transition:width .3s ease, left .3s ease;
+        body.dark-mode .header-scrolled {
+            background: rgba(20,20,20,0.95) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
-        nav ul.nav-links li a:hover::after, nav ul.nav-links li a.active::after { width:100%; left:0; }
+        .logo { color: #ffffff; font-size: 1.8rem; font-family: 'Playfair Display', serif; letter-spacing: 1px; font-weight: bold; }
+        .logo span { color: #c5a059; }
+        .header-prestige nav ul.nav-links { list-style: none; display: flex; gap: 2.5rem; align-items: center; margin: 0; padding: 0; }
+        .header-prestige nav ul.nav-links > li > a {
+            color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        .header-prestige nav ul.nav-links > li > a:hover,
+        .header-prestige nav ul.nav-links > li > a.active { color: #c5a059; }
         .dropdown { position: relative; }
-        .dropdown-menu {
+        .header-prestige nav ul.dropdown-menu {
             display: none; position: absolute; top: 100%; left: 0;
-            background: #1e293b; border-radius: 8px; min-width: 200px;
-            box-shadow: 0 8px 24px rgba(0,0,0,.3); z-index: 100; list-style: none; padding: .5rem 0;
+            background-color: #ffffff; min-width: 250px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-radius: 8px;
+            padding: 10px 0; z-index: 1000; border-top: 4px solid #c5a059;
+            flex-direction: column !important; gap: 0;
         }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu li a { display: block; padding: 8px 16px; color: #cbd5e1 !important; font-size: .84rem; border-radius: 0 !important; }
-        .dropdown-menu li a:hover { background: rgba(197,160,89,.15) !important; }
+        .dropdown:hover .dropdown-menu { display: flex !important; }
+        .header-prestige nav ul.dropdown-menu li { width: 100%; display: block; }
+        .header-prestige nav ul.dropdown-menu li a {
+            display: block; padding: 14px 22px; color: #334155 !important;
+            font-size: 0.95rem !important; text-transform: none !important; font-weight: 500 !important;
+        }
+        .header-prestige nav ul.dropdown-menu li a:hover {
+            background-color: #f8fafc !important; color: #c5a059 !important; padding-left: 28px;
+        }
         .theme-toggle {
             background: rgba(197,160,89,.15); border: 1px solid rgba(197,160,89,.3);
-            border-radius: 6px; padding: 6px; cursor: pointer; color: var(--accent-color);
+            border-radius: 6px; padding: 6px; cursor: pointer; color: #c5a059;
             display: flex; align-items: center;
         }
         .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
@@ -83,7 +107,7 @@
         /* HERO */
         .hero-propiedades-premium {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%);
-            padding: 5rem 2rem 4rem;
+            padding: 8rem 2rem 4rem;
             text-align: center;
             position: relative; overflow: hidden;
         }
@@ -460,8 +484,8 @@
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .header-prestige { padding: 14px 1rem; }
-            nav ul.nav-links { gap: .15rem; }
-            nav ul.nav-links li a { padding: 5px 8px; font-size: .78rem; }
+            .header-prestige nav ul.nav-links { gap: 1rem; }
+            .header-prestige nav ul.nav-links > li > a { font-size: .78rem; }
             .propiedades-grid { grid-template-columns: 1fr; }
             .propiedades-grid.view-list .prop-card { grid-template-columns: 1fr; }
             .propiedades-grid.view-list .prop-card-img-wrap { height: 220px; border-radius: 14px 14px 0 0; }
@@ -628,8 +652,8 @@
                     data-lat="37.3381" data-lng="-5.8480"
                     data-desc="Exclusiva villa contemporánea con piscina infinita, jardín paisajístico y domótica integral. Acabados de primera calidad con amplias zonas de día y noche. Urbanización privada con seguridad 24h.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Villa moderna con piscina en Alcalá de Guadaíra" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Villa moderna con piscina en Alcalá de Guadaíra"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
@@ -655,8 +679,8 @@
                     data-lat="37.3886" data-lng="-5.9823"
                     data-desc="Ático de diseño exclusivo en pleno corazón de Triana con terraza panorámica de 120 m² y vistas a la Torre del Oro. Cocina Bulthaup, suelos de mármol y ascensor privado.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Ático de lujo en Sevilla centro" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Ático de lujo en Sevilla centro"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -681,8 +705,8 @@
                     data-lat="37.2974" data-lng="-5.9223"
                     data-desc="Chalet premium en zona residencial tranquila con jardín privado de 800 m², piscina climatizada y garaje para 3 vehículos. Terraza cubierta perfecta para el verano sevillano.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Chalet adosado con jardín en Dos Hermanas" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Chalet adosado con jardín en Dos Hermanas"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -707,8 +731,8 @@
                     data-lat="37.3380" data-lng="-5.8300"
                     data-desc="Impresionante finca señorial de 12 hectáreas con olivar centenario, cortijo restaurado, capilla privada y piscina olímpica. A solo 20 minutos del centro de Sevilla.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Finca cortijo en las afueras de Alcalá" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Finca cortijo en las afueras de Alcalá"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <span class="prop-badge prop-badge--nuevo">Nuevo</span>
@@ -734,8 +758,8 @@
                     data-lat="37.3476" data-lng="-6.0596"
                     data-desc="Moderno piso de lujo con acabados contemporáneos y vistas despejadas al Guadalquivir. Cocina abierta, terraza de 40 m² y parking doble en el edificio. Comunidad con piscina.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso de lujo en Mairena del Aljarafe" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Piso de lujo en Mairena del Aljarafe"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -760,8 +784,8 @@
                     data-lat="37.4728" data-lng="-5.9845"
                     data-desc="Adosado de obra nueva en exclusiva urbanización cerrada con piscina comunitaria, zona deportiva y parques. Entrega en 2026. Precios con IVA incluido y posibilidad de personalización.">
                     <div class="prop-card-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Casa adosada en La Rinconada" loading="lazy"
+                        <img fetchpriority="high" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80"
+                             alt="Casa adosada en La Rinconada"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -789,7 +813,7 @@
                     data-desc="Precioso piso reformado en el Barrio de Santa Cruz, a 2 minutos de la Catedral. Techos altos con vigas originales, suelo hidráulico restaurado y patio interior con plantas. Amueblado con gusto exquisito.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso en el centro histórico de Sevilla" loading="lazy"
+                             alt="Piso en el centro histórico de Sevilla"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -815,7 +839,7 @@
                     data-desc="Adosados de nueva construcción en Mairena del Aljarafe con 4 dormitorios, jardín privado de 120 m², garage para 2 coches y terraza. Comunidad con piscina y zona de juegos. Llaves en 2025.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Adosado obra nueva en Mairena del Aljarafe" loading="lazy"
+                             alt="Adosado obra nueva en Mairena del Aljarafe"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
                         <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
@@ -842,7 +866,7 @@
                     data-desc="Luminoso piso en planta alta con orientación sur, reformado completamente en 2023. Tres dormitorios, dos baños, salón amplio y balcón. Garaje incluido en el precio del alquiler.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso luminoso en Dos Hermanas" loading="lazy"
+                             alt="Piso luminoso en Dos Hermanas"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -868,7 +892,7 @@
                     data-desc="Espectacular villa independiente en La Rinconada con piscina, garaje doble y jardín de 600 m². Cocina americana de diseño, climatización centralizada y paneles solares. Ideal para familias.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Villa moderna en La Rinconada" loading="lazy"
+                             alt="Villa moderna en La Rinconada"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -894,7 +918,7 @@
                     data-desc="Ático de alquiler en el Arenal con terraza de 80 m², vistas a la Giralda y el río. Completamente equipado y amueblado al más alto nivel. Perfecto para ejecutivos o largas temporadas.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Ático de alquiler con terraza en Sevilla" loading="lazy"
+                             alt="Ático de alquiler con terraza en Sevilla"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -920,7 +944,7 @@
                     data-desc="Piso bien distribuido en Alcalá de Guadaíra, planta baja con jardín privado de 60 m². Tres habitaciones, dos baños, cocina equipada y trastero. Comunidad tranquila con piscina.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso con jardín en Alcalá de Guadaíra" loading="lazy"
+                             alt="Piso con jardín en Alcalá de Guadaíra"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -948,7 +972,7 @@
                     data-desc="Magnífica finca rústica de 8 hectáreas con cortijo andaluz, bodega, cuadra y piscina. Ideal para uso residencial o como proyecto turístico. Infraestructura completa y acceso por camino asfaltado.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1464146072230-91cabc968266?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Finca rústica en Dos Hermanas" loading="lazy"
+                             alt="Finca rústica en Dos Hermanas"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--venta">Venta</span>
                         <span class="prop-badge prop-badge--destacado">⭐ Destacado</span>
@@ -975,7 +999,7 @@
                     data-desc="Lujoso chalet en alquiler en Mairena del Aljarafe con 5 dormitorios, piscina privada, barbacoa y garaje para 4 coches. Urbanización privada con seguridad. Disponible desde octubre 2025.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Chalet de lujo en alquiler en Mairena" loading="lazy"
+                             alt="Chalet de lujo en alquiler en Mairena"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -1001,7 +1025,7 @@
                     data-desc="Pisos de obra nueva en el barrio de San Pablo con calidades premium, terrazas amplias y garaje incluido. Eficiencia energética A+. Entrega prevista primer trimestre 2026. Personalización de acabados.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1622866306950-81d17097d458?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Pisos de obra nueva en Sevilla Capital" loading="lazy"
+                             alt="Pisos de obra nueva en Sevilla Capital"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -1027,7 +1051,7 @@
                     data-desc="Adosado de alquiler en La Rinconada, urbanización familiar con piscina comunitaria. 4 dormitorios, 3 baños, jardín propio de 80 m², garaje y trastero. Zona muy tranquila y bien comunicada con Sevilla.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Adosado en alquiler en La Rinconada" loading="lazy"
+                             alt="Adosado en alquiler en La Rinconada"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -1053,7 +1077,7 @@
                     data-desc="Villas de obra nueva en Alcalá de Guadaíra con diseño bioclimático, domótica KNX, piscina propia y garaje doble. Parcelas de entre 800 y 1.200 m². Entrega 2026 con certificado A+.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Villa de obra nueva en Alcalá de Guadaíra" loading="lazy"
+                             alt="Villa de obra nueva en Alcalá de Guadaíra"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--obra-nueva">Obra nueva</span>
                         <span class="prop-badge prop-badge--nuevo">Nuevo</span>
@@ -1080,7 +1104,7 @@
                     data-desc="Piso moderno en alquiler en pleno centro de Sevilla, totalmente reformado con electrodomésticos de primera. Dos dormitorios, salón con terraza y parking ópccional. Ideal para profesionales.">
                     <div class="prop-card-img-wrap">
                         <img src="https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=800&h=460&fit=crop&auto=format&q=80"
-                             alt="Piso moderno en alquiler en el centro de Sevilla" loading="lazy"
+                             alt="Piso moderno en alquiler en el centro de Sevilla"
                              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=460&fit=crop&auto=format&q=80'">
                         <span class="prop-badge prop-badge--alquiler">Alquiler</span>
                         <button class="prop-fav-btn" aria-label="Añadir a favoritos"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -1249,12 +1273,11 @@
         });
 
         /* ---- STICKY HEADER ---- */
-        const header = document.getElementById('mainHeader');
-        const sentinel = document.createElement('div');
-        sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:100%;pointer-events:none';
-        document.body.prepend(sentinel);
-        new IntersectionObserver(([e]) => header.classList.toggle('scrolled', !e.isIntersecting),
-            { rootMargin: '-1px 0px 0px 0px', threshold: [1] }).observe(sentinel);
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) header.classList.add('header-scrolled');
+            else header.classList.remove('header-scrolled');
+        });
 
         /* ---- SKELETON LOADING ---- */
         allCards.forEach(card => {
@@ -1348,7 +1371,7 @@
             renderPagina();
         });
 
-        /* ---- FILTRAO ---- */
+        /* ---- FILTRADO ---- */
         function filtrar() {
             const fOp  = selOp.value;
             const fTip = selTip.value;
@@ -1429,7 +1452,7 @@
             });
         }
 
-        /* ---- BÚSQUEDA TEXTO 
+        /* ---- BÚSQUEDA TEXTO ---- */
         btnClearTxt.addEventListener('click', () => { inpTxt.value = ''; filtrar(); inpTxt.focus(); });
         inpTxt.addEventListener('input', filtrar);
 
