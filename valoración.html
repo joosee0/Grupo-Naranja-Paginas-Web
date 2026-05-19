@@ -12,9 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <link rel="stylesheet" href="prestige-chatbot.css">
-    
-    <style>
-        /* ==================== VARIABLES ==================== */
+    <link rel="stylesheet" href="theme.css"> <style>
+        /* ==================== VARIABLES (MODO OSCURO POR DEFECTO) ==================== */
         :root {
             --bg-principal: #0a0e14;
             --bg-secundario: #121820;
@@ -25,8 +24,23 @@
             --texto-blanco: #f8fafc;
             --texto-gris: #94a3b8;
             --borde: rgba(197, 160, 89, 0.2);
+            --borde-input: rgba(255,255,255,0.1);
             --fuente-titulo: 'Playfair Display', serif;
             --fuente-cuerpo: 'Urbanist', sans-serif;
+            --sombra: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* ==================== VARIABLES (MODO CLARO) ==================== */
+        body.light-mode {
+            --bg-principal: #f8fafc;
+            --bg-secundario: #ffffff;
+            --bg-tarjeta: #ffffff;
+            --bg-input: #f1f5f9;
+            --texto-blanco: #0f172a; /* Texto principal oscuro */
+            --texto-gris: #475569;   /* Texto secundario gris oscuro */
+            --borde: #e2e8f0;
+            --borde-input: #cbd5e1;
+            --sombra: 0 15px 35px rgba(0,0,0,0.08);
         }
 
         /* ==================== RESET BÁSICO ==================== */
@@ -38,9 +52,41 @@
             font-family: var(--fuente-cuerpo);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* ==================== ANIMACIONES (JS) ==================== */
+        /* ==================== BOTÓN MODO OSCURO/CLARO ==================== */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--texto-blanco);
+            transition: color 0.3s ease, transform 0.3s ease;
+            padding: 5px;
+        }
+        .theme-toggle:hover {
+            color: var(--dorado);
+            transform: scale(1.1);
+        }
+        .theme-toggle svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        /* Lógica para mostrar/ocultar el sol y la luna */
+        body.light-mode .icon-sun { display: none; }
+        body.light-mode .icon-moon { display: block; }
+        body:not(.light-mode) .icon-sun { display: block; }
+        body:not(.light-mode) .icon-moon { display: none; }
+
+        /* ==================== ANIMACIONES ==================== */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
@@ -55,13 +101,15 @@
         .prestige-header {
             position: fixed;
             top: 0; left: 0; width: 100%;
-            background: rgba(10, 14, 20, 0.85);
+            background: var(--bg-secundario);
+            opacity: 0.95;
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--borde);
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 50px;
             z-index: 1000;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
         .logo-area {
             font-family: var(--fuente-titulo);
@@ -69,7 +117,7 @@
             color: var(--dorado); text-decoration: none;
             letter-spacing: 2px; text-transform: uppercase;
         }
-        .nav-items { display: flex; gap: 30px; list-style: none; }
+        .nav-items { display: flex; gap: 30px; list-style: none; align-items: center; }
         .nav-items a {
             color: var(--texto-blanco); text-decoration: none;
             font-size: 14px; font-weight: 600; text-transform: uppercase;
@@ -89,7 +137,7 @@
         .hero::before {
             content: ''; position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(10,14,20,0.7) 0%, rgba(10,14,20,1) 100%);
+            background: linear-gradient(to bottom, rgba(10,14,20,0.7) 0%, var(--bg-principal) 100%);
         }
         .hero-content { position: relative; z-index: 1; max-width: 800px; }
         .hero h1 {
@@ -97,10 +145,10 @@
             font-size: 55px; color: var(--dorado);
             margin-bottom: 20px; line-height: 1.2;
         }
-        .hero p { font-size: 20px; color: var(--texto-gris); margin-bottom: 40px; }
+        .hero p { font-size: 20px; color: #e2e8f0; margin-bottom: 40px; } /* Texto hero siempre claro por el fondo */
         .btn-primary {
             display: inline-block;
-            background-color: var(--dorado); color: var(--bg-principal);
+            background-color: var(--dorado); color: #0a0e14;
             padding: 16px 35px; font-size: 16px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 2px;
             text-decoration: none; border-radius: 4px;
@@ -109,7 +157,7 @@
         .btn-primary:hover { background-color: var(--dorado-hover); transform: translateY(-3px); }
 
         /* ==================== TARJETAS INTERACTIVAS (FLIP CARDS) ==================== */
-        .steps-section { padding: 80px 20px; background-color: var(--bg-principal); }
+        .steps-section { padding: 80px 20px; background-color: var(--bg-principal); transition: background-color 0.4s ease; }
         .section-header { text-align: center; margin-bottom: 60px; }
         .section-header h2 {
             font-family: var(--fuente-titulo); font-size: 36px;
@@ -148,30 +196,32 @@
             justify-content: center;
             align-items: center;
             padding: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: var(--sombra);
         }
         .flip-card-front {
             background: var(--bg-secundario);
             border: 1px solid var(--borde);
+            transition: background 0.4s ease, border 0.4s ease;
         }
         .flip-card-front i { font-size: 50px; color: var(--dorado); margin-bottom: 25px; }
         .flip-card-front h3 { font-family: var(--fuente-titulo); font-size: 24px; color: var(--texto-blanco); }
         .flip-card-back {
             background: linear-gradient(135deg, var(--dorado), var(--dorado-hover));
-            color: var(--bg-principal);
+            color: #ffffff;
             transform: rotateY(180deg);
         }
-        .flip-card-back h3 { font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; color: var(--bg-principal); }
+        .flip-card-back h3 { font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; color: #ffffff; }
         .flip-card-back p { font-size: 16px; font-weight: 500; color: #1a1a1a; line-height: 1.5; }
 
         /* ==================== FORMULARIO DE VALORACIÓN ==================== */
-        .form-section { padding: 60px 20px 100px 20px; background-color: var(--bg-secundario); }
+        .form-section { padding: 60px 20px 100px 20px; background-color: var(--bg-secundario); transition: background-color 0.4s ease; }
         .form-container {
             max-width: 800px; margin: 0 auto;
             background-color: var(--bg-tarjeta);
             border: 1px solid var(--borde); border-top: 4px solid var(--dorado);
             padding: 50px; border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: var(--sombra);
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
         }
         .form-title {
             font-family: var(--fuente-titulo); color: var(--dorado);
@@ -182,19 +232,20 @@
         .form-group { flex: 1; display: flex; flex-direction: column; }
         label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-gris); margin-bottom: 8px; font-weight: 600; }
         input, select {
-            background-color: var(--bg-input); border: 1px solid rgba(255,255,255,0.1);
+            background-color: var(--bg-input); border: 1px solid var(--borde-input);
             color: var(--texto-blanco); padding: 15px; font-family: var(--fuente-cuerpo);
             font-size: 15px; border-radius: 4px; transition: all 0.3s ease; outline: none; width: 100%;
         }
-        input:focus, select:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(197, 160, 89, 0.15); }
+        input:focus, select:focus { border-color: var(--dorado); box-shadow: 0 0 10px rgba(197, 160, 89, 0.15); background-color: var(--bg-secundario); }
         .grid-extras {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
             background-color: var(--bg-input); padding: 20px; border-radius: 4px;
+            transition: background-color 0.4s ease;
         }
         .checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--texto-blanco); text-transform: none; font-weight: 400; }
-        .checkbox-label input { width: 18px; height: 18px; accent-color: var(--dorado); }
+        .checkbox-label input { width: 18px; height: 18px; accent-color: var(--dorado); cursor: pointer; }
         .btn-submit {
-            background-color: var(--dorado); color: var(--bg-principal);
+            background-color: var(--dorado); color: #0a0e14;
             border: none; width: 100%; padding: 18px; font-size: 16px; font-weight: 700;
             text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
             border-radius: 4px; transition: all 0.3s ease; margin-top: 30px;
@@ -205,34 +256,37 @@
         .stats-section {
             padding: 80px 20px; background-color: var(--bg-principal);
             display: flex; justify-content: center; gap: 80px; text-align: center;
+            transition: background-color 0.4s ease;
         }
         .stat-item h4 { font-family: var(--fuente-titulo); font-size: 48px; color: var(--dorado); }
         .stat-item p { text-transform: uppercase; letter-spacing: 2px; font-size: 14px; color: var(--texto-gris); }
 
         /* ==================== FOOTER ==================== */
         footer {
-            background-color: #05070a; padding: 60px 50px 30px;
+            background-color: #05070a; /* El footer siempre oscuro se ve más elegante */
+            padding: 60px 50px 30px;
             border-top: 1px solid var(--borde);
+            color: #f8fafc;
         }
         .footer-grid {
             display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
             max-width: 1200px; margin: 0 auto 40px;
         }
         .footer-logo { font-family: var(--fuente-titulo); color: var(--dorado); font-size: 24px; margin-bottom: 20px; text-transform: uppercase; }
-        .footer-text { color: var(--texto-gris); font-size: 14px; max-width: 300px; }
-        .footer-links h4 { color: var(--texto-blanco); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-text { color: #94a3b8; font-size: 14px; max-width: 300px; }
+        .footer-links h4 { color: #f8fafc; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 10px; }
-        .footer-links a { color: var(--texto-gris); text-decoration: none; transition: color 0.3s; }
+        .footer-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
         .footer-links a:hover { color: var(--dorado); }
         .social-icons { display: flex; gap: 15px; margin-top: 20px; }
         .social-icons a {
             display: flex; justify-content: center; align-items: center;
-            width: 40px; height: 40px; border: 1px solid var(--borde);
+            width: 40px; height: 40px; border: 1px solid rgba(197, 160, 89, 0.2);
             border-radius: 50%; color: var(--dorado); text-decoration: none; transition: all 0.3s;
         }
-        .social-icons a:hover { background: var(--dorado); color: var(--bg-principal); }
-        .footer-bottom { text-align: center; color: var(--texto-gris); font-size: 13px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .social-icons a:hover { background: var(--dorado); color: #0a0e14; }
+        .footer-bottom { text-align: center; color: #94a3b8; font-size: 13px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
 
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 900px) {
@@ -261,6 +315,12 @@
                 <li><a href="servicios.html">Servicios</a></li>
                 <li><a href="valoracion.html" class="active">Valoración</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -453,9 +513,29 @@
     </footer>
 
     <script src="prestige-chatbot.js"></script>
+    <script src="theme.js"></script> <script>
+        // Función para cambiar de tema (Modo Claro / Modo Oscuro)
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            
+            // Guardar la preferencia en localStorage para que se mantenga al cambiar de página
+            if (document.body.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+        }
 
-    <script>
+        // Al cargar la página, comprobar si el usuario ya tenía guardada una preferencia
         document.addEventListener("DOMContentLoaded", function() {
+            const currentTheme = localStorage.getItem('theme');
+            // Si el usuario eligió claro previamente, lo aplicamos
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+            // (Como por defecto es oscuro, si es 'dark' o nulo, no hacemos nada)
+
+            // Intersection Observer para el efecto Fade-In
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
