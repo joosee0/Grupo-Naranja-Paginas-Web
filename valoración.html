@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valoración de Vivienda | PRESTIGE Inmobiliaria</title>
+    <style>
+        /* Variables de color para mantener la coherencia del diseño */
+        :root {
+            --primary-color: #d4af37; /* Dorado Prestige */
+            --primary-hover: #b5952f;
+            --bg-dark: #121212;
+            --bg-panel: #1e1e1e;
+            --text-light: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+        }
+
+        /* Reseteo básico y tipografía */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabecera */
+        header {
+            text-align: center;
+            padding: 4rem 1rem 3rem 1rem;
+            width: 100%;
+            background: linear-gradient(180deg, #000000 0%, var(--bg-dark) 100%);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            color: var(--primary-color);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            font-weight: 300;
+        }
+
+        /* Contenedor del formulario */
+        .form-container {
+            background-color: var(--bg-panel);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 650px;
+            margin-bottom: 5rem;
+            border-top: 4px solid var(--primary-color);
+            box-sizing: border-box;
+        }
+
+        /* Agrupación de campos */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Estilos de los inputs */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        input::placeholder {
+            color: #777;
+        }
+
+        /* Checkboxes para los extras */
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background-color: #2a2a2a;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        /* Botón de envío */
+        button {
+            width: 100%;
+            padding: 1.2rem;
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Separador */
+        .divider {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 2.5rem 0;
+        }
+
+        /* Responsividad para móviles */
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-container {
+                padding: 2rem 1.5rem;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PRESTIGE</h1>
+        <p>Descubre el valor real de tu propiedad en el mercado actual</p>
+    </header>
+
+    <div class="form-container">
+        <!-- El atributo action debe apuntar al script o servidor que procese los datos -->
+        <form action="#" method="POST">
+            
+            <div class="form-group">
+                <label for="nombre">Nombre Completo *</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Introduce tu nombre y apellidos">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="Ej. +34 600 000 000">
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico *</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="form-group">
+                <label for="direccion">Dirección del Inmueble a valorar *</label>
+                <input type="text" id="direccion" name="direccion" required placeholder="Ej. Calle Sierpes 12, Sevilla">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_inmueble">Tipo de Inmueble *</label>
+                <select id="tipo_inmueble" name="tipo_inmueble" required>
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="piso">Piso / Apartamento</option>
+                    <option value="chalet">Chalet / Casa Independiente</option>
+                    <option value="adosado">Casa Adosada</option>
+                    <option value="atico">Ático</option>
+                    <option value="duplex">Dúplex</option>
+                    <option value="local">Local Comercial</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="metros">Metros Cuadrados *</label>
+                    <input type="number" id="metros" name="metros" required min="10" placeholder="Ej. 90">
+                </div>
+                <div class="form-group">
+                    <label for="habitaciones">Nº de Habitaciones</label>
+                    <input type="number" id="habitaciones" name="habitaciones" min="0" placeholder="Ej. 3">
+                </div>
+                <div class="form-group">
+                    <label for="banos">Nº de Baños</label>
+                    <input type="number" id="banos" name="banos" min="0" placeholder="Ej. 2">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Características Adicionales</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="garaje" name="extras" value="garaje">
+                        <label for="garaje">Plaza de Garaje</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="trastero" name="extras" value="trastero">
+                        <label for="trastero">Trastero</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="piscina" name="extras" value="piscina">
+                        <label for="piscina">Piscina</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ascensor" name="extras" value="ascensor">
+                        <label for="ascensor">Ascensor</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="terraza" name="extras" value="terraza">
+                        <label for="terraza">Terraza / Balcón</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Solicitar Valoración Gratuita</button>
+        </form>
+    </div>
+
+</body>
+</html>
