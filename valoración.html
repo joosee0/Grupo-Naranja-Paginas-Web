@@ -14,305 +14,172 @@
     
     <style>
         /* =========================================
-           VARIABLES DE COLOR 
+           AJUSTES GLOBALES Y ANIMACIONES
            ========================================= */
-        :root {
-            --val-bg: #fafafa;
-            --val-card: #ffffff;
-            --val-input: #f5f5f5;
-            --val-text: #333333;
-            --val-text-muted: #666666;
-            --val-border: #e0e0e0;
-            --val-gold: #d4af37;
-            --val-gold-hover: #b5952f;
-            --val-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --val-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body.dark-mode {
-            --val-bg: #121212;
-            --val-card: #1e1e1e;
-            --val-input: #2a2a2a;
-            --val-text: #f4f4f4;
-            --val-text-muted: #aaaaaa;
-            --val-border: #333333;
-            --val-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-
-        /* =========================================
-           AJUSTES GLOBALES Y ANIMACIONES (KEYFRAMES)
-           ========================================= */
-        body { 
-            background-color: var(--val-bg); 
-            color: var(--val-text); 
-            transition: var(--val-transition); 
-        }
+        html { scroll-behavior: smooth; }
+        body { transition: background-color 0.4s, color 0.4s; overflow-x: hidden; }
         
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
             70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
             100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
         }
 
-        .animate-on-scroll {
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
+        .animate-on-scroll { opacity: 0; animation-fill-mode: forwards; }
+        .is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+        
+        /* Título siempre dorado */
+        .titulo-dorado { color: #d4af37 !important; font-family: 'Playfair Display', serif !important; }
 
-        .is-visible {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
+        /* =========================================
+           TEMA CLARO (POR DEFECTO)
+           ========================================= */
+        .seccion-dinamica { background-color: #fafafa; padding: 80px 20px; transition: all 0.4s ease; }
+        .tarjeta-dinamica { background-color: #ffffff; border: 1px solid #e0e0e0; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 10px; transition: all 0.4s ease; }
+        .texto-principal { color: #333333; }
+        .texto-secundario { color: #666666; }
+        .input-dinamico { background-color: #f5f5f5; border: 1px solid #e0e0e0; color: #333333; }
+
+        /* =========================================
+           TEMA OSCURO (SE ACTIVA CON BODY.DARK-MODE)
+           ========================================= */
+        body.dark-mode .seccion-dinamica { background-color: #121212 !important; }
+        body.dark-mode .tarjeta-dinamica { background-color: #1e1e1e !important; border-color: #333333 !important; box-shadow: 0 15px 40px rgba(0,0,0,0.6) !important; }
+        body.dark-mode .texto-principal { color: #f4f4f4 !important; }
+        body.dark-mode .texto-secundario { color: #aaaaaa !important; }
+        body.dark-mode .input-dinamico { background-color: #2a2a2a !important; border-color: #333333 !important; color: #f4f4f4 !important; }
+        
+        /* Excepciones puntuales del modo oscuro */
+        body.dark-mode .timeline-item::after { background-color: #1e1e1e !important; }
+        body.dark-mode .faq-answer { background-color: #2a2a2a !important; }
 
         /* =========================================
            HERO SECTION 
            ========================================= */
         .hero-valoracion {
-            position: relative;
-            padding: 200px 20px 120px 20px;
-            text-align: center;
+            position: relative; padding: 200px 20px 120px 20px; text-align: center;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover fixed;
-            color: white; 
         }
-        .hero-valoracion h1 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 4rem; 
-            color: var(--val-gold); 
-            margin-bottom: 20px; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
-            animation: fadeInUp 1s ease-out;
-        }
-        .hero-valoracion p { 
-            font-size: 1.2rem; 
-            color: #ddd; 
-            max-width: 800px; 
-            margin: 0 auto 40px auto; 
-            animation: fadeInUp 1.2s ease-out;
-        }
+        .hero-valoracion h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); animation: fadeInUp 1s ease-out; }
+        .hero-valoracion p { font-size: 1.2rem; color: #ddd !important; max-width: 800px; margin: 0 auto 40px auto; animation: fadeInUp 1.2s ease-out; }
         .btn-hero {
-            background: var(--val-gold); 
-            color: #fff; 
-            padding: 18px 45px; 
-            border-radius: 30px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: fadeInUp 1.4s ease-out, pulseGlow 2s infinite;
-            transition: var(--val-transition);
+            background: #d4af37 !important; color: #fff !important; padding: 18px 45px; border-radius: 30px; text-decoration: none; 
+            font-weight: bold; display: inline-block; text-transform: uppercase; letter-spacing: 2px;
+            animation: fadeInUp 1.4s ease-out, pulseGlow 2s infinite; transition: all 0.3s ease;
         }
-        .btn-hero:hover {
-            background: var(--val-gold-hover);
-            transform: scale(1.05);
-        }
+        .btn-hero:hover { background: #b5952f !important; transform: scale(1.05); }
 
         /* =========================================
            ESTADÍSTICAS
            ========================================= */
         .estadisticas-val { 
             background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed; 
-            color: white; 
-            padding: 100px 20px; 
-            text-align: center; 
+            color: white !important; padding: 100px 20px; text-align: center; 
         }
         .stats-container { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
         .stat-item { margin: 20px; flex: 1; min-width: 250px; }
-        .stat-numero { font-family: 'Playfair Display', serif; font-size: 4.5rem; color: var(--val-gold); font-weight: bold; margin: 0; }
-        .stat-texto { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 3px; color: #ccc; margin-top: 10px; }
+        .stat-numero { font-family: 'Playfair Display', serif; font-size: 4.5rem; color: #d4af37 !important; font-weight: bold; margin: 0; }
+        .stat-texto { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 3px; color: #ccc !important; margin-top: 10px; }
 
         /* =========================================
-           TIMELINE VERTICAL (PROCESO) - ¡NUEVO Y COMPLEJO!
+           TIMELINE VERTICAL (PROCESO)
            ========================================= */
-        .seccion-timeline {
-            padding: 100px 20px;
-            background-color: var(--val-bg);
-        }
-        .timeline-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .timeline-container::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background-color: var(--val-gold);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-            border-radius: 2px;
-        }
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-            box-sizing: border-box;
-        }
+        .timeline-container { max-width: 800px; margin: 0 auto; position: relative; }
+        .timeline-container::after { content: ''; position: absolute; width: 4px; background-color: #d4af37; top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
         .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            right: -12px;
-            background-color: var(--val-card);
-            border: 4px solid var(--val-gold);
-            top: 20px;
-            border-radius: 50%;
-            z-index: 1;
-            transition: var(--val-transition);
+            content: ''; position: absolute; width: 24px; height: 24px; right: -12px;
+            background-color: #ffffff; border: 4px solid #d4af37; top: 20px; border-radius: 50%; z-index: 1; transition: all 0.3s ease;
         }
-        .timeline-item:hover::after { background-color: var(--val-gold); }
+        .timeline-item:hover::after { background-color: #d4af37 !important; }
         .left { left: 0; }
         .right { left: 50%; }
         .right::after { left: -12px; }
-        .timeline-content {
-            padding: 30px;
-            background-color: var(--val-card);
-            position: relative;
-            border-radius: 10px;
-            box-shadow: var(--val-shadow);
-            border: 1px solid var(--val-border);
-            transition: var(--val-transition);
-        }
-        .timeline-content:hover { transform: translateY(-5px); border-color: var(--val-gold); }
-        .timeline-content h3 { color: var(--val-gold); font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 15px; }
-        .timeline-content p { color: var(--val-text-muted); font-size: 1rem; }
+        .timeline-content { padding: 30px; position: relative; }
+        .timeline-content:hover { transform: translateY(-5px); border-color: #d4af37 !important; }
+        .timeline-content h3 { color: #d4af37; font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 15px; }
+        .timeline-content p { font-size: 1rem; margin: 0; }
 
         /* =========================================
            TARJETAS METODOLOGÍA (FLIP CARDS)
            ========================================= */
-        .seccion-metodologia { padding: 80px 20px; background-color: var(--val-bg); }
         .grid-metodologia { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
         .flip-card { background-color: transparent; width: 350px; height: 350px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; box-sizing: border-box;
-            box-shadow: var(--val-shadow);
+            border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; box-sizing: border-box;
         }
-        .flip-card-front { background-color: var(--val-card); border: 1px solid var(--val-border); }
-        .flip-card-front i { font-size: 5rem; color: var(--val-gold); margin-bottom: 25px; animation: float 6s ease-in-out infinite; }
-        .flip-card-front h3 { font-size: 1.6rem; color: var(--val-text); }
-        .flip-card-back { background: linear-gradient(135deg, var(--val-gold), var(--val-gold-hover)); color: white; transform: rotateY(180deg); }
-        .flip-card-back h3 { margin-bottom: 20px; font-size: 1.8rem; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 15px; }
-        .flip-card-back p { font-size: 1.1rem; line-height: 1.6; color: #fff; }
-
-        /* =========================================
-           PREGUNTAS FRECUENTES (ACORDEÓN JS) - ¡NUEVO!
-           ========================================= */
-        .seccion-faq { padding: 100px 20px; background-color: var(--val-bg); }
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item {
-            background-color: var(--val-card);
-            border: 1px solid var(--val-border);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: var(--val-transition);
-        }
-        .faq-question {
-            width: 100%;
-            text-align: left;
-            padding: 20px 25px;
-            background: none;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--val-text);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-        }
-        .faq-question i { color: var(--val-gold); transition: transform 0.3s; }
-        .faq-item.active .faq-question i { transform: rotate(180deg); }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-            background-color: var(--val-input);
-        }
-        .faq-answer-content { padding: 0 25px 25px 25px; color: var(--val-text-muted); line-height: 1.7; }
+        .flip-card-front i { font-size: 5rem; color: #d4af37; margin-bottom: 25px; animation: float 6s ease-in-out infinite; }
+        .flip-card-front h3 { font-size: 1.6rem; }
+        .flip-card-back { background: linear-gradient(135deg, #d4af37, #b5952f) !important; color: white !important; transform: rotateY(180deg); }
+        .flip-card-back h3 { margin-bottom: 20px; font-size: 1.8rem; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 15px; color: white !important; }
+        .flip-card-back p { font-size: 1.1rem; line-height: 1.6; color: white !important; margin: 0; }
 
         /* =========================================
            FORMULARIO DE VALORACIÓN 
            ========================================= */
-        .seccion-formulario { padding: 60px 20px 120px 20px; background-color: var(--val-bg); }
-        .form-container {
-            max-width: 900px; margin: 0 auto;
-            background-color: var(--val-card);
-            border: 1px solid var(--val-border); 
-            border-top: 5px solid var(--val-gold);
-            padding: 60px; border-radius: 15px;
-            box-shadow: var(--val-shadow);
-        }
-        .form-title { font-family: 'Playfair Display', serif; color: var(--val-gold); font-size: 2.5rem; margin-bottom: 40px; text-align: center; }
+        .form-container { max-width: 900px; margin: 0 auto; border-top: 5px solid #d4af37; padding: 60px; }
         .form-row { display: flex; gap: 25px; margin-bottom: 25px; flex-wrap: wrap; }
         .form-group { flex: 1; min-width: 250px; display: flex; flex-direction: column; }
-        label { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; color: var(--val-text-muted); margin-bottom: 10px; letter-spacing: 1px; }
-        input, select {
-            background-color: var(--val-input); border: 1px solid var(--val-border);
-            color: var(--val-text); padding: 16px; font-family: 'Poppins', sans-serif;
-            font-size: 1rem; border-radius: 8px; transition: var(--val-transition); outline: none; width: 100%;
-        }
-        input:focus, select:focus { border-color: var(--val-gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); background-color: var(--val-card); }
-        .grid-extras {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
-            background-color: var(--val-input); padding: 25px; border-radius: 8px; border: 1px solid var(--val-border);
-        }
-        .checkbox-label { display: flex; align-items: center; gap: 12px; cursor: pointer; color: var(--val-text); font-size: 1rem; }
-        .checkbox-label input { width: 20px; height: 20px; accent-color: var(--val-gold); cursor: pointer; }
+        label { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        input, select { padding: 16px; font-family: 'Poppins', sans-serif; font-size: 1rem; border-radius: 8px; transition: all 0.3s ease; outline: none; width: 100%; }
+        input:focus, select:focus { border-color: #d4af37 !important; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        
+        .grid-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 25px; border-radius: 8px; }
+        .checkbox-label { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 1rem; }
+        .checkbox-label input { width: 20px; height: 20px; accent-color: #d4af37; cursor: pointer; }
+        
         .btn-submit {
-            background-color: var(--val-gold); color: #fff;
-            border: none; width: 100%; padding: 20px; font-size: 1.2rem; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px; cursor: pointer;
-            border-radius: 8px; transition: var(--val-transition); margin-top: 40px;
+            background-color: #d4af37 !important; color: #fff !important; border: none; width: 100%; padding: 20px; font-size: 1.2rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; margin-top: 40px;
         }
-        .btn-submit:hover { background-color: var(--val-gold-hover); transform: translateY(-3px); box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4); }
+        .btn-submit:hover { background-color: #b5952f !important; transform: translateY(-3px); box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4); }
 
         /* =========================================
-           MODAL DE PRIVACIDAD (POPUP HTML/CSS/JS)
+           PREGUNTAS FRECUENTES (ACORDEÓN JS)
+           ========================================= */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { margin-bottom: 15px; overflow: hidden; }
+        .faq-question {
+            width: 100%; text-align: left; padding: 20px 25px; background: none; border: none;
+            font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Poppins', sans-serif;
+        }
+        .faq-question i { color: #d4af37; transition: transform 0.3s; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #f5f5f5; }
+        .faq-answer-content { padding: 0 25px 25px 25px; line-height: 1.7; }
+
+        /* =========================================
+           MODAL DE PRIVACIDAD
            ========================================= */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 2000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: var(--val-transition);
-            backdrop-filter: blur(5px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(5px);
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
-            background: var(--val-card); width: 90%; max-width: 600px;
-            padding: 40px; border-radius: 15px; border-top: 4px solid var(--val-gold);
-            transform: translateY(-50px); transition: var(--val-transition);
-            max-height: 80vh; overflow-y: auto;
+            width: 90%; max-width: 600px; padding: 40px; border-top: 4px solid #d4af37 !important;
+            transform: translateY(-50px); transition: all 0.3s ease; max-height: 80vh; overflow-y: auto;
         }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-close {
-            float: right; font-size: 1.5rem; cursor: pointer; color: var(--val-text-muted);
-            transition: color 0.3s; background: none; border: none;
-        }
-        .modal-close:hover { color: var(--val-gold); }
-        .modal-content h3 { color: var(--val-gold); font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 20px; }
-        .modal-content p { color: var(--val-text); margin-bottom: 15px; line-height: 1.6; }
+        .modal-close { float: right; font-size: 1.5rem; cursor: pointer; transition: color 0.3s; background: none; border: none; }
+        .modal-close:hover { color: #d4af37 !important; }
+        .modal-content h3 { color: #d4af37; font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 20px; }
+        .modal-content p { margin-bottom: 15px; line-height: 1.6; }
 
         /* =========================================
-           MEDIA QUERIES (RESPONSIVE AL DETALLE)
+           MEDIA QUERIES
            ========================================= */
         @media screen and (max-width: 900px) {
             .timeline-container::after { left: 31px; }
@@ -336,7 +203,7 @@
 <body>
 
     <header class="header-prestige" id="main-header">
-        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <div class="logo">INMOBILIARIA <span style="color: #d4af37;">PRESTIGE</span></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -344,7 +211,7 @@
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
                 <li><a href="login.html">Login</a></li>
-                <li><a href="valoracion.html" class="active">Valoración</a></li>
+                <li><a href="valoracion.html" class="active" style="color: #d4af37;">Valoración</a></li>
                 <li id="userMenu"></li>
                 <li class="dropdown">
                     <a href="contacto.html">Contacto ▾</a>
@@ -365,7 +232,7 @@
     </header>
 
     <section class="hero-valoracion">
-        <h1>El Verdadero Valor de su Patrimonio</h1>
+        <h1 class="titulo-dorado">El Verdadero Valor de su Patrimonio</h1>
         <p>Un análisis de mercado respaldado por inteligencia de datos avanzada, machine learning y la experiencia humana de líderes en el sector inmobiliario de lujo.</p>
         <a href="#formulario" class="btn-hero">Solicitar Tasación Gratuita</a>
     </section>
@@ -391,46 +258,46 @@
         </div>
     </section>
 
-    <section class="seccion-timeline">
-        <h2 style="text-align: center; font-size: 2.8rem; color: var(--val-gold); margin-bottom: 60px; font-family: 'Playfair Display', serif;" class="animate-on-scroll">El Viaje de Valoración Prestige</h2>
+    <section class="seccion-dinamica seccion-timeline">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 60px;" class="titulo-dorado animate-on-scroll">El Viaje de Valoración Prestige</h2>
         
         <div class="timeline-container">
             <div class="timeline-item left animate-on-scroll">
-                <div class="timeline-content">
-                    <h3>1. Toma de Datos</h3>
-                    <p>Todo comienza con la información proporcionada en nuestro formulario seguro. Analizamos la ubicación exacta, metraje, y características premium de su propiedad como punto de partida.</p>
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">1. Toma de Datos</h3>
+                    <p class="texto-secundario">Todo comienza con la información proporcionada en nuestro formulario seguro. Analizamos la ubicación exacta, metraje, y características premium de su propiedad como punto de partida.</p>
                 </div>
             </div>
             <div class="timeline-item right animate-on-scroll">
-                <div class="timeline-content">
-                    <h3>2. Extracción de Big Data</h3>
-                    <p>Nuestros algoritmos barren las bases de datos de registros de la propiedad, portales inmobiliarios y transacciones privadas cerradas en los últimos 6 meses en su código postal.</p>
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">2. Extracción de Big Data</h3>
+                    <p class="texto-secundario">Nuestros algoritmos barren las bases de datos de registros de la propiedad, portales inmobiliarios y transacciones privadas cerradas en los últimos 6 meses en su código postal.</p>
                 </div>
             </div>
             <div class="timeline-item left animate-on-scroll">
-                <div class="timeline-content">
-                    <h3>3. Auditoría Humana</h3>
-                    <p>La tecnología no ve acabados de lujo ni luz natural. Nuestros consultores senior revisan los datos fríos y aplican coeficientes correctores basados en la exclusividad y estado real del inmueble.</p>
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">3. Auditoría Humana</h3>
+                    <p class="texto-secundario">La tecnología no ve acabados de lujo ni luz natural. Nuestros consultores senior revisan los datos fríos y aplican coeficientes correctores basados en la exclusividad y estado real del inmueble.</p>
                 </div>
             </div>
             <div class="timeline-item right animate-on-scroll">
-                <div class="timeline-content">
-                    <h3>4. Entrega del Dossier</h3>
-                    <p>En menos de 24 horas, recibe un informe confidencial detallando el valor de mercado actual, el valor de reposición y una propuesta estratégica de comercialización.</p>
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">4. Entrega del Dossier</h3>
+                    <p class="texto-secundario">En menos de 24 horas, recibe un informe confidencial detallando el valor de mercado actual, el valor de reposición y una propuesta estratégica de comercialización.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="seccion-metodologia">
-        <h2 style="text-align: center; font-size: 2.8rem; color: var(--val-gold); margin-bottom: 60px; font-family: 'Playfair Display', serif;" class="animate-on-scroll">Tecnología al Servicio del Lujo</h2>
+    <section class="seccion-dinamica seccion-metodologia">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 60px;" class="titulo-dorado animate-on-scroll">Tecnología al Servicio del Lujo</h2>
         
         <div class="grid-metodologia">
             <div class="flip-card animate-on-scroll">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
+                    <div class="flip-card-front tarjeta-dinamica">
                         <i class="fa-solid fa-satellite-dish"></i>
-                        <h3>Análisis Geo-Espacial</h3>
+                        <h3 class="texto-principal">Análisis Geo-Espacial</h3>
                     </div>
                     <div class="flip-card-back">
                         <h3>Geolocalización</h3>
@@ -441,9 +308,9 @@
 
             <div class="flip-card animate-on-scroll" style="animation-delay: 0.2s;">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
+                    <div class="flip-card-front tarjeta-dinamica">
                         <i class="fa-solid fa-scale-balanced"></i>
-                        <h3>Comparativa Real</h3>
+                        <h3 class="texto-principal">Comparativa Real</h3>
                     </div>
                     <div class="flip-card-back">
                         <h3>Testigos de Cierre</h3>
@@ -454,9 +321,9 @@
 
             <div class="flip-card animate-on-scroll" style="animation-delay: 0.4s;">
                 <div class="flip-card-inner">
-                    <div class="flip-card-front">
+                    <div class="flip-card-front tarjeta-dinamica">
                         <i class="fa-solid fa-chart-pie"></i>
-                        <h3>Tendencias de Mercado</h3>
+                        <h3 class="texto-principal">Tendencias de Mercado</h3>
                     </div>
                     <div class="flip-card-back">
                         <h3>Proyección Futura</h3>
@@ -467,42 +334,42 @@
         </div>
     </section>
 
-    <section class="seccion-formulario" id="formulario">
-        <div class="form-container animate-on-scroll">
-            <h2 class="form-title">Dossier de Valoración Confidencial</h2>
+    <section class="seccion-dinamica seccion-formulario" id="formulario">
+        <div class="form-container tarjeta-dinamica animate-on-scroll">
+            <h2 class="form-title titulo-dorado" style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">Dossier de Valoración Confidencial</h2>
             <form action="#" method="POST" id="valoracionForm">
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Nombre y Apellidos del Propietario *</label>
-                        <input type="text" id="nombre_val" required placeholder="Ej. Alejandro Valera">
+                        <label class="texto-secundario">Nombre y Apellidos del Propietario *</label>
+                        <input type="text" class="input-dinamico" id="nombre_val" required placeholder="Ej. Alejandro Valera">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Teléfono de Contacto Directo *</label>
-                        <input type="tel" id="tel_val" required placeholder="+34 600 000 000">
+                        <label class="texto-secundario">Teléfono de Contacto Directo *</label>
+                        <input type="tel" class="input-dinamico" id="tel_val" required placeholder="+34 600 000 000">
                     </div>
                     <div class="form-group">
-                        <label>Correo Electrónico Privado *</label>
-                        <input type="email" id="email_val" required placeholder="correo@ejemplo.com">
-                    </div>
-                </div>
-
-                <hr style="border: 0; height: 1px; background: var(--val-border); margin: 30px 0;">
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Dirección Exacta del Inmueble a Tasar *</label>
-                        <input type="text" id="dir_val" required placeholder="Calle, Número, Código Postal, Ciudad">
+                        <label class="texto-secundario">Correo Electrónico Privado *</label>
+                        <input type="email" class="input-dinamico" id="email_val" required placeholder="correo@ejemplo.com">
                     </div>
                 </div>
 
+                <hr style="border: 0; height: 1px; background: #e0e0e0; margin: 30px 0; opacity: 0.2;">
+
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Tipo de Propiedad *</label>
-                        <select id="tipo_val" required>
+                        <label class="texto-secundario">Dirección Exacta del Inmueble a Tasar *</label>
+                        <input type="text" class="input-dinamico" id="dir_val" required placeholder="Calle, Número, Código Postal, Ciudad">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="texto-secundario">Tipo de Propiedad *</label>
+                        <select class="input-dinamico" id="tipo_val" required>
                             <option value="" disabled selected>Seleccione tipología...</option>
                             <option value="piso">Piso / Apartamento Premium</option>
                             <option value="atico">Ático / Dúplex</option>
@@ -512,15 +379,15 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Superficie Construida Total (m²) *</label>
-                        <input type="number" id="metros_val" required min="20" placeholder="Ej. 150">
+                        <label class="texto-secundario">Superficie Construida Total (m²) *</label>
+                        <input type="number" class="input-dinamico" id="metros_val" required min="20" placeholder="Ej. 150">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Distribución: Dormitorios *</label>
-                        <select id="hab_val" required>
+                        <label class="texto-secundario">Distribución: Dormitorios *</label>
+                        <select class="input-dinamico" id="hab_val" required>
                             <option value="1">1 Habitación</option>
                             <option value="2">2 Habitaciones</option>
                             <option value="3">3 Habitaciones</option>
@@ -529,8 +396,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Distribución: Baños Completos *</label>
-                        <select id="banos_val" required>
+                        <label class="texto-secundario">Distribución: Baños Completos *</label>
+                        <select class="input-dinamico" id="banos_val" required>
                             <option value="1">1 Baño</option>
                             <option value="2">2 Baños</option>
                             <option value="3">3 Baños</option>
@@ -540,23 +407,23 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 15px;">
-                    <label style="margin-bottom: 12px;">Características Premium (Seleccione las aplicables)</label>
-                    <div class="grid-extras">
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="garaje"> Plaza de Garaje</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="piscina"> Piscina (Priv/Com)</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="terraza"> Terraza / Solárium</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="vistas"> Vistas Despejadas</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="seguridad"> Seguridad 24h / Conserje</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="reforma"> Recién Reformado</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="domotica"> Sistema Domótico</label>
-                        <label class="checkbox-label"><input type="checkbox" name="extras" value="trastero"> Trastero Privado</label>
+                    <label class="texto-secundario" style="margin-bottom: 12px;">Características Premium (Seleccione las aplicables)</label>
+                    <div class="grid-extras input-dinamico">
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="garaje"> Plaza de Garaje</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="piscina"> Piscina (Priv/Com)</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="terraza"> Terraza / Solárium</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="vistas"> Vistas Despejadas</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="seguridad"> Seguridad 24h / Conserje</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="reforma"> Recién Reformado</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="domotica"> Sistema Domótico</label>
+                        <label class="checkbox-label texto-principal"><input type="checkbox" name="extras" value="trastero"> Trastero Privado</label>
                     </div>
                 </div>
 
                 <div style="margin-top: 25px; display: flex; align-items: flex-start; gap: 10px;">
                     <input type="checkbox" id="legal_check" required style="width: auto; margin-top: 5px;">
-                    <label for="legal_check" style="text-transform: none; font-weight: normal; font-size: 0.85rem; line-height: 1.5;">
-                        He leído y acepto la <a href="#" id="openPrivacy" style="color: var(--val-gold); text-decoration: underline;">Política de Privacidad y Tratamiento de Datos</a>. Entiendo que mis datos serán tratados con estricta confidencialidad para la elaboración de este estudio.
+                    <label for="legal_check" class="texto-principal" style="text-transform: none; font-weight: normal; font-size: 0.85rem; line-height: 1.5;">
+                        He leído y acepto la <a href="#" id="openPrivacy" style="color: #d4af37; text-decoration: underline;">Política de Privacidad y Tratamiento de Datos</a>. Entiendo que mis datos serán tratados con estricta confidencialidad.
                     </label>
                 </div>
 
@@ -567,54 +434,42 @@
         </div>
     </section>
 
-    <section class="seccion-faq">
-        <h2 style="text-align: center; font-size: 2.5rem; color: var(--val-gold); margin-bottom: 50px; font-family: 'Playfair Display', serif;" class="animate-on-scroll">Preguntas Frecuentes</h2>
+    <section class="seccion-dinamica seccion-faq">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 50px;" class="titulo-dorado animate-on-scroll">Preguntas Frecuentes</h2>
         
         <div class="faq-container animate-on-scroll">
-            <div class="faq-item">
-                <button class="faq-question">
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
                     ¿Qué coste tiene el servicio de valoración?
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        <br>Absolutamente ninguno. En Inmobiliaria Prestige ofrecemos este primer estudio de mercado de manera 100% gratuita y sin ningún tipo de compromiso de venta con nosotros. Es nuestra forma de demostrarle nuestra capacidad analítica.
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>Absolutamente ninguno. En Inmobiliaria Prestige ofrecemos este primer estudio de mercado de manera 100% gratuita y sin compromiso.
                     </div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <button class="faq-question">
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
                     ¿Qué diferencia hay entre esta valoración y una tasación bancaria?
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        <br>Una tasación bancaria tiene validez legal para garantías hipotecarias y suele ser muy conservadora (orden ECO/805/2003). Nuestra valoración es comercial: le indicamos el precio real por el que su vivienda puede ser absorbida por el mercado actualmente, maximizando su beneficio.
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>Una tasación bancaria tiene validez legal hipotecaria y suele ser conservadora. Nuestra valoración es puramente comercial: le indicamos el precio real por el que su vivienda puede ser absorbida por el mercado actualmente.
                     </div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <button class="faq-question">
-                    ¿Tengo que preparar la casa para la valoración?
-                    <i class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        <br>Para este primer estudio online o dossier preliminar, no es necesario. Sin embargo, si decidimos avanzar hacia la comercialización, le ofreceremos un servicio de 'Home Staging' y un reportaje fotográfico profesional para maximizar el atractivo visual del inmueble.
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
                     ¿Cuánto tardaré en recibir el informe completo?
                     <i class="fa-solid fa-chevron-down"></i>
                 </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">
-                        <br>El informe preliminar de Big Data se genera en las primeras horas. Sin embargo, para aplicar la "Auditoría Humana" de nuestros expertos, solemos entregar el dossier final en formato PDF interactivo en un plazo máximo de 24 a 48 horas laborables.
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>El informe preliminar se genera en las primeras horas. Sin embargo, para aplicar la auditoría humana, solemos entregar el dossier final en un plazo máximo de 24 a 48 horas laborables.
                     </div>
                 </div>
             </div>
@@ -622,21 +477,20 @@
     </section>
 
     <div class="modal-overlay" id="privacyModal">
-        <div class="modal-content">
-            <button class="modal-close" id="closePrivacy"><i class="fa-solid fa-xmark"></i></button>
-            <h3>Política de Privacidad y RGPD</h3>
-            <p><strong>1. Responsable del tratamiento:</strong> Inmobiliaria Prestige S.L., con domicilio en Sevilla, España.</p>
-            <p><strong>2. Finalidad:</strong> Los datos recogidos en este formulario se utilizarán exclusivamente para la elaboración del dossier de valoración inmobiliaria solicitado y el posterior contacto para la entrega del mismo.</p>
-            <p><strong>3. Legitimación:</strong> Consentimiento expreso del usuario al marcar la casilla de verificación.</p>
-            <p><strong>4. Destinatarios:</strong> Los datos no se cederán a terceros, salvo obligación legal. Nuestro sistema de bases de datos está cifrado de extremo a extremo.</p>
-            <p><strong>5. Derechos:</strong> Usted tiene derecho a acceder, rectificar y suprimir sus datos, así como otros derechos, enviando un correo electrónico a dpo@prestige.es.</p>
+        <div class="modal-content tarjeta-dinamica">
+            <button class="modal-close texto-secundario" id="closePrivacy"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="titulo-dorado" style="font-size: 1.8rem; margin-bottom: 20px;">Política de Privacidad y RGPD</h3>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>1. Responsable del tratamiento:</strong> Inmobiliaria Prestige S.L., con domicilio en Sevilla, España.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>2. Finalidad:</strong> Los datos recogidos en este formulario se utilizarán exclusivamente para la elaboración del dossier de valoración inmobiliaria solicitado.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>3. Legitimación:</strong> Consentimiento expreso del usuario al marcar la casilla de verificación.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>4. Destinatarios:</strong> Los datos no se cederán a terceros, salvo obligación legal. Nuestro sistema está cifrado.</p>
             <div style="margin-top: 30px; text-align: center;">
                 <button id="acceptPrivacyBtn" class="btn-hero" style="padding: 12px 30px; font-size: 1rem;">Entendido</button>
             </div>
         </div>
     </div>
 
-    <footer style="padding: 40px; text-align: center; background: #111; color: #aaa; border-top: 3px solid var(--val-gold);">
+    <footer style="padding: 40px; text-align: center; background: #111; color: #aaa; border-top: 3px solid #d4af37;">
         <div class="logo" style="color: white; font-size: 1.5rem; margin-bottom: 10px; font-weight: bold; font-family: 'Poppins', sans-serif;">INMOBILIARIA <span style="color:#d4af37;">PRESTIGE</span></div>
         <p>© 2026 Todos los derechos reservados. Proyecto Web Estructurado SMR.</p>
     </footer>
@@ -645,7 +499,7 @@
     <script src="prestige-chatbot.js"></script>
 
     <script>
-        // 1. HEADER SCROLL Y TEMA
+        // HEADER SCROLL Y TEMA
         window.addEventListener('scroll', function() {
             const header = document.getElementById('main-header');
             if (window.scrollY > 50) {
@@ -670,7 +524,7 @@
             }
         });
 
-        // 2. ANIMACIÓN DE ELEMENTOS AL HACER SCROLL (Intersection Observer)
+        // ANIMACIÓN OBSERVER
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -683,7 +537,7 @@
             observer.observe(element);
         });
 
-        // 3. ANIMACIÓN DE CONTADORES DE ESTADÍSTICAS
+        // ANIMACIÓN CONTADORES
         const counters = document.querySelectorAll('.stat-numero');
         let hasAnimatedCounters = false;
 
@@ -699,13 +553,13 @@
                     const updateCount = () => {
                         const target = +counter.getAttribute('data-target');
                         const count = +counter.innerText;
-                        const inc = target / 50; // Velocidad
+                        const inc = target / 50; 
 
                         if (count < target) {
                             counter.innerText = Math.ceil(count + inc);
                             setTimeout(updateCount, 30);
                         } else {
-                            counter.innerText = target + (target > 100 ? "" : ""); // Puedes añadir '%' o '+' aquí si quieres
+                            counter.innerText = target; 
                         }
                     };
                     updateCount();
@@ -714,23 +568,18 @@
             }
         });
 
-        // 4. LÓGICA DEL ACORDEÓN (FAQ)
+        // LÓGICA DEL ACORDEÓN (FAQ)
         const faqItems = document.querySelectorAll('.faq-item');
-        
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
             const answer = item.querySelector('.faq-answer');
-            
             question.addEventListener('click', () => {
-                // Cerrar todos los demás
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
                         otherItem.querySelector('.faq-answer').style.maxHeight = null;
                     }
                 });
-                
-                // Abrir/Cerrar el actual
                 item.classList.toggle('active');
                 if (item.classList.contains('active')) {
                     answer.style.maxHeight = answer.scrollHeight + "px";
@@ -740,7 +589,7 @@
             });
         });
 
-        // 5. LÓGICA DEL MODAL DE PRIVACIDAD
+        // LÓGICA DEL MODAL DE PRIVACIDAD
         const privacyModal = document.getElementById('privacyModal');
         const openPrivacy = document.getElementById('openPrivacy');
         const closePrivacy = document.getElementById('closePrivacy');
@@ -758,10 +607,9 @@
 
         acceptPrivacyBtn.addEventListener('click', () => {
             privacyModal.classList.remove('active');
-            legalCheck.checked = true; // Marca el checkbox automáticamente al aceptar el modal
+            legalCheck.checked = true;
         });
 
-        // Cerrar modal al hacer click fuera del contenido
         privacyModal.addEventListener('click', (e) => {
             if (e.target === privacyModal) {
                 privacyModal.classList.remove('active');
