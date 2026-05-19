@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <script src="theme.js"></script>
-    <!-- Preload imágenes página 1 para carga instantánea -->
+    <!-- imagenes nuevas sin lag -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1613490908578-7521199ed260?w=800&h=460&fit=crop&auto=format&q=80">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=460&fit=crop&auto=format&q=80">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=460&fit=crop&auto=format&q=80">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <style>
         /* =====================================================
-           ESTILOS BASE (style.css + theme.css integrados)
+           ESTILOS BASE estilos integrados en todo el codigo
            ===================================================== */
         :root {
             --primary-color: #0f172a;
@@ -46,7 +46,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; color: var(--text-color); background: var(--bg-color); }
 
-        /* HEADER — igual que style.css + index.html */
+        /* header identico a todos los aprtados */
         .header-prestige {
             background-color: #0f172a;
             padding: 1.5rem 5%;
@@ -277,7 +277,7 @@
         .propiedades-grid.view-list .prop-card-img-wrap img { height: 100%; object-fit: cover; }
         .propiedades-grid.view-list .prop-card-body { display: flex; flex-direction: column; justify-content: center; padding: 1.6rem 1.8rem; }
 
-        /* CARD */
+        /* Cartaa */
         .prop-card {
             background: var(--card-bg);
             border-radius: 14px;
@@ -358,7 +358,7 @@
         .no-results h3 { font-size:1.4rem; color:var(--primary-color); margin-bottom:.5rem; }
         .no-results.visible { display:block; }
 
-        /* SKELETON */
+        /* eskeleto */
         .prop-card.skeleton .prop-card-img-wrap { background: #e2e8f0; }
         .prop-card.skeleton .prop-card-img-wrap img { display: none; }
         .prop-card.skeleton .prop-card-img-wrap::after {
@@ -371,7 +371,7 @@
         @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
         @keyframes shimmer-block { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-        /* PAGINACIÓN */
+        /* paginacion */
         .paginacion { display:flex; gap:.5rem; justify-content:center; align-items:center; margin-top:2.5rem; flex-wrap:wrap; }
         .pag-btn {
             width:40px; height:40px; border-radius:8px;
@@ -385,7 +385,7 @@
         .pag-btn--activo { background:var(--accent-color); border-color:var(--accent-color); color:#fff; }
         .pag-btn--next { width:auto; padding:0 16px; }
 
-        /* BOTÓN LIMPIAR */
+        /* Boton para limpiar */
         .btn-limpiar {
             display:none; align-items:center; gap:6px;
             background:none; border:1px solid var(--border-color);
@@ -398,7 +398,7 @@
         .btn-limpiar:hover { border-color:#ef4444; color:#ef4444; background:rgba(239,68,68,.05); }
         .btn-limpiar svg { width:13px; height:13px; }
 
-        /* MAPA SECTION */
+        /* MApa */
         .mapa-section { padding: 2.5rem 2rem 0; border-top: 1px solid var(--border-color); }
         .mapa-section-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
         .mapa-section-titulo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--primary-color); }
@@ -418,7 +418,7 @@
         .mapa-popup-titulo { font-weight:600; color:#1e293b; font-size:.88rem; }
         .mapa-popup-link { display:inline-block; margin-top:6px; font-size:.8rem; color:var(--accent-color,#c5a059); cursor:pointer; text-decoration:underline; }
 
-        /* MODAL */
+        /* modal */
         .prop-modal-overlay {
             position:fixed; inset:0; z-index:9000;
             background:rgba(15,23,42,.62); backdrop-filter:blur(4px);
@@ -464,7 +464,7 @@
         .btn-modal-fav:hover { border-color:#ef4444; color:#ef4444!important; }
         .btn-modal-fav.active { border-color:#ef4444; color:#ef4444!important; background:rgba(239,68,68,.05); }
 
-        /* CTA */
+        /* cta */
         .cta-propiedades { background:#0f172a; padding:4rem 2rem; text-align:center; }
         .cta-propiedades h2 { font-family:'Playfair Display',serif; font-size:2rem; color:#fff; margin-bottom:.8rem; }
         .cta-propiedades p { color:#94a3b8; margin-bottom:2rem; }
@@ -478,10 +478,10 @@
         .btn-submit-premium:hover { opacity:.9; transform:translateY(-2px); animation:none; }
         @keyframes ctaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(197,160,89,0)} 55%{box-shadow:0 0 0 9px rgba(197,160,89,.1)} }
 
-        /* FOOTER */
+        /* el footer */
         footer { background-color:#0f172a; color:#fff; text-align:center; padding:2rem; border-top:4px solid #c5a059; }
 
-        /* RESPONSIVE */
+        /* responsive */
         @media (max-width: 768px) {
             .header-prestige { padding: 14px 1rem; }
             .header-prestige nav ul.nav-links { gap: 1rem; }
@@ -640,10 +640,10 @@
                 </div>
             </div>
 
-            <!-- ==================== TODAS LAS PROPIEDADES (data-pagina="1/2/3") ==================== -->
+            <!-- ==================== TODAS LAS PROPIEDADES  ==================== -->
             <div class="propiedades-grid" id="propiedadesGrid">
 
-                <!-- ========== PÁGINA 1 ========== -->
+                <!-- ========== pagina 1 ========== -->
 
                 <!-- P1 — Villa Alcalá -->
                 <article class="prop-card"
