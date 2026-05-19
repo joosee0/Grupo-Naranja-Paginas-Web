@@ -11,6 +11,8 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    
     <style>
         /* ==================== VARIABLES ==================== */
         :root {
@@ -117,16 +119,12 @@
             display: grid; grid-template-columns: repeat(3, 1fr);
             gap: 40px; max-width: 1100px; margin: 0 auto;
         }
-
-        /* Contenedor principal de la tarjeta */
         .flip-card {
             background-color: transparent;
             height: 280px;
-            perspective: 1000px; /* Otorga el efecto 3D */
+            perspective: 1000px; 
             cursor: pointer;
         }
-
-        /* Envoltorio interno que realiza el giro */
         .flip-card-inner {
             position: relative;
             width: 100%;
@@ -135,18 +133,14 @@
             transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
         }
-
-        /* Giro al hacer hover */
         .flip-card:hover .flip-card-inner {
             transform: rotateY(180deg);
         }
-
-        /* Estilos comunes para parte frontal y trasera */
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden; /* Safari */
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 8px;
             display: flex;
@@ -156,31 +150,19 @@
             padding: 30px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-
-        /* Parte frontal (oscura) */
         .flip-card-front {
             background: var(--bg-secundario);
             border: 1px solid var(--borde);
         }
-        .flip-card-front i {
-            font-size: 50px; color: var(--dorado); margin-bottom: 25px;
-        }
-        .flip-card-front h3 {
-            font-family: var(--fuente-titulo); font-size: 24px; color: var(--texto-blanco);
-        }
-
-        /* Parte trasera (dorada) */
+        .flip-card-front i { font-size: 50px; color: var(--dorado); margin-bottom: 25px; }
+        .flip-card-front h3 { font-family: var(--fuente-titulo); font-size: 24px; color: var(--texto-blanco); }
         .flip-card-back {
             background: linear-gradient(135deg, var(--dorado), var(--dorado-hover));
             color: var(--bg-principal);
             transform: rotateY(180deg);
         }
-        .flip-card-back h3 {
-            font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; color: var(--bg-principal);
-        }
-        .flip-card-back p {
-            font-size: 16px; font-weight: 500; color: #1a1a1a; line-height: 1.5;
-        }
+        .flip-card-back h3 { font-family: var(--fuente-titulo); font-size: 22px; margin-bottom: 15px; color: var(--bg-principal); }
+        .flip-card-back p { font-size: 16px; font-weight: 500; color: #1a1a1a; line-height: 1.5; }
 
         /* ==================== FORMULARIO DE VALORACIÓN ==================== */
         .form-section { padding: 60px 20px 100px 20px; background-color: var(--bg-secundario); }
@@ -271,14 +253,14 @@
 <body>
 
     <header class="prestige-header">
-        <a href="#" class="logo-area">Prestige</a>
+        <a href="index.html" class="logo-area">Prestige</a>
         <nav>
             <ul class="nav-items">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Propiedades</a></li>
-                <li><a href="#">Servicios</a></li>
-                <li><a href="#valoracion" class="active">Valoración</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="valoracion.html" class="active">Valoración</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </nav>
     </header>
@@ -313,7 +295,6 @@
         </div>
         
         <div class="steps-grid">
-            
             <div class="flip-card fade-in">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
@@ -352,7 +333,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -471,6 +451,8 @@
             &copy; 2026 Inmobiliaria Prestige. Todos los derechos reservados.
         </div>
     </footer>
+
+    <script src="prestige-chatbot.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
