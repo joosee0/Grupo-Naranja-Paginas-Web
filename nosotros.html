@@ -193,12 +193,17 @@
             padding-left: 28px;
         }
 
-        /* Botón Theme Toggle */
+        /* ==========================================================================
+           Botón Theme Toggle y Gestión de Iconos (AÑADIDO PARA DARK MODE)
+           ========================================================================== */
         .theme-toggle {
             background: none; 
             border: none; 
             cursor: pointer; 
             padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .theme-toggle svg { 
@@ -207,11 +212,28 @@
             fill: none; 
             stroke: var(--white); 
             stroke-width: 2; 
-            transition: stroke var(--transition-speed) ease; 
+            transition: stroke var(--transition-speed) ease, transform 0.3s ease; 
         }
         
         .theme-toggle:hover svg { 
             stroke: var(--accent-color); 
+            transform: scale(1.1); /* Pequeño efecto de zoom al pasar el ratón */
+        }
+
+        /* ESTADO POR DEFECTO (MODO CLARO): Mostramos la luna, ocultamos el sol */
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+        .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        /* ESTADO MODO OSCURO: Ocultamos la luna, mostramos el sol */
+        body.dark .theme-toggle .icon-moon {
+            display: none;
+        }
+        body.dark .theme-toggle .icon-sun {
+            display: block;
         }
 
         /* ==========================================================================
@@ -984,7 +1006,7 @@
             background-color: #0f172a !important; 
         }
 
-        /* Títulos en modo oscuro (solucionado el bug de invisibilidad) */
+        /* Títulos en modo oscuro */
         body.dark h1,
         body.dark h2, 
         body.dark h3, 
@@ -1180,6 +1202,7 @@
                     </ul>
                 </li>
                 <li class="theme-toggle-li">
+                    <!-- El evento onclick llama a toggleTheme() que ahora sí está en el JS -->
                     <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
                         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -1481,9 +1504,47 @@
     </footer>
 
     <script>
+        // ==========================================================================
+        // SISTEMA DE TEMA CLARO/OSCURO (Lógica principal)
+        // ==========================================================================
+        
+        // 1. Comprobamos la preferencia guardada al cargar la página
+        function initTheme() {
+            // Buscamos en el localStorage (almacenamiento del navegador) si el usuario ya eligió un tema antes
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Si el valor guardado es 'dark', le añadimos la clase 'dark' al body automáticamente
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+        }
+
+        // Ejecutamos la comprobación inicial nada más leer el script
+        initTheme();
+
+        // 2. Función que se dispara al hacer clic en el botón (onclick="toggleTheme()")
+        function toggleTheme() {
+            const body = document.body;
+            
+            // .toggle() hace la magia: si el body tiene la clase 'dark', se la quita. Si no la tiene, se la pone.
+            body.classList.toggle('dark');
+            
+            // Verificamos en qué estado ha quedado el body después del clic
+            if (body.classList.contains('dark')) {
+                // Si ahora está en modo oscuro, guardamos esa preferencia
+                localStorage.setItem('theme', 'dark');
+            } else {
+                // Si ahora está en modo claro, guardamos la preferencia
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ==========================================================================
+        // FUNCIONES DE INTERFAZ (Header, Acordeón, Scroll Reveal)
+        // ==========================================================================
         document.addEventListener("DOMContentLoaded", () => {
             
-            // 1. Header Sticky
+            // 1. Header Sticky (Efecto cristal al bajar el scroll)
             const header = document.querySelector('header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
@@ -1493,7 +1554,7 @@
                 }
             });
 
-            // 2. Lógica del Acordeón FAQ Animado
+            // 2. Lógica del Acordeón FAQ Animado (Solo permite uno abierto a la vez)
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
@@ -1528,7 +1589,7 @@
                     
                     entry.target.classList.add('active');
                     
-                    // Iniciar  contadores si llegamos a la sección de stats
+                    // Iniciar contadores si llegamos a la sección de stats
                     if (entry.target.classList.contains('stats-grid') && !countersStarted) {
                         countersStarted = true;
                         const counters = document.querySelectorAll('.counter');
