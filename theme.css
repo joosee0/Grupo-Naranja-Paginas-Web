@@ -2,6 +2,7 @@
 /* ==========================================================================
    THEME.CSS — Soporte Modo Claro / Modo Oscuro
    ========================================================================== */
+
 /* --- MODO CLARO (paleta original, por defecto) --- */
 :root,
 [data-theme="light"] {
@@ -239,55 +240,4 @@ body {
 
 [data-theme="dark"] .theme-toggle .icon-sun {
     display: block;
-}
-
-/* 1. Valores por defecto (Cuando data-theme es "light" o no está definido) */
-:root, [data-theme="light"] {
-    --bg-body: #f8fafc;            /* Fondo claro */
-    --white: #ffffff;              /* Fondo de tarjetas claro */
-    --dark: #0f172a;               /* Títulos oscuros */
-    --text: #475569;               /* Párrafos gris oscuro */
-    --gold: #c5a059;
-    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* 2. Valores cuando Miguel activa el Modo Oscuro (data-theme="dark") */
-[data-theme="dark"] {
-    --bg-body: #0b0f19;            /* Fondo oscuro premium (Como tu Foto 1) */
-    --white: #111827;              /* Tarjetas oscuras */
-    --dark: #ffffff;               /* Títulos en blanco */
-    --text: #94a3b8;               /* Párrafos en gris claro */
-}
-
-/* =======================================================
-   3. APLICA ESTAS VARIABLES A TUS COMPONENTES EXISTENTES
-   ======================================================= */
-
-body {
-    background-color: var(--bg-body) !important;
-    color: var(--text);
-    transition: var(--transition-smooth);
-}
-
-/* Tus tarjetas de servicios */
-.service-card {
-    background: var(--white) !important;
-    border: 1px solid rgba(197, 160, 89, 0.15) !important;
-    transition: var(--transition-smooth);
-}
-
-/* Títulos dentro de las tarjetas */
-.card-content h3 {
-    color: var(--dark) !important;
-}
-
-/* Párrafos dentro de las tarjetas */
-.card-content p {
-    color: var(--text) !important;
-}
-
-/* El botón "Descubrir más" en modo oscuro para que se vea premium */
-[data-theme="dark"] .btn-discover {
-    color: #ffffff !important;
-    border-color: var(--gold) !important;
 }
