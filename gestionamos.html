@@ -11,75 +11,150 @@
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="prestige-chatbot.css">
     <!-- (Hecho por Miguel) -->
-    <style id="prestige-fx-gestionamos">
-        /* === Animaciones y efectos Prestige - gestionamos.html === */
+    <style id="prestige-vip-gestionamos">
+        /* ==========================================================================
+           Capa VIP — gestionamos.html
+           Mismo enfoque que contacto.html pero adaptado a esta página. La gracia
+           aquí es la zona de subida de fotos del inmueble: le he metido drag&drop
+           visual y un preview con miniaturas para que se sienta más profesional.
+           ========================================================================== */
+
+        /* Variables coherentes con el equipo: dorado, dorado oscuro y la
+           curva de animación tipo "muelle suave" de servicios.html */
+        :root {
+            --pf-gold: #c5a059;
+            --pf-gold-dark: #a68549;
+            --pf-dark: #0f172a;
+            --pf-curve: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Scroll suave igual que el resto del proyecto */
         html { scroll-behavior: smooth; }
 
+        /* Textura de mármol muy suave al fondo, como en servicios.html.
+           Aporta esa sensación de calidad sin saturar */
+        body {
+            background-image: url('https://www.transparenttextures.com/patterns/white-marble.png');
+        }
+
+        /* === Animaciones (reutilizo las del proyecto) === */
+        /* fadeInUp: bloques que aparecen subiendo desde abajo */
         @keyframes pfFadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+        /* fadeInDown: solo para el titular del hero */
         @keyframes pfFadeDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+        /* scaleIn: para que el formulario crezca al cargar y para el modal */
         @keyframes pfScaleIn { from { opacity:0; transform:scale(.92); } to { opacity:1; transform:scale(1); } }
+        /* bounceIn: para los checks y validaciones, da un "saltito" simpático */
         @keyframes pfBounceIn { 0%{opacity:0; transform:scale(.6);} 60%{opacity:1; transform:scale(1.08);} 100%{transform:scale(1);} }
+        /* float: efecto sutil de "respiración" para iconos */
         @keyframes pfFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+        /* pulseGlow: pulso dorado, igual que el pulse-marker de index.html */
         @keyframes pfPulseGlow { 0%,100%{box-shadow:0 0 0 0 rgba(197,160,89,.45);} 50%{box-shadow:0 0 0 14px rgba(197,160,89,0);} }
+        /* spin: spinner del botón cuando envía */
         @keyframes pfSpin { to { transform: rotate(360deg); } }
+        /* shake: pequeño temblor cuando un campo está mal */
         @keyframes pfShake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+        /* shine: gradiente animado para el botón, efecto joyería */
+        @keyframes pfShine { 0%{background-position:0% 50%;} 100%{background-position:200% 50%;} }
+        /* dashFlow: hace que el borde discontinuo de la zona de fotos parezca
+           que "fluye" al hover. Detalle pijo pero queda bien */
         @keyframes pfDashFlow {
             0% { background-position: 0 0, 0 100%, 0 0, 100% 0; }
             100% { background-position: 32px 0, -32px 100%, 0 -32px, 100% 32px; }
         }
+        /* confetti, overlayIn, modalIn, check y circle: igual que en contacto */
         @keyframes pfConfetti { 0%{opacity:1; transform:translate3d(0,0,0) rotate(0);} 100%{opacity:0; transform:translate3d(var(--cx),120vh,0) rotate(720deg);} }
-        @keyframes pfModalIn { from{opacity:0; transform:translate(-50%,-40%) scale(.85);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
         @keyframes pfOverlayIn { from{opacity:0;} to{opacity:1;} }
+        @keyframes pfModalIn { from{opacity:0; transform:translate(-50%,-40%) scale(.85);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
         @keyframes pfCheck { 0%{stroke-dashoffset:48;} 100%{stroke-dashoffset:0;} }
         @keyframes pfCircle { 0%{stroke-dashoffset:166;} 100%{stroke-dashoffset:0;} }
-        @keyframes pfGradient { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+        /* Cuando se selecciona una foto, la miniatura aparece con este pop */
         @keyframes pfThumbPop { from{opacity:0; transform:scale(.6) rotate(-6deg);} to{opacity:1; transform:scale(1) rotate(0);} }
 
-        /* Barra de progreso de scroll arriba */
+        /* === Barra de progreso de scroll arriba del todo === */
+        /* Línea fina dorada que se llena conforme bajas. Mismo patrón que
+           contacto.html para que las tres páginas se sientan hermanas */
         .pf-scroll-progress {
             position: fixed; top: 0; left: 0;
             height: 4px; width: 0%;
-            background: linear-gradient(90deg, #c5a059, #e9c97f, #c5a059);
+            background: linear-gradient(90deg, var(--pf-gold), #e9c97f, var(--pf-gold));
             background-size: 200% 100%;
-            animation: pfGradient 4s ease infinite;
-            z-index: 9999;
+            animation: pfShine 4s linear infinite;
             box-shadow: 0 0 12px rgba(197,160,89,.6);
+            z-index: 9999;
             transition: width .12s ease-out;
             pointer-events: none;
         }
 
-        /* Hero con animación de entrada y orbes flotantes */
+        /* === HERO con detalles VIP === */
+        /* position relative + overflow hidden porque dentro voy a meter
+           los "orbes" decorativos como hago en contacto.html */
         .hero-contacto-premium { position: relative; overflow: hidden; }
         .hero-contacto-premium::before {
             content: ""; position: absolute; inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(197,160,89,.15), transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(197,160,89,.10), transparent 50%);
+            background:
+                radial-gradient(circle at 20% 30%, rgba(197,160,89,.15), transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(197,160,89,.10), transparent 50%);
             pointer-events: none;
             animation: pfFloat 8s ease-in-out infinite;
         }
+
+        /* Titular del hero con gradiente dorado animado */
         .hero-contacto-premium h1 {
-            animation: pfFadeDown .9s cubic-bezier(.2,.7,.2,1) both, pfGradient 6s ease infinite;
+            position: relative;
+            animation: pfFadeDown .9s var(--pf-curve) both, pfShine 6s ease infinite;
             background: linear-gradient(90deg, currentColor 0%, #c5a059 50%, currentColor 100%);
             background-size: 200% 100%;
             -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero-contacto-premium p { animation: pfFadeUp .9s cubic-bezier(.2,.7,.2,1) .25s both; }
+        .hero-contacto-premium p { position: relative; animation: pfFadeUp .9s var(--pf-curve) .25s both; }
 
-        /* Formulario con entrada general */
-        .contacto-form-premium { animation: pfScaleIn .9s cubic-bezier(.2,.7,.2,1) .4s both; }
+        /* Badge VIP arriba a la derecha del hero, mismo patrón que contacto */
+        .pf-vip-badge {
+            position: absolute;
+            top: 24px; right: 24px;
+            background: var(--pf-gold);
+            color: #fff;
+            font-size: .75rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 8px 18px;
+            border-radius: 30px;
+            box-shadow: 0 6px 18px rgba(197,160,89,.45);
+            z-index: 2;
+            animation: pfFadeDown .9s var(--pf-curve) .5s both, pfPulseGlow 2.5s infinite 1.4s;
+        }
 
-        /* Section titles con underline animado */
+        /* === Card del formulario === */
+        /* Como aquí solo hay un panel (no dos como en contacto), le subo el
+           radius a 20px y le pongo el border-top dorado que usamos en todo
+           el proyecto. Y al hover levita un poco */
+        .contacto-form-premium {
+            border-radius: 20px;
+            border-top: 4px solid var(--pf-gold);
+            transition: transform .4s var(--pf-curve), box-shadow .4s ease;
+            animation: pfScaleIn .9s var(--pf-curve) .4s both;
+            position: relative;
+        }
+        .contacto-form-premium:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(197,160,89,.18);
+        }
+
+        /* === Form section titles === */
+        /* La raya dorada de debajo crece al hover y el título se desplaza
+           ligeramente. Sutil pero hace que el formulario se sienta vivo */
         .form-section-title {
             position: relative; overflow: hidden;
             transition: color .3s ease, transform .4s ease;
         }
-        .form-section-title::after { transition: width .6s cubic-bezier(.2,.7,.2,1) !important; }
+        .form-section-title::after { transition: width .6s var(--pf-curve) !important; }
         .contacto-form-premium:hover .form-section-title::after { width: 80px !important; }
         .form-section-title:hover { transform: translateX(6px); }
 
-        /* Inputs con validación visual */
-        .input-group-premium { transition: transform .3s ease; position: relative; }
+        /* === Inputs === */
+        /* Al hacer focus el grupo entero sube 4px */
+        .input-group-premium { transition: transform .3s var(--pf-curve); position: relative; }
         .input-group-premium:focus-within { transform: translateY(-4px); }
         .input-group-premium input,
         .input-group-premium select,
@@ -91,7 +166,9 @@
         .input-group-premium textarea:focus {
             box-shadow: 0 8px 24px rgba(197,160,89,.22) !important;
         }
-        .input-group-premium label { transition: all .3s cubic-bezier(.2,.7,.2,1) !important; }
+        .input-group-premium label { transition: all .3s var(--pf-curve) !important; }
+
+        /* Validación visual: verde si bien, rojo + temblorcito si mal */
         .input-group-premium.pf-valid input,
         .input-group-premium.pf-valid select,
         .input-group-premium.pf-valid textarea {
@@ -112,16 +189,20 @@
             pointer-events: none;
         }
 
-        /* Zona de subida de fotos (drag & drop visual) */
+        /* === Zona de subida de fotos (drag & drop visual) === */
+        /* Le pongo el borde discontinuo dorado animado para que cuando pases
+           el ratón parezca que el borde "fluye" alrededor. Y cuando arrastras
+           un archivo encima, le sale un texto grande de "suelta aquí". Mucho
+           más profesional que el input file por defecto del navegador */
         .input-group-premium[style*="dashed"] {
             position: relative;
-            transition: transform .4s cubic-bezier(.2,.7,.2,1),
-                        box-shadow .4s ease, background-color .4s ease, border-color .4s ease !important;
+            transition: transform .4s var(--pf-curve),
+                        box-shadow .4s ease, background-color .4s ease !important;
             background-image:
-                linear-gradient(90deg, #c5a059 50%, transparent 50%),
-                linear-gradient(90deg, #c5a059 50%, transparent 50%),
-                linear-gradient(0deg, #c5a059 50%, transparent 50%),
-                linear-gradient(0deg, #c5a059 50%, transparent 50%);
+                linear-gradient(90deg, var(--pf-gold) 50%, transparent 50%),
+                linear-gradient(90deg, var(--pf-gold) 50%, transparent 50%),
+                linear-gradient(0deg, var(--pf-gold) 50%, transparent 50%),
+                linear-gradient(0deg, var(--pf-gold) 50%, transparent 50%);
             background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
             background-size: 16px 2px, 16px 2px, 2px 16px, 2px 16px;
             background-position: 0 0, 0 100%, 0 0, 100% 0;
@@ -134,18 +215,24 @@
             background-color: rgba(197,160,89,.10) !important;
             animation: pfDashFlow 1.2s linear infinite;
         }
+        /* Cuando estás arrastrando una foto encima, le sale este texto enorme
+           "Suelta aquí tus imágenes". Aparece sobre la zona con un fade */
         .input-group-premium[style*="dashed"].pf-drag-over::before {
             content: "Suelta aquí tus imágenes";
             position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; color: #c5a059; font-size: 1.2rem;
+            font-weight: 700; color: var(--pf-gold); font-size: 1.2rem;
             background: rgba(255,255,255,.85);
             border-radius: 8px;
             pointer-events: none;
             animation: pfFadeUp .2s ease both;
         }
 
-        /* Preview de imágenes seleccionadas */
+        /* === Preview de imágenes seleccionadas === */
+        /* Cuando seleccionas fotos, debajo del input se generan unas
+           miniaturas pequeñas para que veas qué has cargado. Cada thumb
+           aparece con un "pop" rotando un pelín, queda muy currado.
+           Y al hover le pongo un overlay oscuro para que se note interactivo */
         .pf-photo-preview {
             display: flex; flex-wrap: wrap; gap: 10px;
             margin-top: 18px;
@@ -156,7 +243,7 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 14px rgba(15,23,42,.18);
-            animation: pfThumbPop .4s cubic-bezier(.2,.7,.2,1) both;
+            animation: pfThumbPop .4s var(--pf-curve) both;
             transition: transform .3s ease, box-shadow .3s ease;
         }
         .pf-photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -171,17 +258,21 @@
         }
         .pf-photo-thumb:hover::after { opacity: 1; }
 
-        /* Checkbox con pop */
+        /* === Checkbox de privacidad === */
         .checkbox-group input[type="checkbox"] { transition: transform .25s ease; }
         .checkbox-group input[type="checkbox"]:checked { animation: pfBounceIn .5s ease; transform: scale(1.15); }
         .checkbox-group { transition: color .3s ease; }
-        .checkbox-group:hover { color: #c5a059; }
+        .checkbox-group:hover { color: var(--pf-gold); }
 
-        /* Botón submit con shimmer, magnetic y loading spinner */
+        /* === Botón submit === */
+        /* Mismo estilo "joyería" que en contacto: gradiente dorado animado,
+           ola brillante al hover, eleva, sombra dorada... y cuando carga
+           se convierte en spinner. Es el que más cuidado hay que tener
+           porque es la "puerta" de la acción */
         .btn-submit-premium {
             position: relative; overflow: hidden;
-            transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, letter-spacing .35s ease !important;
-            background-image: linear-gradient(110deg, #c5a059 0%, #d4b878 40%, #c5a059 80%) !important;
+            transition: transform .35s var(--pf-curve), box-shadow .35s ease, letter-spacing .35s ease !important;
+            background-image: linear-gradient(110deg, var(--pf-gold) 0%, #d4b878 40%, var(--pf-gold) 80%) !important;
             background-size: 200% 100% !important;
             will-change: transform;
         }
@@ -206,62 +297,72 @@
             border-radius: 50%; animation: pfSpin .8s linear infinite;
         }
 
-        /* Indicador de progreso del formulario */
+        /* === Indicador de progreso del formulario === */
+        /* Aquí el formulario es largo (datos personales + datos inmueble +
+           características + fotos), así que la barra de progreso ayuda a que
+           el usuario vea cuánto le falta. La pongo en sticky para que sea
+           siempre visible mientras rellena */
         .pf-form-progress {
             position: sticky; top: 0;
             display: flex; align-items: center; gap: 12px;
             padding: 8px 14px; margin-bottom: 18px;
             background: linear-gradient(90deg, rgba(255,255,255,.7), rgba(255,255,255,.95));
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 12px;
             border: 1px solid rgba(197,160,89,.25);
-            font-size: .85rem; font-weight: 600; color: #0f172a;
+            font-size: .85rem; font-weight: 600; color: var(--pf-dark);
             z-index: 5;
             box-shadow: 0 4px 14px rgba(15,23,42,.06);
         }
         .pf-form-progress-bar { flex: 1; height: 6px; background: rgba(15,23,42,.08); border-radius: 3px; overflow: hidden; }
         .pf-form-progress-fill {
             height: 100%; width: 0%;
-            background: linear-gradient(90deg, #c5a059, #e9c97f);
-            transition: width .4s cubic-bezier(.2,.7,.2,1);
+            background: linear-gradient(90deg, var(--pf-gold), #e9c97f);
+            transition: width .4s var(--pf-curve);
             box-shadow: 0 0 8px rgba(197,160,89,.5);
         }
-        .pf-form-progress-pct { min-width: 38px; text-align: right; color: #c5a059; }
+        .pf-form-progress-pct { min-width: 38px; text-align: right; color: var(--pf-gold); }
 
-        /* Scroll reveal */
+        /* === Scroll reveal === */
         [data-pf-reveal] {
             opacity: 0; transform: translateY(40px);
-            transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+            transition: opacity .9s var(--pf-curve), transform .9s var(--pf-curve);
             will-change: opacity, transform;
         }
         [data-pf-reveal].pf-visible { opacity: 1; transform: translateY(0); }
 
-        /* Header con sombra al scroll */
+        /* === Header con sombra al scroll === */
         .header-prestige { transition: box-shadow .4s ease, backdrop-filter .4s ease; }
         .header-prestige.pf-scrolled { box-shadow: 0 6px 24px rgba(15,23,42,.12); }
 
-        /* Botón "volver arriba" */
+        /* === Botón "volver arriba" === */
+        /* Lo pongo a la izquierda para no chocar con el chatbot de la derecha */
         .pf-back-to-top {
             position: fixed; bottom: 24px; left: 24px;
             width: 50px; height: 50px; border-radius: 50%;
-            background: linear-gradient(135deg, #c5a059, #d4b878);
+            background: linear-gradient(135deg, var(--pf-gold), var(--pf-gold-dark));
             color: #fff; border: none; cursor: pointer;
             font-size: 1.4rem; font-weight: 700;
             box-shadow: 0 8px 22px rgba(197,160,89,.45);
             opacity: 0; visibility: hidden;
             transform: translateY(20px) scale(.8);
-            transition: opacity .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), visibility .35s ease, box-shadow .35s ease;
+            transition: opacity .35s ease, transform .35s var(--pf-curve), visibility .35s ease, box-shadow .35s ease;
             z-index: 9998;
             display: flex; align-items: center; justify-content: center;
         }
         .pf-back-to-top.pf-show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
         .pf-back-to-top:hover { transform: translateY(-6px) scale(1.08); box-shadow: 0 14px 30px rgba(197,160,89,.6); }
 
-        /* Modal de éxito + Confeti */
+        /* === Modal de confirmación + confeti === */
+        /* Mismo modal que en contacto.html para mantener la coherencia.
+           Usa backdrop-filter blur, borde dorado y entrada con scaleUp como
+           el modal-2fa-card del equipo */
         .pf-modal-overlay {
             position: fixed; inset: 0;
             background: rgba(15,23,42,.65);
             backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 10000; display: none;
             animation: pfOverlayIn .35s ease both;
         }
@@ -269,23 +370,26 @@
         .pf-modal {
             position: fixed; top: 50%; left: 50%;
             transform: translate(-50%,-50%);
-            background: #fff; color: #0f172a;
+            background: #fff; color: var(--pf-dark);
             padding: 40px 36px 32px; border-radius: 16px;
             box-shadow: 0 24px 60px rgba(15,23,42,.35);
             text-align: center; min-width: 320px; max-width: 90vw;
             z-index: 10001;
-            animation: pfModalIn .5s cubic-bezier(.2,.7,.2,1) both;
-            border-top: 4px solid #c5a059;
+            animation: pfModalIn .5s var(--pf-curve) both;
+            border-top: 4px solid var(--pf-gold);
         }
         .pf-modal h3 { margin: 12px 0 8px; font-family: 'Playfair Display', serif; }
         .pf-modal p { margin: 0 0 22px; color: #64748b; }
         .pf-modal button {
-            background: linear-gradient(135deg, #c5a059, #d4b878);
+            background: linear-gradient(135deg, var(--pf-gold), var(--pf-gold-dark));
             color: #fff; border: none; padding: 12px 28px;
-            border-radius: 8px; cursor: pointer; font-weight: 600;
+            border-radius: 30px; cursor: pointer; font-weight: 600;
+            text-transform: uppercase; letter-spacing: .8px;
             transition: transform .25s ease, box-shadow .25s ease;
         }
         .pf-modal button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(197,160,89,.45); }
+
+        /* Check verde dibujado con SVG: primero el círculo y luego el palito */
         .pf-checkmark { width: 70px; height: 70px; margin: 0 auto; }
         .pf-checkmark circle {
             stroke: #22c55e; stroke-width: 4; fill: none;
@@ -298,6 +402,8 @@
             stroke-dasharray: 48; stroke-dashoffset: 48;
             animation: pfCheck .4s cubic-bezier(.65,0,.45,1) .5s forwards;
         }
+
+        /* Confeti dorado al enviar correctamente */
         .pf-confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 10002; overflow: hidden; }
         .pf-confetti {
             position: absolute; top: -10vh;
@@ -306,7 +412,13 @@
             animation: pfConfetti 2.4s cubic-bezier(.2,.6,.4,1) forwards;
         }
 
-        /* Reduced motion */
+        /* === Responsive === */
+        @media (max-width: 600px) {
+            .pf-vip-badge { display: none; }
+            .pf-back-to-top { bottom: 90px; left: 16px; width: 44px; height: 44px; }
+        }
+
+        /* === Accesibilidad === */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: .001ms !important;
@@ -333,8 +445,9 @@
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="inicio sesion.html">inicio sesion</a></li>
                 <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="valoracion.html">Valoración</a></li>
                 <li class="dropdown">
                     <a href="contacto.html" class="active">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -354,6 +467,13 @@
     </header>
 
     <section class="hero-contacto-premium">
+        <!-- (Hecho por Miguel) -->
+        <!-- Etiqueta dorada arriba a la derecha. Aquí pongo "Gestión premium"
+             porque encaja con lo que ofrece esta página concreta. Mismo
+             componente que en contacto.html, así todas las páginas hablan
+             el mismo idioma visual -->
+        <span class="pf-vip-badge">Gestión premium</span>
+        <!-- (final de Miguel) -->
         <h1>Venda o Alquile su inmueble</h1>
         <p>Especialistas en la zona para gestionar su propiedad con total exclusividad y profesionalidad.</p>
     </section>

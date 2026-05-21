@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nosotros | Inmobiliaria Prestige</title>
-    
+    <link rel="stylesheet" href="prestige-chatbot.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -193,12 +193,17 @@
             padding-left: 28px;
         }
 
-        /* Botón Theme Toggle */
+        /* ==========================================================================
+           Botón Theme Toggle y Gestión de Iconos (AÑADIDO PARA DARK MODE)
+           ========================================================================== */
         .theme-toggle {
             background: none; 
             border: none; 
             cursor: pointer; 
             padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .theme-toggle svg { 
@@ -207,11 +212,28 @@
             fill: none; 
             stroke: var(--white); 
             stroke-width: 2; 
-            transition: stroke var(--transition-speed) ease; 
+            transition: stroke var(--transition-speed) ease, transform 0.3s ease; 
         }
         
         .theme-toggle:hover svg { 
             stroke: var(--accent-color); 
+            transform: scale(1.1); /* Pequeño efecto de zoom al pasar el ratón */
+        }
+
+        /* ESTADO POR DEFECTO (MODO CLARO): Mostramos la luna, ocultamos el sol */
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+        .theme-toggle .icon-moon {
+            display: block;
+        }
+
+        /* ESTADO MODO OSCURO: Ocultamos la luna, mostramos el sol */
+        body.dark .theme-toggle .icon-moon {
+            display: none;
+        }
+        body.dark .theme-toggle .icon-sun {
+            display: block;
         }
 
         /* ==========================================================================
@@ -984,7 +1006,7 @@
             background-color: #0f172a !important; 
         }
 
-        /* Títulos en modo oscuro (solucionado el bug de invisibilidad) */
+        /* Títulos en modo oscuro */
         body.dark h1,
         body.dark h2, 
         body.dark h3, 
@@ -1169,8 +1191,9 @@
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="inicio sesion.html">inicio sesion</a></li>
                 <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="valoracion.html">Valoración</a></li>
                 <li class="dropdown">
                     <a href="contacto.html" class="active">Contacto ▾</a>
                     <ul class="dropdown-menu">
@@ -1481,9 +1504,47 @@
     </footer>
 
     <script>
+        // ==========================================================================
+        // SISTEMA DE TEMA CLARO/OSCURO (Lógica principal)
+        // ==========================================================================
+        
+        // 1. Comprobamos la preferencia guardada al cargar la página
+        function initTheme() {
+            // Buscamos en el localStorage (almacenamiento del navegador) si el usuario ya eligió un tema antes
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Si el valor guardado es 'dark', le añadimos la clase 'dark' al body automáticamente
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+        }
+
+        // Ejecutamos la comprobación inicial nada más leer el script
+        initTheme();
+
+        // 2. Función que se dispara al hacer clic en el botón (onclick="toggleTheme()")
+        function toggleTheme() {
+            const body = document.body;
+            
+            // .toggle() hace la magia: si el body tiene la clase 'dark', se la quita. Si no la tiene, se la pone.
+            body.classList.toggle('dark');
+            
+            // Verificamos en qué estado ha quedado el body después del clic
+            if (body.classList.contains('dark')) {
+                // Si ahora está en modo oscuro, guardamos esa preferencia
+                localStorage.setItem('theme', 'dark');
+            } else {
+                // Si ahora está en modo claro, guardamos la preferencia
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ==========================================================================
+        // FUNCIONES DE INTERFAZ (Header, Acordeón, Scroll Reveal)
+        // ==========================================================================
         document.addEventListener("DOMContentLoaded", () => {
             
-            // 1. Header Sticky
+            // 1. Header Sticky (Efecto cristal al bajar el scroll)
             const header = document.querySelector('header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
@@ -1493,7 +1554,7 @@
                 }
             });
 
-            // 2. Lógica del Acordeón FAQ Animado
+            // 2. Lógica del Acordeón FAQ Animado (Solo permite uno abierto a la vez)
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
                 question.addEventListener('click', () => {
@@ -1528,7 +1589,7 @@
                     
                     entry.target.classList.add('active');
                     
-                    // Iniciar  contadores si llegamos a la sección de stats
+                    // Iniciar contadores si llegamos a la sección de stats
                     if (entry.target.classList.contains('stats-grid') && !countersStarted) {
                         countersStarted = true;
                         const counters = document.querySelectorAll('.counter');
@@ -1563,5 +1624,6 @@
             });
         });
     </script>
+    <script src="prestige-chatbot.js"></script>
 </body>
 </html>

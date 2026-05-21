@@ -1,3 +1,4 @@
+/* (Hecho por Miguel) */
 /* ==========================================================================
    THEME.CSS — Soporte Modo Claro / Modo Oscuro
    ========================================================================== */
@@ -20,40 +21,29 @@
     --input-bg: #f8fafc;
     --section-bg: #ffffff;
 }
-
-/* --- MODO OSCURO ELEGANTE ---
-   Mantenemos --white = #ffffff porque se usa también para texto blanco
-   sobre imágenes y botones. Para fondos de tarjetas usamos --card-bg.
-   Los grises se mantienen claros para garantizar buen contraste. */
 [data-theme="dark"] {
     --primary-color: #0f172a;
-    --accent-color: #d4b66c;       /* Dorado un poco más cálido */
-    --text-color: #f1f5f9;          /* Texto principal muy claro (casi blanco) */
-    --bg-light: #0c1018;            /* Fondo general muy oscuro */
-    --white: #ffffff;               /* Sigue siendo blanco para texto */
+    --accent-color: #d4b66c;       
+    --text-color: #f1f5f9;          
+    --bg-light: #0c1018;        
+    --white: #ffffff;              
 
-    --card-bg: #161b26;             /* Tarjetas elevadas */
-    --border-color: #2a3142;        /* Bordes sutiles */
-    --secondary-text: #cbd5e1;      /* Gris claro con muy buen contraste */
-    --header-bg: #050810;           /* Header casi negro */
+    --card-bg: #161b26;             
+    --border-color: #2a3142;       
+    --secondary-text: #cbd5e1;      
+    --header-bg: #050810;           
     --footer-bg: #050810;
     --footer-text: #f1f5f9;
     --input-bg: #1a1f2e;
     --section-bg: #11161f;
 }
 
-/* --- Body con transición suave --- */
 body {
     background-color: var(--bg-light);
     color: var(--text-color);
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* ==========================================================================
-   OVERRIDES PARA MODO OSCURO
-   ========================================================================== */
-
-/* --- Header / Footer --- */
 [data-theme="dark"] header,
 [data-theme="dark"] .header-prestige {
     background-color: var(--header-bg) !important;
@@ -66,7 +56,6 @@ body {
     border-top-color: var(--accent-color) !important;
 }
 
-/* --- Tarjetas y superficies que en modo claro eran blancas --- */
 [data-theme="dark"] .card,
 [data-theme="dark"] .valor-card,
 [data-theme="dark"] .miembro,
@@ -78,7 +67,6 @@ body {
     border-color: var(--border-color) !important;
 }
 
-/* --- Secciones con fondo blanco hardcoded --- */
 [data-theme="dark"] .filtros-section,
 [data-theme="dark"] .valores {
     background-color: var(--section-bg) !important;
@@ -88,7 +76,6 @@ body {
     background-color: var(--bg-light) !important;
 }
 
-/* --- Títulos oscuros que en modo oscuro deben verse claros --- */
 [data-theme="dark"] .card h3,
 [data-theme="dark"] .valor-card h3,
 [data-theme="dark"] .miembro-info h3,
@@ -106,7 +93,6 @@ body {
     color: var(--text-color) !important;
 }
 
-/* --- Textos secundarios en gris (con contraste mejorado) --- */
 [data-theme="dark"] .card p,
 [data-theme="dark"] .descripcion,
 [data-theme="dark"] .miembro-info p,
@@ -127,13 +113,12 @@ body {
     color: var(--secondary-text) !important;
 }
 
-/* --- Strong dentro de tarjetas / contadores: claro y legible --- */
 [data-theme="dark"] .resultados-count strong,
 [data-theme="dark"] .info-list strong {
     color: var(--text-color) !important;
 }
 
-/* --- Checkboxes y opciones de búsqueda en buscamos.html --- */
+
 [data-theme="dark"] .grid-4-col label {
     color: var(--secondary-text) !important;
 }
@@ -244,8 +229,6 @@ body {
     stroke-linejoin: round;
 }
 
-/* En modo claro: visible la luna (al pulsar pasa a oscuro)
-   En modo oscuro: visible el sol (al pulsar pasa a claro) */
 :root .theme-toggle .icon-sun,
 [data-theme="light"] .theme-toggle .icon-sun {
     display: none;

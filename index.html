@@ -20,18 +20,43 @@
            1. AJUSTES GENERALES
            ========================================= */
         html { scroll-behavior: smooth; }
-        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; margin: 0; padding: 0; background-color: #fafafa;}
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            overflow-x: hidden; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #fafafa;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        
         body.dark-mode { background-color: #121212; color: #f4f4f4; }
 
+        /* =========================================
+           CORRECCIÓN: BLINDAJE DE COLORES EN TÍTULOS
+           ========================================= */
         .section-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 50px;
-            color: #333;
             position: relative;
             padding-bottom: 15px;
+            transition: color 0.4s ease;
         }
-        body.dark-mode .section-title { color: #f4f4f4; }
+
+        /* FUERZA el color oscuro cuando NO está el modo oscuro activado */
+        body:not(.dark-mode) .section-title,
+        body:not(.dark-mode) h2,
+        body:not(.dark-mode) h3 { 
+            color: #333333 !important; 
+        }
+        
+        /* FUERZA el color claro cuando SÍ está el modo oscuro activado */
+        body.dark-mode .section-title,
+        body.dark-mode h2,
+        body.dark-mode h3 { 
+            color: #f4f4f4 !important; 
+        }
+
         .section-title::after {
             content: ''; position: absolute; bottom: 0; left: 50%;
             transform: translateX(-50%); width: 80px; height: 4px;
@@ -55,6 +80,19 @@
             background: rgba(20, 20, 20, 0.95) !important;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
         }
+
+        /* CONTROL DE LOS ICONOS DEL BOTÓN (SOL/LUNA) */
+        .theme-toggle {
+            background: none; border: none; cursor: pointer; padding: 5px;
+            display: flex; align-items: center; justify-content: center;
+            color: inherit;
+        }
+        
+        .icon-sun { display: none; }
+        .icon-moon { display: block; }
+        
+        body.dark-mode .icon-moon { display: none; }
+        body.dark-mode .icon-sun { display: block; color: #d4af37; }
 
         /* =========================================
            3. BOTONES Y ANIMACIONES HERO
@@ -85,7 +123,6 @@
             position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d;
         }
-        /* Al pasar el ratón, la tarjeta gira */
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
         
         .flip-card-front, .flip-card-back {
@@ -93,7 +130,8 @@
             border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; box-sizing: border-box;
         }
-        .flip-card-front { background-color: #fff; color: #333; }
+        .flip-card-front { background-color: #fff; color: #333; transition: all 0.4s ease;}
+        
         body.dark-mode .flip-card-front { background-color: #1e1e1e; color: #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
         .flip-card-front i { font-size: 4rem; color: #d4af37; margin-bottom: 20px; }
@@ -109,12 +147,15 @@
            5. PROPIEDADES DESTACADAS (EFECTOS ZOOM)
            ========================================= */
         .grid-propiedades { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; }
-        .propiedad-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.4s ease; position: relative; }
-        body.dark-mode .propiedad-card { background: #1e1e1e; }
+        .propiedad-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.4s ease, background-color 0.4s ease; position: relative; }
+        
+        body.dark-mode .propiedades { background-color: #121212 !important; }
+        body.dark-mode .propiedad-card { background: #1e1e1e; border: 1px solid #333;}
+        
         .propiedad-card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
         .img-wrapper { overflow: hidden; }
         .propiedad-img { width: 100%; height: 240px; background-size: cover; background-position: center; transition: transform 0.6s ease; }
-        .propiedad-card:hover .propiedad-img { transform: scale(1.1); } /* Efecto zoom en la foto */
+        .propiedad-card:hover .propiedad-img { transform: scale(1.1); } 
         
         .img-1 { background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); }
         .img-2 { background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); }
@@ -122,24 +163,28 @@
         
         .badge-precio { position: absolute; top: 20px; right: 20px; background: #d4af37; color: #fff; padding: 8px 20px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .propiedad-info { padding: 25px; }
-        .propiedad-info h3 { margin: 0 0 10px 0; font-size: 1.3rem; color: #333; }
-        body.dark-mode .propiedad-info h3 { color: #fff; }
-        .propiedad-info p { color: #666; font-size: 0.9rem; margin-bottom: 20px; }
+        .propiedad-info p { color: #666; font-size: 0.9rem; margin-bottom: 20px; transition: color 0.4s ease;}
+        
         body.dark-mode .propiedad-info p { color: #aaa; }
-        .propiedad-features { display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 15px; color: #555; font-size: 0.9rem; font-weight: 600; }
+        
+        .propiedad-features { display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 15px; color: #555; font-size: 0.9rem; font-weight: 600; transition: border-color 0.4s, color 0.4s;}
+        
         body.dark-mode .propiedad-features { border-top: 1px solid #333; color: #ccc; }
+        
         .propiedad-features i { color: #d4af37; margin-right: 5px; }
 
         /* =========================================
-           6. SECCIÓN PLANOS (NUEVO)
+           6. SECCIÓN PLANOS 
            ========================================= */
-        .seccion-planos { background-color: #fff; padding: 100px 20px; }
+        .seccion-planos { background-color: #fff; padding: 100px 20px; transition: background-color 0.4s ease;}
         body.dark-mode .seccion-planos { background-color: #1a1a1a; }
+        
         .plano-container { display: flex; align-items: center; gap: 50px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
         .plano-texto { flex: 1; min-width: 300px; }
-        .plano-texto h3 { font-size: 2rem; margin-bottom: 20px; color: #d4af37; }
-        .plano-texto p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; color: #666; }
+        .plano-texto p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; color: #666; transition: color 0.4s ease;}
+        
         body.dark-mode .plano-texto p { color: #ccc; }
+        
         .plano-texto ul { list-style: none; padding: 0; margin-bottom: 30px; }
         .plano-texto ul li { margin-bottom: 10px; font-size: 1.1rem; }
         .plano-texto ul li i { color: #d4af37; margin-right: 10px; }
@@ -147,19 +192,19 @@
         .plano-imagen { flex: 1; min-width: 300px; position: relative; }
         .plano-imagen img { width: 100%; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); transition: transform 0.5s; }
         .plano-imagen img:hover { transform: scale(1.03); }
-        /* Círculo animado encima del plano */
         .pulse-marker { position: absolute; top: 40%; left: 50%; width: 20px; height: 20px; background: #d4af37; border-radius: 50%; box-shadow: 0 0 0 rgba(212, 175, 55, 0.6); animation: pulse 2s infinite; cursor: pointer; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
 
         /* =========================================
-           7. SECCIÓN MAPA / UBICACIÓN (NUEVO)
+           7. SECCIÓN MAPA / UBICACIÓN 
            ========================================= */
         .seccion-mapa { max-width: 100%; padding: 0; position: relative; }
         .mapa-frame { width: 100%; height: 500px; border: none; display: block; filter: grayscale(20%); transition: filter 0.5s;}
         .mapa-frame:hover { filter: grayscale(0%); }
-        .mapa-overlay { position: absolute; top: 50%; left: 10%; transform: translateY(-50%); background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); max-width: 350px; z-index: 10; }
-        body.dark-mode .mapa-overlay { background: #1e1e1e; color: #eee; box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
-        .mapa-overlay h3 { margin-top: 0; color: #d4af37; font-size: 1.8rem; }
+        .mapa-overlay { position: absolute; top: 50%; left: 10%; transform: translateY(-50%); background: #fff; padding: 40px; border-radius: 15px; box-shadow: 0 15px 30px rgba(0,0,0,0.2); max-width: 350px; z-index: 10; transition: all 0.4s ease;}
+        
+        body.dark-mode .mapa-overlay { background: #1e1e1e; color: #eee; box-shadow: 0 15px 30px rgba(0,0,0,0.6); border: 1px solid #333; }
+        
         .mapa-overlay p { margin: 10px 0; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
 
         /* =========================================
@@ -174,12 +219,16 @@
 
         /* Testimonios */
         .testimonios-grid { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
-        .testimonio-card { background: #fff; padding: 40px; border-radius: 15px; width: 350px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.3s; }
-        body.dark-mode .testimonio-card { background: #1e1e1e; color: #eee; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .testimonio-card { background: #fff; padding: 40px; border-radius: 15px; width: 350px; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.3s, background-color 0.4s ease; }
+        
+        body.dark-mode .testimonio-card { background: #1e1e1e; color: #eee; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border: 1px solid #333;}
+        
         .testimonio-card:hover { transform: translateY(-10px); }
         .testimonio-card i.fa-quote-left { font-size: 3rem; color: rgba(212, 175, 55, 0.2); position: absolute; top: 20px; right: 30px; }
-        .cliente-info { display: flex; align-items: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;}
+        .cliente-info { display: flex; align-items: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; transition: border-color 0.4s ease;}
+        
         body.dark-mode .cliente-info { border-top: 1px solid #333; }
+        
         .cliente-img { width: 60px; height: 60px; border-radius: 50%; background: #ddd; margin-right: 15px; }
 
         /* Banner Final y Footer */
@@ -205,19 +254,19 @@
 
 <body>
 
-    <header class="header-prestige" id="main-header">
+    <header class="header-prestige">
         <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
         <nav>
             <ul class="nav-links">
-                <li><a href="index.html" class="active">Inicio</a></li>
+                <li><a href="index.html">Inicio</a></li>
                 <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="propiedades.html">Propiedades</a></li>
                 <li><a href="servicios.html">Servicios</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="valoración.html">Valoración</a></li>
-                <li id="userMenu"></li>
+                <li><a href="inicio sesion.html">inicio sesion</a></li>
+                <li><a href="perfil.html">Perfil</a></li>
+                <li><a href="valoracion.html">Valoración</a></li>
                 <li class="dropdown">
-                    <a href="contacto.html">Contacto ▾</a>
+                    <a href="contacto.html" class="active">Contacto ▾</a>
                     <ul class="dropdown-menu">
                         <li><a href="contacto.html">Contacto General</a></li>
                         <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
@@ -236,8 +285,8 @@
 
     <section class="hero">
         <div data-aos="zoom-in" data-aos-duration="1500">
-            <h1 style="font-size: 4rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">Bienvenido a Prestige</h1>
-            <p style="font-size: 1.5rem; margin-bottom: 30px;">Encontramos <span id="typing-text"></span><span class="typing-cursor">|</span></p>
+            <h1 style="font-size: 4rem; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); color: #fff !important;">Bienvenido a Prestige</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 30px; color: #fff !important;">Encontramos <span id="typing-text"></span><span class="typing-cursor">|</span></p>
             <a href="contacto.html" class="btn" data-aos="fade-up" data-aos-delay="500">Descubre tu Nuevo Hogar</a>
         </div>
     </section>
@@ -254,8 +303,8 @@
                         <p style="color: #888;">Gestión integral de inmuebles.</p>
                     </div>
                     <div class="flip-card-back">
-                        <h3>Compra y Venta</h3>
-                        <p>Nos encargamos de todo el proceso. Desde la búsqueda inicial y el filtrado de propiedades, hasta la negociación final. Garantizamos la máxima rentabilidad en tus operaciones.</p>
+                        <h3 style="color: #fff !important;">Compra y Venta</h3>
+                        <p style="color: #fff !important;">Nos encargamos de todo el proceso. Desde la búsqueda inicial y el filtrado de propiedades, hasta la negociación final. Garantizamos la máxima rentabilidad en tus operaciones.</p>
                     </div>
                 </div>
             </div>
@@ -268,8 +317,8 @@
                         <p style="color: #888;">Valoraciones precisas del mercado.</p>
                     </div>
                     <div class="flip-card-back">
-                        <h3>Tasación Experta</h3>
-                        <p>Contamos con peritos homologados que analizarán las características de tu inmueble usando Big Data para ofrecerte un precio de salida competitivo y realista.</p>
+                        <h3 style="color: #fff !important;">Tasación Experta</h3>
+                        <p style="color: #fff !important;">Contamos con peritos homologados que analizarán las características de tu inmueble usando Big Data para ofrecerte un precio de salida competitivo y realista.</p>
                     </div>
                 </div>
             </div>
@@ -282,8 +331,8 @@
                         <p style="color: #888;">Trámites y contratos 100% seguros.</p>
                     </div>
                     <div class="flip-card-back">
-                        <h3>Asesoría Jurídica</h3>
-                        <p>Olvídate del papeleo. Nuestro equipo de abogados redacta contratos de arras, revisa cargas registrales y te acompaña a notaría el día de la firma definitiva.</p>
+                        <h3 style="color: #fff !important;">Asesoría Jurídica</h3>
+                        <p style="color: #fff !important;">Olvídate del papeleo. Nuestro equipo de abogados redacta contratos de arras, revisa cargas registrales y te acompaña a notaría el día de la firma definitiva.</p>
                     </div>
                 </div>
             </div>
@@ -348,7 +397,7 @@
         <h2 class="section-title" data-aos="fade-up">Arquitectura y Planimetría</h2>
         <div class="plano-container">
             <div class="plano-texto" data-aos="fade-right">
-                <h3>Visualiza cada detalle antes de visitar</h3>
+                <h3 style="color: #d4af37 !important;">Visualiza cada detalle antes de visitar</h3>
                 <p>En Prestige no solo vendemos casas, vendemos proyectos de vida. Por eso, con cada propiedad exclusiva ofrecemos planimetría detallada y recorridos virtuales interactivos.</p>
                 <ul>
                     <li><i class="fa-solid fa-compass-drafting"></i> Planos a escala real en 2D y 3D.</li>
@@ -368,8 +417,8 @@
         <iframe class="mapa-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d101408.21721590403!2d-6.05581177651034!3d37.38283002621422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd126c1114be6291%3A0x34f018621cfe5648!2sSevilla!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         
         <div class="mapa-overlay" data-aos="zoom-in" data-aos-delay="300">
-            <h3>Nuestra Oficina Central</h3>
-            <p style="color: #666; margin-bottom: 20px;">Ven a visitarnos y tómate un café con nuestro equipo. Estaremos encantados de atenderte en persona.</p>
+            <h3 style="color: #d4af37 !important;">Nuestra Oficina Central</h3>
+            <p style="margin-bottom: 20px;">Ven a visitarnos y tómate un café con nuestro equipo. Estaremos encantados de atenderte en persona.</p>
             <p><i class="fa-solid fa-map-pin" style="color: #d4af37; font-size: 1.2rem;"></i> Av. de la Innovación, Sevilla</p>
             <p><i class="fa-solid fa-phone" style="color: #d4af37; font-size: 1.2rem;"></i> +34 954 000 000</p>
             <p><i class="fa-solid fa-envelope" style="color: #d4af37; font-size: 1.2rem;"></i> contacto@prestige.es</p>
@@ -380,18 +429,18 @@
         <div class="stats-container">
             <div class="stat-item" data-aos="zoom-in">
                 <i class="fa-solid fa-house-circle-check"></i>
-                <p class="stat-numero" data-target="1500">0</p>
-                <p class="stat-texto">Inmuebles Vendidos</p>
+                <p class="stat-numero" data-target="1500" style="color: #fff !important;">0</p>
+                <p class="stat-texto" style="color: #ddd !important;">Inmuebles Vendidos</p>
             </div>
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
                 <i class="fa-solid fa-face-smile"></i>
-                <p class="stat-numero" data-target="980">0</p>
-                <p class="stat-texto">Clientes Felices</p>
+                <p class="stat-numero" data-target="980" style="color: #fff !important;">0</p>
+                <p class="stat-texto" style="color: #ddd !important;">Clientes Felices</p>
             </div>
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
                 <i class="fa-regular fa-calendar-check"></i>
-                <p class="stat-numero" data-target="15">0</p>
-                <p class="stat-texto">Años de Experiencia</p>
+                <p class="stat-numero" data-target="15" style="color: #fff !important;">0</p>
+                <p class="stat-texto" style="color: #ddd !important;">Años de Experiencia</p>
             </div>
         </div>
     </section>
@@ -425,8 +474,8 @@
     </section>
 
     <section class="cta-banner" data-aos="zoom-in">
-        <h2>¿Listo para encontrar tu próximo hogar?</h2>
-        <p>Déjanos tus datos y un asesor se pondrá en contacto contigo en menos de 24 horas.</p>
+        <h2 style="color: #fff !important;">¿Listo para encontrar tu próximo hogar?</h2>
+        <p style="color: #fff !important;">Déjanos tus datos y un asesor se pondrá en contacto contigo en menos de 24 horas.</p>
         <a href="contacto.html" class="btn-dark">Hablar con un Asesor</a>
     </section>
 
@@ -436,7 +485,7 @@
 
     <footer style="padding: 40px; text-align: center; background: #111; color: #aaa;">
         <div class="logo" style="color: white; font-size: 1.5rem; margin-bottom: 10px;">INMOBILIARIA <span style="color:#d4af37;">PRESTIGE</span></div>
-        <p>© 2026 Todos los derechos reservados. Proyecto Web Estructurado.</p>
+        <p>© 2026 Todos los derechos reservados. Proyecto Web Estructurado SMR.</p>
     </footer>
 
     <script type="module" src="login.js"></script>
@@ -445,6 +494,27 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
+        // Inicializar y gestionar el modo oscuro (con memoria local)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        initTheme();
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
         // Inicializar AOS
         AOS.init({ once: true, offset: 80, duration: 800 });
 

@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios | Inmobiliaria Prestige</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+    <script src="theme.js"></script>
+
     <style>
         :root {
             --gold: #c5a059;
@@ -54,7 +59,6 @@
             margin: 0 auto;
         }
 
-        /* Tarjeta con Efectos de "Todo Estilo" */
         .service-card {
             background: var(--white);
             border-radius: 20px;
@@ -65,10 +69,9 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             transition: var(--transition);
             position: relative;
-            animation: fadeInUp 0.8s ease backwards; /* Animación de entrada */
+            animation: fadeInUp 0.8s ease backwards;
         }
 
-        /* Retraso de animación para cada tarjeta */
         .service-card:nth-child(1) { animation-delay: 0.1s; }
         .service-card:nth-child(2) { animation-delay: 0.2s; }
         .service-card:nth-child(3) { animation-delay: 0.3s; }
@@ -82,7 +85,6 @@
             border-color: var(--gold);
         }
 
-        /* Efecto Zoom en Imagen */
         .card-img-wrapper {
             width: 100%;
             height: 260px;
@@ -101,7 +103,6 @@
             transform: scale(1.1);
         }
 
-        /* Contenido y Botón */
         .card-content {
             padding: 30px;
             text-align: center;
@@ -109,7 +110,7 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            flex-grow: 1; /* Para alinear botones al fondo */
+            flex-grow: 1;
         }
 
         .card-content h3 {
@@ -126,7 +127,6 @@
             margin-bottom: 20px;
         }
 
-        /* Botón "Descubrir" Animado */
         .btn-discover {
             position: relative;
             padding: 12px 35px;
@@ -142,7 +142,7 @@
             overflow: hidden;
             transition: var(--transition);
             z-index: 1;
-            margin-top: auto; /* Empuja el botón al fondo del contenido */
+            margin-top: auto;
         }
 
         .btn-discover::before {
@@ -165,13 +165,11 @@
             left: 0;
         }
 
-        /* Estilo para la Tarjeta Destacada */
         .service-card.highlighted {
             background: linear-gradient(145deg, #ffffff, #fffdf9);
             border: 2px solid var(--gold);
         }
 
-        /* Listón de "Recomendado" para la tarjeta destacada */
         .service-card.highlighted::after {
             content: 'RECOMENDADO';
             position: absolute;
@@ -186,79 +184,112 @@
         }
     </style>
 </head>
+
 <body>
 
-<main class="main-container">
-    <h1 class="section-title">Nuestros Servicios</h1>
-    
-    <section class="servicios-grid">
-        <div class="service-card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Venta de Propiedades">
-            </div>
-            <div class="card-content">
-                <h3>Venta de Propiedades</h3>
-                <p>Compra y venta de casas, departamentos y terrenos. Te acompañamos en todo el proceso legal.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
+    <header class="header-prestige">
+        <div class="logo">INMOBILIARIA <span>PRESTIGE</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html" class="active">Servicios</a></li>
+                <li><a href="inicio sesion.html">inicio sesion</a></li>
+                  <li><a href="valoracion.html">Valoración</a></li>
+                <li id="userMenu"></li>
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="service-card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80" alt="Alquileres">
+    <main class="main-container">
+        <h1 class="section-title">Nuestros Servicios</h1>
+        
+        <section class="servicios-grid">
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Venta de Propiedades">
+                </div>
+                <div class="card-content">
+                    <h3>Venta de Propiedades</h3>
+                    <p>Compra y venta de casas, departamentos y terrenos. Te acompañamos en todo el proceso legal.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Alquileres</h3>
-                <p>Gestión integral de contratos y garantías para que tu única preocupación sea mudarte.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
 
-        <div class="service-card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=800&q=80" alt="Asesoría Especializada">
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80" alt="Alquileres">
+                </div>
+                <div class="card-content">
+                    <h3>Alquileres</h3>
+                    <p>Gestión integral de contratos y garantías para que tu única preocupación sea mudarte.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Asesoría Especializada</h3>
-                <p>Evaluación de mercado y tasaciones profesionales realizadas por expertos del sector.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
 
-        <div class="service-card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Inversión Inmobiliaria">
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=800&q=80" alt="Asesoría Especializada">
+                </div>
+                <div class="card-content">
+                    <h3>Asesoría Especializada</h3>
+                    <p>Evaluación de mercado y tasaciones profesionales realizadas por expertos del sector.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Inversión Inmobiliaria</h3>
-                <p>Encontramos las mejores oportunidades con alto retorno y bajo riesgo para tu capital.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
 
-        <div class="service-card highlighted">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80" alt="Reformas y Valorización">
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Inversión Inmobiliaria">
+                </div>
+                <div class="card-content">
+                    <h3>Inversión Inmobiliaria</h3>
+                    <p>Encontramos las mejores oportunidades con alto retorno y bajo riesgo para tu capital.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Reformas y Valorización</h3>
-                <p>Remodelamos tu propiedad para aumentar su valor de mercado hasta un 30% antes de vender.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
 
-        <div class="service-card">
-            <div class="card-img-wrapper">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Gestión de Activos">
+            <div class="service-card highlighted">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80" alt="Reformas y Valorización">
+                </div>
+                <div class="card-content">
+                    <h3>Reformas y Valorización</h3>
+                    <p>Remodelamos tu propiedad para aumentar su valor de mercado hasta un 30% antes de vender.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
             </div>
-            <div class="card-content">
-                <h3>Gestión de Activos</h3>
-                <p>Administración completa: cobros, mantenimiento y soporte legal para propietarios.</p>
-                <button class="btn-discover">Descubrir más</button>
-            </div>
-        </div>
-    </section>
-</main>
 
+            <div class="service-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Gestión de Activos">
+                </div>
+                <div class="card-content">
+                    <h3>Gestión de Activos</h3>
+                    <p>Administración completa: cobros, mantenimiento y soporte legal para propietarios.</p>
+                    <button class="btn-discover">Descubrir más</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="login.js"></script>
+    <script src="prestige-chatbot.js"></script>
 </body>
+
 </html>

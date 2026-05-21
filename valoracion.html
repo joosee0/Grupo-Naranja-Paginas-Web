@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valoración Premium | Inmobiliaria Prestige</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="prestige-chatbot.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           1. AJUSTES GLOBALES Y ANIMACIONES
+           ========================================================================== */
+        html { scroll-behavior: smooth; }
+        body { transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .animate-on-scroll { opacity: 0; animation-fill-mode: forwards; }
+        .is-visible { animation: fadeInUp 0.8s ease-out forwards; }
+        
+        /* ==========================================================================
+           2. BLINDAJE DE COLORES (MODO CLARO Y OSCURO ABSOLUTOS)
+           ========================================================================== */
+        
+        /* 1. Títulos Dorados (Blindados contra theme.css) */
+        body h1.titulo-dorado,
+        body section h2.titulo-dorado,
+        body div h3.titulo-dorado { 
+            color: #d4af37 !important; 
+            font-family: 'Playfair Display', serif !important; 
+        }
+
+        /* 2. Fondos base */
+        .seccion-dinamica { background-color: #fafafa; padding: 80px 20px; transition: all 0.4s ease; }
+        .tarjeta-dinamica { background-color: #ffffff; border: 1px solid #e0e0e0; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-radius: 10px; transition: all 0.4s ease; }
+        .input-dinamico { background-color: #f5f5f5; border: 1px solid #e0e0e0; color: #333333; }
+
+        /* 3. MODO CLARO: Textos forzados a oscuros */
+        body:not(.dark-mode) .seccion-dinamica h2:not(.titulo-dorado),
+        body:not(.dark-mode) .seccion-dinamica h3:not(.titulo-dorado),
+        body:not(.dark-mode) .texto-principal,
+        body:not(.dark-mode) label {
+            color: #333333 !important;
+        }
+        
+        body:not(.dark-mode) .texto-secundario,
+        body:not(.dark-mode) .faq-answer-content,
+        body:not(.dark-mode) .seccion-dinamica p {
+            color: #666666 !important;
+        }
+
+        /* 4. MODO OSCURO: Fondos y textos claros */
+        body.dark-mode .seccion-dinamica { background-color: #121212 !important; }
+        body.dark-mode .tarjeta-dinamica { background-color: #1e1e1e !important; border-color: #333333 !important; box-shadow: 0 15px 40px rgba(0,0,0,0.6) !important; }
+        body.dark-mode .input-dinamico { background-color: #2a2a2a !important; border-color: #333333 !important; color: #f4f4f4 !important; }
+        
+        body.dark-mode .seccion-dinamica h2:not(.titulo-dorado),
+        body.dark-mode .seccion-dinamica h3:not(.titulo-dorado),
+        body.dark-mode .texto-principal,
+        body.dark-mode label {
+            color: #f4f4f4 !important;
+        }
+        
+        body.dark-mode .texto-secundario,
+        body.dark-mode .faq-answer-content,
+        body.dark-mode .seccion-dinamica p {
+            color: #aaaaaa !important;
+        }
+
+        body.dark-mode .timeline-item::after { background-color: #1e1e1e !important; }
+        body.dark-mode .faq-answer { background-color: #2a2a2a !important; }
+
+        /* ==========================================================================
+           3. BOTÓN EMOJI MODO OSCURO
+           ========================================================================== */
+        .theme-toggle {
+            background: none; border: none; cursor: pointer; padding: 5px;
+            font-size: 1.5rem; /* Tamaño del emoji */
+            display: flex; align-items: center; justify-content: center; 
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover { transform: scale(1.1); }
+        
+        /* Por defecto (Modo claro): Mostramos la Luna */
+        .emoji-sol { display: none; }
+        .emoji-luna { display: block; }
+        
+        /* En Modo oscuro: Mostramos el Sol */
+        body.dark-mode .emoji-luna { display: none; }
+        body.dark-mode .emoji-sol { display: block; }
+
+        /* ==========================================================================
+           4. HERO SECTION 
+           ========================================================================== */
+        .hero-valoracion {
+            position: relative; padding: 200px 20px 120px 20px; text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover fixed;
+        }
+        .hero-valoracion h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); animation: fadeInUp 1s ease-out; }
+        .hero-valoracion p { font-size: 1.2rem; color: #ddd !important; max-width: 800px; margin: 0 auto 40px auto; animation: fadeInUp 1.2s ease-out; }
+        .btn-hero {
+            background: #d4af37 !important; color: #fff !important; padding: 18px 45px; border-radius: 30px; text-decoration: none; 
+            font-weight: bold; display: inline-block; text-transform: uppercase; letter-spacing: 2px;
+            animation: fadeInUp 1.4s ease-out, pulseGlow 2s infinite; transition: all 0.3s ease;
+        }
+        .btn-hero:hover { background: #b5952f !important; transform: scale(1.05); }
+
+        /* ==========================================================================
+           5. ESTADÍSTICAS
+           ========================================================================== */
+        .estadisticas-val { 
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover fixed; 
+            color: white !important; padding: 100px 20px; text-align: center; 
+        }
+        .stats-container { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+        .stat-item { margin: 20px; flex: 1; min-width: 250px; }
+        .stat-numero { font-family: 'Playfair Display', serif; font-size: 4.5rem; color: #d4af37 !important; font-weight: bold; margin: 0; }
+        .stat-texto { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 3px; color: #ccc !important; margin-top: 10px; }
+
+        /* ==========================================================================
+           6. TIMELINE VERTICAL (PROCESO)
+           ========================================================================== */
+        .timeline-container { max-width: 800px; margin: 0 auto; position: relative; }
+        .timeline-container::after { content: ''; position: absolute; width: 4px; background-color: #d4af37; top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; }
+        .timeline-item { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; }
+        .timeline-item::after {
+            content: ''; position: absolute; width: 24px; height: 24px; right: -12px;
+            background-color: #ffffff; border: 4px solid #d4af37; top: 20px; border-radius: 50%; z-index: 1; transition: all 0.3s ease;
+        }
+        .timeline-item:hover::after { background-color: #d4af37 !important; }
+        .left { left: 0; }
+        .right { left: 50%; }
+        .right::after { left: -12px; }
+        .timeline-content { padding: 30px; position: relative; }
+        .timeline-content:hover { transform: translateY(-5px); border-color: #d4af37 !important; }
+        .timeline-content h3 { color: #d4af37; font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 15px; }
+        .timeline-content p { font-size: 1rem; margin: 0; }
+
+        /* ==========================================================================
+           7. TARJETAS METODOLOGÍA (FLIP CARDS)
+           ========================================================================== */
+        .grid-metodologia { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+        .flip-card { background-color: transparent; width: 350px; height: 350px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; box-sizing: border-box;
+        }
+        .flip-card-front i { font-size: 5rem; color: #d4af37; margin-bottom: 25px; animation: float 6s ease-in-out infinite; }
+        .flip-card-front h3 { font-size: 1.6rem; }
+        .flip-card-back { background: linear-gradient(135deg, #d4af37, #b5952f) !important; color: white !important; transform: rotateY(180deg); }
+        .flip-card-back h3 { margin-bottom: 20px; font-size: 1.8rem; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 15px; color: white !important; }
+        .flip-card-back p { font-size: 1.1rem; line-height: 1.6; color: white !important; margin: 0; }
+
+        /* ==========================================================================
+           8. FORMULARIO DE VALORACIÓN 
+           ========================================================================== */
+        .form-container { max-width: 900px; margin: 0 auto; border-top: 5px solid #d4af37; padding: 60px; }
+        .form-row { display: flex; gap: 25px; margin-bottom: 25px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 250px; display: flex; flex-direction: column; }
+        label { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        input, select { padding: 16px; font-family: 'Poppins', sans-serif; font-size: 1rem; border-radius: 8px; transition: all 0.3s ease; outline: none; width: 100%; }
+        input:focus, select:focus { border-color: #d4af37 !important; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        
+        .grid-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 25px; border-radius: 8px; }
+        .checkbox-label { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 1rem; }
+        .checkbox-label input { width: 20px; height: 20px; accent-color: #d4af37; cursor: pointer; }
+        
+        .btn-submit {
+            background-color: #d4af37 !important; color: #fff !important; border: none; width: 100%; padding: 20px; font-size: 1.2rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border-radius: 8px; transition: all 0.3s ease; margin-top: 40px;
+        }
+        .btn-submit:hover { background-color: #b5952f !important; transform: translateY(-3px); box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4); }
+
+        /* ==========================================================================
+           9. PREGUNTAS FRECUENTES (ACORDEÓN JS)
+           ========================================================================== */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { margin-bottom: 15px; overflow: hidden; }
+        .faq-question {
+            width: 100%; text-align: left; padding: 20px 25px; background: none; border: none;
+            font-size: 1.1rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Poppins', sans-serif;
+        }
+        .faq-question i { color: #d4af37; transition: transform 0.3s; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #f5f5f5; }
+        .faq-answer-content { padding: 0 25px 25px 25px; line-height: 1.7; }
+
+        /* ==========================================================================
+           10. MODAL DE PRIVACIDAD
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000;
+            display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(5px);
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            width: 90%; max-width: 600px; padding: 40px; border-top: 4px solid #d4af37 !important;
+            transform: translateY(-50px); transition: all 0.3s ease; max-height: 80vh; overflow-y: auto;
+        }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close { float: right; font-size: 1.5rem; cursor: pointer; transition: color 0.3s; background: none; border: none; }
+        .modal-close:hover { color: #d4af37 !important; }
+        .modal-content h3 { color: #d4af37; font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 20px; }
+        .modal-content p { margin-bottom: 15px; line-height: 1.6; }
+
+        /* ==========================================================================
+           11. MEDIA QUERIES PARA MÓVILES
+           ========================================================================== */
+        @media screen and (max-width: 900px) {
+            .timeline-container::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::after { left: 15px; }
+            .left::after, .right::after { left: 15px; }
+            .right { left: 0%; }
+            .hero-valoracion h1 { font-size: 3rem; }
+            .stat-numero { font-size: 3.5rem; }
+            .form-container { padding: 40px 20px; }
+        }
+        @media screen and (max-width: 600px) {
+            .hero-valoracion { padding-top: 150px; }
+            .hero-valoracion h1 { font-size: 2.2rem; }
+            .grid-extras { grid-template-columns: 1fr; }
+            .flip-card { width: 100%; height: 300px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header-prestige" id="main-header" role="banner">
+        <div class="logo">INMOBILIARIA <span style="color: #d4af37;">PRESTIGE</span></div>
+        <nav aria-label="Navegación principal">
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="propiedades.html">Propiedades</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="inicio sesion.html">inicio sesion</a></li>
+                <li><a href="valoracion.html" class="active" style="color: #d4af37;">Valoración</a></li>
+                <li id="userMenu"></li>
+                <li class="dropdown">
+                    <a href="contacto.html">Contacto ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="contacto.html">Contacto General</a></li>
+                        <li><a href="gestionamos.html">Gestionamos su Inmueble</a></li>
+                        <li><a href="buscamos.html">Díganos qué busca</a></li>
+                    </ul>
+                </li>
+                <li class="theme-toggle-li">
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar entre modo claro y oscuro">
+                        <span class="emoji-luna">🌙</span>
+                        <span class="emoji-sol">☀️</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-valoracion">
+        <h1 class="titulo-dorado">El Verdadero Valor de su Patrimonio</h1>
+        <p>Un análisis de mercado respaldado por inteligencia de datos avanzada, machine learning y la experiencia humana de líderes en el sector inmobiliario de lujo.</p>
+        <a href="#formulario" class="btn-hero">Solicitar Tasación Gratuita</a>
+    </section>
+
+    <section class="estadisticas-val animate-on-scroll">
+        <div class="stats-container">
+            <div class="stat-item">
+                <p class="stat-numero" data-target="15">0</p>
+                <p class="stat-texto">Años de Liderazgo</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-numero" data-target="98">0</p>
+                <p class="stat-texto">% Cierre vs Oferta</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-numero" data-target="850">0</p>
+                <p class="stat-texto">Inmuebles Tasados</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-numero" data-target="24">0</p>
+                <p class="stat-texto">Horas para el Informe</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-dinamica seccion-timeline">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 60px;" class="titulo-dorado animate-on-scroll">El Viaje de Valoración Prestige</h2>
+        
+        <div class="timeline-container">
+            <div class="timeline-item left animate-on-scroll">
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">1. Toma de Datos</h3>
+                    <p class="texto-secundario">Todo comienza con la información proporcionada en nuestro formulario seguro. Analizamos la ubicación exacta, metraje, y características premium de su propiedad como punto de partida.</p>
+                </div>
+            </div>
+            <div class="timeline-item right animate-on-scroll">
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">2. Extracción de Big Data</h3>
+                    <p class="texto-secundario">Nuestros algoritmos barren las bases de datos de registros de la propiedad, portales inmobiliarios y transacciones privadas cerradas en los últimos 6 meses en su código postal.</p>
+                </div>
+            </div>
+            <div class="timeline-item left animate-on-scroll">
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">3. Auditoría Humana</h3>
+                    <p class="texto-secundario">La tecnología no ve acabados de lujo ni luz natural. Nuestros consultores senior revisan los datos fríos y aplican coeficientes correctores basados en la exclusividad y estado real del inmueble.</p>
+                </div>
+            </div>
+            <div class="timeline-item right animate-on-scroll">
+                <div class="timeline-content tarjeta-dinamica">
+                    <h3 class="titulo-dorado">4. Entrega del Dossier</h3>
+                    <p class="texto-secundario">En menos de 24 horas, recibe un informe confidencial detallando el valor de mercado actual, el valor de reposición y una propuesta estratégica de comercialización.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-dinamica seccion-metodologia">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 60px;" class="titulo-dorado animate-on-scroll">Tecnología al Servicio del Lujo</h2>
+        
+        <div class="grid-metodologia">
+            <div class="flip-card animate-on-scroll">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front tarjeta-dinamica">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                        <h3 class="texto-principal">Análisis Geo-Espacial</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Geolocalización</h3>
+                        <p>Evaluamos micro-factores: proximidad a colegios internacionales, campos de golf, orientación solar y futuras planificaciones urbanísticas de la zona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card animate-on-scroll" style="animation-delay: 0.2s;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front tarjeta-dinamica">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h3 class="texto-principal">Comparativa Real</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Testigos de Cierre</h3>
+                        <p>No nos basamos en precios de oferta inflados, sino en precios reales escriturados ante notario para garantizar una tasación certera y competitiva.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card animate-on-scroll" style="animation-delay: 0.4s;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front tarjeta-dinamica">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <h3 class="texto-principal">Tendencias de Mercado</h3>
+                    </div>
+                    <div class="flip-card-back">
+                        <h3>Proyección Futura</h3>
+                        <p>Aplicamos modelos predictivos para entender si es el momento óptimo para vender o si el valor de la zona está en una curva ascendente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion-dinamica seccion-formulario" id="formulario">
+        <div class="form-container tarjeta-dinamica animate-on-scroll">
+            <h2 class="form-title titulo-dorado" style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">Dossier de Valoración Confidencial</h2>
+            <form action="#" method="POST" id="valoracionForm">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre y Apellidos del Propietario *</label>
+                        <input type="text" class="input-dinamico" id="nombre_val" required placeholder="Ej. Alejandro Valera">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Teléfono de Contacto Directo *</label>
+                        <input type="tel" class="input-dinamico" id="tel_val" required placeholder="+34 600 000 000">
+                    </div>
+                    <div class="form-group">
+                        <label>Correo Electrónico Privado *</label>
+                        <input type="email" class="input-dinamico" id="email_val" required placeholder="correo@ejemplo.com">
+                    </div>
+                </div>
+
+                <hr style="border: 0; height: 1px; background: #e0e0e0; margin: 30px 0; opacity: 0.2;">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Dirección Exacta del Inmueble a Tasar *</label>
+                        <input type="text" class="input-dinamico" id="dir_val" required placeholder="Calle, Número, Código Postal, Ciudad">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Propiedad *</label>
+                        <select class="input-dinamico" id="tipo_val" required>
+                            <option value="" disabled selected>Seleccione tipología...</option>
+                            <option value="piso">Piso / Apartamento Premium</option>
+                            <option value="atico">Ático / Dúplex</option>
+                            <option value="chalet">Villa / Chalet Independiente</option>
+                            <option value="adosado">Casa Adosada / Pareado</option>
+                            <option value="finca">Finca Rústica / Terreno</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Superficie Construida Total (m²) *</label>
+                        <input type="number" class="input-dinamico" id="metros_val" required min="20" placeholder="Ej. 150">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Distribución: Dormitorios *</label>
+                        <select class="input-dinamico" id="hab_val" required>
+                            <option value="1">1 Habitación</option>
+                            <option value="2">2 Habitaciones</option>
+                            <option value="3">3 Habitaciones</option>
+                            <option value="4">4 Habitaciones</option>
+                            <option value="5+">5 o más Habitaciones</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Distribución: Baños Completos *</label>
+                        <select class="input-dinamico" id="banos_val" required>
+                            <option value="1">1 Baño</option>
+                            <option value="2">2 Baños</option>
+                            <option value="3">3 Baños</option>
+                            <option value="4+">4 o más Baños</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label style="margin-bottom: 12px;">Características Premium (Seleccione las aplicables)</label>
+                    <div class="grid-extras input-dinamico">
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="garaje"> Plaza de Garaje</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="piscina"> Piscina (Priv/Com)</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="terraza"> Terraza / Solárium</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="vistas"> Vistas Despejadas</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="seguridad"> Seguridad 24h / Conserje</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="reforma"> Recién Reformado</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="domotica"> Sistema Domótico</label>
+                        <label class="checkbox-label"><input type="checkbox" name="extras" value="trastero"> Trastero Privado</label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; display: flex; align-items: flex-start; gap: 10px;">
+                    <input type="checkbox" id="legal_check" required style="width: auto; margin-top: 5px;">
+                    <label for="legal_check" class="texto-principal" style="text-transform: none; font-weight: normal; font-size: 0.85rem; line-height: 1.5;">
+                        He leído y acepto la <a href="#" id="openPrivacy" style="color: #d4af37; text-decoration: underline;">Política de Privacidad y Tratamiento de Datos</a>. Entiendo que mis datos serán tratados con estricta confidencialidad.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Generar Estudio de Mercado <i class="fa-solid fa-file-invoice" style="margin-left: 10px;"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section class="seccion-dinamica seccion-faq">
+        <h2 style="text-align: center; font-size: 2.8rem; margin-bottom: 50px;" class="titulo-dorado animate-on-scroll">Preguntas Frecuentes</h2>
+        
+        <div class="faq-container animate-on-scroll">
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
+                    ¿Qué coste tiene el servicio de valoración?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>Absolutamente ninguno. En Inmobiliaria Prestige ofrecemos este primer estudio de mercado de manera 100% gratuita y sin compromiso.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
+                    ¿Qué diferencia hay entre esta valoración y una tasación bancaria?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>Una tasación bancaria tiene validez legal hipotecaria y suele ser conservadora. Nuestra valoración es puramente comercial: le indicamos el precio real por el que su vivienda puede ser absorbida por el mercado actualmente.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item tarjeta-dinamica">
+                <button class="faq-question texto-principal">
+                    ¿Cuánto tardaré en recibir el informe completo?
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer input-dinamico">
+                    <div class="faq-answer-content texto-secundario">
+                        <br>El informe preliminar se genera en las primeras horas. Sin embargo, para aplicar la auditoría humana, solemos entregar el dossier final en un plazo máximo de 24 a 48 horas laborables.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="privacyModal">
+        <div class="modal-content tarjeta-dinamica">
+            <button class="modal-close texto-secundario" id="closePrivacy"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="titulo-dorado" style="font-size: 1.8rem; margin-bottom: 20px;">Política de Privacidad y RGPD</h3>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>1. Responsable del tratamiento:</strong> Inmobiliaria Prestige S.L., con domicilio en Sevilla, España.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>2. Finalidad:</strong> Los datos recogidos en este formulario se utilizarán exclusivamente para la elaboración del dossier de valoración inmobiliaria solicitado.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>3. Legitimación:</strong> Consentimiento expreso del usuario al marcar la casilla de verificación.</p>
+            <p class="texto-principal" style="margin-bottom: 15px;"><strong>4. Destinatarios:</strong> Los datos no se cederán a terceros, salvo obligación legal. Nuestro sistema está cifrado.</p>
+            <div style="margin-top: 30px; text-align: center;">
+                <button id="acceptPrivacyBtn" class="btn-hero" style="padding: 12px 30px; font-size: 1rem;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="padding: 40px; text-align: center; background: #111; color: #aaa; border-top: 3px solid #d4af37;">
+        <div class="logo" style="color: white; font-size: 1.5rem; margin-bottom: 10px; font-weight: bold; font-family: 'Poppins', sans-serif;">INMOBILIARIA <span style="color:#d4af37;">PRESTIGE</span></div>
+        <p>© 2026 Todos los derechos reservados. Proyecto Web Estructurado SMR.</p>
+    </footer>
+
+    <script src="theme.js"></script>
+    <script src="prestige-chatbot.js"></script>
+
+    <script>
+        // ==========================================================================
+        // 1. SISTEMA DE TEMA CLARO/OSCURO (CON PERSISTENCIA)
+        // ==========================================================================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        initTheme();
+
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // ==========================================================================
+        // 2. SCRIPTS ORIGINALES (Animaciones, Header, Contadores, Modal)
+        // ==========================================================================
+        
+        // HEADER SCROLL
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+
+        // ANIMACIÓN OBSERVER (FadeIn de elementos)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // ANIMACIÓN CONTADORES (Sección Estadísticas)
+        const counters = document.querySelectorAll('.stat-numero');
+        let hasAnimatedCounters = false;
+
+        window.addEventListener('scroll', () => {
+            const statsSection = document.querySelector('.estadisticas-val');
+            if (!statsSection || hasAnimatedCounters) return;
+
+            const sectionPos = statsSection.getBoundingClientRect().top;
+            const screenPos = window.innerHeight / 1.2;
+
+            if (sectionPos < screenPos) {
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText;
+                        const inc = target / 50; 
+
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 30);
+                        } else {
+                            counter.innerText = target; 
+                        }
+                    };
+                    updateCount();
+                });
+                hasAnimatedCounters = true;
+            }
+        });
+
+        // LÓGICA DEL ACORDEÓN (FAQ)
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
+            
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                    }
+                });
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = null;
+                }
+            });
+        });
+
+        // LÓGICA DEL MODAL DE PRIVACIDAD
+        const privacyModal = document.getElementById('privacyModal');
+        const openPrivacy = document.getElementById('openPrivacy');
+        const closePrivacy = document.getElementById('closePrivacy');
+        const acceptPrivacyBtn = document.getElementById('acceptPrivacyBtn');
+        const legalCheck = document.getElementById('legal_check');
+
+        openPrivacy.addEventListener('click', (e) => {
+            e.preventDefault();
+            privacyModal.classList.add('active');
+        });
+
+        closePrivacy.addEventListener('click', () => {
+            privacyModal.classList.remove('active');
+        });
+
+        acceptPrivacyBtn.addEventListener('click', () => {
+            privacyModal.classList.remove('active');
+            legalCheck.checked = true;
+        });
+
+        privacyModal.addEventListener('click', (e) => {
+            if (e.target === privacyModal) {
+                privacyModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
