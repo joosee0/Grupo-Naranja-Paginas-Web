@@ -208,7 +208,7 @@
         .faq-answer-content { padding: 0 25px 25px 25px; line-height: 1.7; }
 
         /* ==========================================================================
-           10. MODAL DE PRIVACIDAD
+           10. MODAL DE PRIVACIDAD (FORMULARIO)
            ========================================================================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000;
@@ -226,7 +226,104 @@
         .modal-content p { margin-bottom: 15px; line-height: 1.6; }
 
         /* ==========================================================================
-           11. MEDIA QUERIES PARA MÓVILES
+           11. MODAL POLÍTICA DE PRIVACIDAD GLOBAL (FOOTER)
+           ========================================================================== */
+        .footer-modal {
+            display: none;
+            position: fixed;
+            z-index: 10005;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .footer-modal-content {
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border-top: 4px solid #d4af37;
+            transform: translateY(-20px);
+            transition: transform 0.4s ease;
+        }
+
+        .footer-modal.show .footer-modal-content {
+            transform: translateY(0);
+        }
+
+        .footer-close-btn {
+            color: #333333;
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-close-btn:hover {
+            color: #d4af37;
+        }
+
+        .footer-modal-content h2 {
+            color: #121212;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .footer-modal-content h3 {
+            color: #121212;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-modal-content p, .footer-modal-content li {
+            color: #666666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Parche Dark Mode para el Footer Modal */
+        body.dark-mode .footer-modal-content {
+            background-color: #1e1e1e !important;
+            border-color: #d4af37;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6) !important;
+        }
+        body.dark-mode .footer-modal-content h2,
+        body.dark-mode .footer-modal-content h3 {
+            color: #f4f4f4 !important;
+        }
+        body.dark-mode .footer-modal-content p,
+        body.dark-mode .footer-modal-content li,
+        body.dark-mode .footer-close-btn {
+            color: #aaaaaa !important;
+        }
+        body.dark-mode .footer-close-btn:hover {
+            color: #d4af37 !important;
+        }
+
+        /* ==========================================================================
+           12. MEDIA QUERIES PARA MÓVILES
            ========================================================================== */
         @media screen and (max-width: 900px) {
             .timeline-container::after { left: 31px; }
@@ -523,6 +620,7 @@
         </div>
     </section>
 
+    <!-- MODAL DE PRIVACIDAD DEL FORMULARIO DE VALORACIÓN -->
     <div class="modal-overlay" id="privacyModal">
         <div class="modal-content tarjeta-dinamica">
             <button class="modal-close texto-secundario" id="closePrivacy"><i class="fa-solid fa-xmark"></i></button>
@@ -537,6 +635,7 @@
         </div>
     </div>
 
+    <!-- FOOTER AÑADIDO -->
     <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2.5rem 1rem; border-top: 4px solid #c5a059; font-family: 'Inter', sans-serif;">
         <div style="margin-bottom: 0.75rem;">
             <span style="font-family: 'Playfair Display', serif; font-size: 1.4rem; letter-spacing: 0.05em; color: #ffffff;">INMOBILIARIA <span style="color:#c5a059;">PRESTIGE</span></span>
@@ -555,8 +654,40 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
         </div>
-        <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+        <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">
+            © 2026 Inmobiliaria Prestige. Todos los derechos reservados. | 
+            <a href="#" id="openPrivacyModal" style="color: #c5a059; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#c5a059'">Política de Privacidad</a>
+        </p>
     </footer>
+
+    <!-- MODAL DE PRIVACIDAD GLOBAL (FOOTER) -->
+    <div id="footerPrivacyModal" class="footer-modal">
+        <div class="footer-modal-content">
+            <span class="footer-close-btn">&times;</span>
+            <h2>Política de Privacidad</h2>
+            <p>En <strong>Inmobiliaria Prestige</strong> valoramos su privacidad y nos comprometemos a proteger sus datos personales de acuerdo con el Reglamento General de Protección de Datos (RGPD).</p>
+            
+            <h3>1. Información del Responsable</h3>
+            <p>El responsable del tratamiento de los datos recabados a través de este sitio web es Inmobiliaria Prestige, con domicilio en [Dirección de la empresa] y correo electrónico de contacto: legal@inmobiliariaprestige.com.</p>
+            
+            <h3>2. Finalidad del Tratamiento</h3>
+            <p>Los datos personales que nos facilite serán utilizados exclusivamente para:</p>
+            <ul>
+                <li>Gestionar sus solicitudes de información sobre propiedades prime y servicios de asesoría.</li>
+                <li>Envío de comunicaciones comerciales (solo si ha dado su consentimiento expreso).</li>
+                <li>Mantener la relación comercial y contractual en operaciones off-market y due diligence.</li>
+            </ul>
+            
+            <h3>3. Legitimación</h3>
+            <p>La base legal para el tratamiento de sus datos es el consentimiento explícito otorgado al contactarnos o al solicitar nuestros servicios exclusivos.</p>
+            
+            <h3>4. Conservación y Seguridad</h3>
+            <p>Aplicamos estrictos acuerdos de confidencialidad (NDA) y medidas de seguridad técnicas para evitar el acceso no autorizado. Sus datos se conservarán mientras exista un interés mutuo o durante el tiempo necesario para cumplir con las obligaciones legales.</p>
+            
+            <h3>5. Derechos del Usuario</h3>
+            <p>Usted tiene derecho a acceder, rectificar, limitar y suprimir sus datos en cualquier momento. Para ejercer estos derechos, envíe un correo electrónico a nuestro equipo legal.</p>
+        </div>
+    </div>
 
     <script src="theme.js"></script>
     <script src="prestige-chatbot.js"></script>
@@ -665,7 +796,7 @@
             });
         });
 
-        // LÓGICA DEL MODAL DE PRIVACIDAD
+        // LÓGICA DEL MODAL DE PRIVACIDAD (FORMULARIO)
         const privacyModal = document.getElementById('privacyModal');
         const openPrivacy = document.getElementById('openPrivacy');
         const closePrivacy = document.getElementById('closePrivacy');
@@ -691,6 +822,39 @@
                 privacyModal.classList.remove('active');
             }
         });
+
+        // ==========================================================================
+        // 3. LÓGICA DEL MODAL DE PRIVACIDAD GLOBAL (FOOTER)
+        // ==========================================================================
+        const footerModal = document.getElementById("footerPrivacyModal");
+        const btnFooterModal = document.getElementById("openPrivacyModal");
+        const spanFooterClose = document.getElementsByClassName("footer-close-btn")[0];
+
+        if (btnFooterModal && footerModal && spanFooterClose) {
+            btnFooterModal.addEventListener("click", function(e) {
+                e.preventDefault();
+                footerModal.style.display = "flex";
+                setTimeout(() => {
+                    footerModal.classList.add("show");
+                }, 10);
+            });
+
+            spanFooterClose.addEventListener("click", function() {
+                footerModal.classList.remove("show");
+                setTimeout(() => {
+                    footerModal.style.display = "none";
+                }, 300);
+            });
+
+            window.addEventListener("click", function(event) {
+                if (event.target === footerModal) {
+                    footerModal.classList.remove("show");
+                    setTimeout(() => {
+                        footerModal.style.display = "none";
+                    }, 300);
+                }
+            });
+        }
     </script>
 </body>
 </html>
