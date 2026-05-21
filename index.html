@@ -82,12 +82,39 @@
         }
 
         /* CONTROL DE LOS ICONOS DEL BOTÓN (SOL/LUNA) */
+        /* (Hecho por Miguel) */
+        /* Botón claro/oscuro unificado: mismo aspecto circular que en contacto.html */
         .theme-toggle {
-            background: none; border: none; cursor: pointer; padding: 5px;
-            display: flex; align-items: center; justify-content: center;
-            color: inherit;
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.35s ease;
+            padding: 0;
+            flex-shrink: 0;
         }
-        
+        .theme-toggle:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: rotate(20deg);
+        }
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        /* (final de Miguel) */
+
         .icon-sun { display: none; }
         .icon-moon { display: block; }
         
