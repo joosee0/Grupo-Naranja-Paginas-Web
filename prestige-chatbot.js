@@ -2,7 +2,7 @@
   'use strict';
  
   const AI_CONFIG = {
-    provider: 'none', // Cambia a 'groq' o 'gemini' cuando configures tu clave
+    provider: 'none', 
     
   together: {
   apiKey: 'api key aqui',
