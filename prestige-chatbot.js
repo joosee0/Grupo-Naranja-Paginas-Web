@@ -1,9 +1,6 @@
 (function () {
   'use strict';
  
-  /* ========================================================================
-     CONFIGURACIÓN DE IA, lo que es la API para que el chatbot pueda interactuar bien
-     ======================================================================== */
   const AI_CONFIG = {
     provider: 'none', // Cambia a 'groq' o 'gemini' cuando configures tu clave
     
