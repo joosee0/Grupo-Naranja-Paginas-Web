@@ -40,6 +40,16 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
     hablar_asesor: `Por supuesto, será un placer ponerle en contacto con uno de nuestros asesores personales. Puede llamarnos al +34 900 000 000 (lunes a viernes, 9h–20h) o dejarnos sus datos y le llamamos en el momento que prefiera.`,
     presupuesto: `Trabajamos con un amplio rango de presupuestos, desde pisos reformados desde 295.000 € hasta fincas señoriales por encima de 2.000.000 €. ¿Podría indicarme qué rango tiene en mente? Así le ofrezco las opciones más ajustadas a sus necesidades.`,
     default: `Gracias por su consulta. En Inmobiliaria Prestige estamos a su disposición para ofrecerle el servicio más personalizado. ¿Podría indicarme con más detalle qué tipo de propiedad o información está buscando? Estaré encantada de ayudarle.`,
+    comprar_piso: `Excelente decisión. Disponemos de pisos de obra nueva y reformados en las mejores ubicaciones de Sevilla, desde 295.000 €. Contamos con opciones de 2, 3 y 4 dormitorios con acabados de alta calidad. ¿Tiene alguna zona preferida o un presupuesto en mente?`,
+    alquiler: `Gestionamos una selecta cartera de inmuebles en alquiler en Sevilla y área metropolitana, desde apartamentos céntricos hasta villas privadas. Los precios oscilan entre 900 € y 4.500 € mensuales según la tipología. ¿Busca para uso personal o inversión?`,
+    vender_propiedad: `Si desea vender su propiedad, en Prestige le ofrecemos una valoración gratuita y profesional, junto con una estrategia de comercialización exclusiva. Gestionamos todo el proceso con total discreción. ¿Le gustaría que un asesor se pasara a valorar su inmueble?`,
+    obra_nueva: `Contamos con promociones de obra nueva en las zonas más demandadas de Sevilla: Nervión, Los Remedios, Triana y urbanizaciones de lujo en la periferia. Entrega inmediata y en construcción. ¿Le interesa alguna zona en particular?`,
+    garaje_trastero: `Sí, la mayoría de nuestras propiedades incluyen plaza de garaje y trastero. También gestionamos la venta y alquiler de plazas independientes en Sevilla Capital desde 18.000 €. ¿Necesita algo concreto?`,
+    hipoteca_financiacion: `Trabajamos con las principales entidades bancarias y disponemos de acuerdos preferentes para nuestros clientes. Podemos orientarle con simulaciones de hipoteca sin compromiso. ¿Desea que nuestro asesor financiero se ponga en contacto con usted?`,
+    documentacion: `Los documentos habituales para la compra son: DNI/NIE, nota simple del Registro de la Propiedad, certificado energético, escritura de compraventa y justificante de pago del ITP o IVA según el caso. Le guiamos en cada paso para que el proceso sea totalmente transparente.`,
+    gastos_compra: `Al precio de compra hay que añadir entre un 10% y un 12% en gastos: ITP (7% en Andalucía para segunda mano) o IVA (10% para obra nueva), notaría, registro y gestoría. Le facilitamos un desglose detallado antes de cualquier firma.`,
+    valoracion_gratuita: `Ofrecemos valoraciones gratuitas y sin compromiso realizadas por nuestros expertos tasadores. El proceso es rápido: en 24–48 horas tiene un informe detallado del valor de mercado de su inmueble. ¿Le agendamos una valoración?`,
+    horario_contacto: `Nuestras oficinas están abiertas de lunes a viernes de 9:00 a 20:00 h y sábados de 10:00 a 14:00 h. También puede contactarnos en cualquier momento a través de este chat o por email en info@prestigeinmobiliaria.es.`,
   };
  
   /* ========================================================================
@@ -53,6 +63,16 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
       { label: '◎ Agendar una visita',          key: 'agendar_visita' },
       { label: '◉ Propiedades frente al mar',   key: 'frente_al_mar' },
       { label: '◈ Hablar con un asesor',        key: 'hablar_asesor' },
+      { label: '🏠 Quiero comprar un piso',     key: 'comprar_piso' },
+      { label: '🔑 Quiero alquilar',            key: 'alquiler' },
+      { label: '📋 Vender mi propiedad',        key: 'vender_propiedad' },
+      { label: '🏗️ Obra nueva',                 key: 'obra_nueva' },
+      { label: '💶 Financiación e hipoteca',    key: 'hipoteca_financiacion' },
+      { label: '📄 ¿Qué documentos necesito?',  key: 'documentacion' },
+      { label: '💰 Gastos de compraventa',      key: 'gastos_compra' },
+      { label: '📊 Valoración gratuita',        key: 'valoracion_gratuita' },
+      { label: '🕐 Horario y contacto',         key: 'horario_contacto' },
+      { label: '🅿️ Garaje y trastero',          key: 'garaje_trastero' },
     ],
     tras_zona: [
       { label: '€ Indicar mi presupuesto',     key: 'presupuesto' },
@@ -76,6 +96,16 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
     frente_al_mar:          'tras_propiedades',
     hablar_asesor:          'tras_asesor',
     presupuesto:            'tras_propiedades',
+    comprar_piso:           'tras_zona',
+    alquiler:               'tras_zona',
+    vender_propiedad:       'tras_asesor',
+    obra_nueva:             'tras_propiedades',
+    hipoteca_financiacion:  'tras_asesor',
+    documentacion:          'tras_propiedades',
+    gastos_compra:          'tras_propiedades',
+    valoracion_gratuita:    'tras_asesor',
+    horario_contacto:       'tras_asesor',
+    garaje_trastero:        'tras_propiedades',
   };
  
   /* ========================================================================
