@@ -63,16 +63,16 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
       { label: '◎ Agendar una visita',          key: 'agendar_visita' },
       { label: '◉ Propiedades frente al mar',   key: 'frente_al_mar' },
       { label: '◈ Hablar con un asesor',        key: 'hablar_asesor' },
-      { label: '🏠 Quiero comprar un piso',     key: 'comprar_piso' },
-      { label: '🔑 Quiero alquilar',            key: 'alquiler' },
-      { label: '📋 Vender mi propiedad',        key: 'vender_propiedad' },
-      { label: '🏗️ Obra nueva',                 key: 'obra_nueva' },
-      { label: '💶 Financiación e hipoteca',    key: 'hipoteca_financiacion' },
-      { label: '📄 ¿Qué documentos necesito?',  key: 'documentacion' },
-      { label: '💰 Gastos de compraventa',      key: 'gastos_compra' },
-      { label: '📊 Valoración gratuita',        key: 'valoracion_gratuita' },
-      { label: '🕐 Horario y contacto',         key: 'horario_contacto' },
-      { label: '🅿️ Garaje y trastero',          key: 'garaje_trastero' },
+      { label: '⌂ Quiero comprar un piso',      key: 'comprar_piso' },
+      { label: '↩ Quiero alquilar',             key: 'alquiler' },
+      { label: '◁ Vender mi propiedad',         key: 'vender_propiedad' },
+      { label: '⊞ Obra nueva',                  key: 'obra_nueva' },
+      { label: '€ Financiación e hipoteca',     key: 'hipoteca_financiacion' },
+      { label: '≡ ¿Qué documentos necesito?',   key: 'documentacion' },
+      { label: '∑ Gastos de compraventa',       key: 'gastos_compra' },
+      { label: '◇ Valoración gratuita',         key: 'valoracion_gratuita' },
+      { label: '◷ Horario y contacto',          key: 'horario_contacto' },
+      { label: '⊡ Garaje y trastero',           key: 'garaje_trastero' },
     ],
     tras_zona: [
       { label: '€ Indicar mi presupuesto',     key: 'presupuesto' },
@@ -340,7 +340,7 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
      ======================================================================== */
   async function handleQuickReply(qr) {
     hideQuickReplies();
-    const cleanLabel = qr.label.replace(/^[✦⌖◎◉◈€]\s*/, '');
+    const cleanLabel = qr.label.replace(/^[✦⌖◎◉◈€⌂↩◁⊞≡∑◇◷⊡]\s*/, '');
     addMessage(cleanLabel, 'user');
  
     if (QR_NEXT[qr.key]) currentQRSet = QR_NEXT[qr.key];
@@ -377,6 +377,36 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
   }
  
   /* ========================================================================
+     ANTHROPIC API — respuestas inteligentes
+     ======================================================================== */
+  async function callAnthropic(userText) {
+    const ctx = getPageContext();
+    const sys = AI_CONFIG.systemPrompt + (ctx ? '\n\nContexto actual: ' + ctx : '');
+    const messages = [
+      ...conversationHistory.slice(-10),
+      { role: 'user', content: userText },
+    ];
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 300,
+          system: sys,
+          messages,
+        }),
+      });
+      if (!res.ok) throw new Error('Anthropic ' + res.status);
+      const data = await res.json();
+      return data.content?.[0]?.text || AUTO_RESPONSES.default;
+    } catch (err) {
+      console.warn('[Chatbot] Anthropic error:', err);
+      return AUTO_RESPONSES.default;
+    }
+  }
+ 
+  /* ========================================================================
      RESPUESTA
      ======================================================================== */
   async function respondTo(userText, quickKey) {
@@ -386,9 +416,13 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
       response = await callGroq(userText);
     } else if (AI_CONFIG.provider === 'gemini') {
       response = await callGemini(userText);
-    } else {
+    } else if (quickKey && AUTO_RESPONSES[quickKey]) {
+      // Quick reply con respuesta local predefinida
       await delay(900 + Math.random() * 700);
-      response = quickKey ? (AUTO_RESPONSES[quickKey] || AUTO_RESPONSES.default) : AUTO_RESPONSES.default;
+      response = AUTO_RESPONSES[quickKey];
+    } else {
+      // Texto libre → Anthropic API
+      response = await callAnthropic(userText);
     }
     hideTyping();
     addMessage(response, 'bot');
@@ -725,7 +759,21 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
   }
  
   const style = document.createElement('style');
-  style.textContent = '@keyframes pc-bubble-enter { from{opacity:0;transform:scale(0) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }';
+  style.textContent = `
+    @keyframes pc-bubble-enter { from{opacity:0;transform:scale(0) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    #pc-messages {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      max-height: 100% !important;
+      scroll-behavior: smooth;
+    }
+    #pc-window {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+  `;
   document.head.appendChild(style);
  
   init();
