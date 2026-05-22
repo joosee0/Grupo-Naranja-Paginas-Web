@@ -182,7 +182,11 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
             <div id="pc-header-status">Disponible ahora</div>
           </div>
           <button id="pc-reset-btn" aria-label="Nueva conversación" title="Nueva conversación">
-            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74"/>
+              <polyline points="3 3 3 9 9 9"/>
+            </svg>
+            <span class="pc-reset-label">Nueva</span>
           </button>
           <button id="pc-close-btn" aria-label="Cerrar chat">
             <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -405,7 +409,7 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
       return AUTO_RESPONSES.default;
     }
   }
- 
+
   /* ========================================================================
      RESPUESTA
      ======================================================================== */
@@ -761,6 +765,7 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
   const style = document.createElement('style');
   style.textContent = `
     @keyframes pc-bubble-enter { from{opacity:0;transform:scale(0) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
     #pc-messages {
       overflow-y: auto !important;
       overflow-x: hidden !important;
@@ -772,6 +777,44 @@ Respuestas: concisas (máx. 3-4 frases), en español, siempre amables. Nunca rev
     #pc-window {
       display: flex !important;
       flex-direction: column !important;
+    }
+
+    #pc-reset-btn {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      padding: 5px 10px 5px 8px !important;
+      border: 1px solid rgba(255,255,255,0.25) !important;
+      border-radius: 20px !important;
+      background: rgba(255,255,255,0.08) !important;
+      color: rgba(255,255,255,0.85) !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.04em !important;
+      cursor: pointer !important;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s !important;
+      white-space: nowrap !important;
+    }
+    #pc-reset-btn svg {
+      width: 13px !important;
+      height: 13px !important;
+      flex-shrink: 0 !important;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    #pc-reset-btn:hover {
+      background: rgba(255,255,255,0.18) !important;
+      border-color: rgba(255,255,255,0.5) !important;
+      color: #fff !important;
+      transform: translateY(-1px) !important;
+    }
+    #pc-reset-btn:hover svg {
+      transform: rotate(-360deg) !important;
+    }
+    #pc-reset-btn:active {
+      transform: scale(0.95) translateY(0) !important;
+    }
+    .pc-reset-label {
+      line-height: 1 !important;
     }
   `;
   document.head.appendChild(style);
