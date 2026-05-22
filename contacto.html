@@ -495,6 +495,103 @@
                 scroll-behavior: auto !important;
             }
         }
+
+        /* ==========================================================================
+           MODAL POLÍTICA DE PRIVACIDAD
+           ========================================================================== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10005; /* Aumentado para estar por encima del resto de elementos de esta página */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 3rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border-top: 4px solid #c5a059;
+            transform: translateY(-20px);
+            transition: transform 0.4s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            color: #334155;
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #c5a059;
+        }
+
+        .modal-content h2 {
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .modal-content h3 {
+            color: #0f172a;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .modal-content p, .modal-content li {
+            color: #334155;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Parche Dark Mode para el Modal */
+        body.dark .modal-content {
+            background-color: #1e293b !important;
+            border-color: #c5a059;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5) !important;
+        }
+        body.dark .modal-content h2,
+        body.dark .modal-content h3 {
+            color: #ffffff !important;
+        }
+        body.dark .modal-content p,
+        body.dark .modal-content li,
+        body.dark .close-btn {
+            color: #94a3b8 !important;
+        }
+        body.dark .close-btn:hover {
+            color: #c5a059 !important;
+        }
     </style>
     <!-- (final de Miguel) -->
     <script src="theme.js"></script>
@@ -619,9 +716,58 @@
         </section>
     </main>
 
-    <footer style="background-color: var(--footer-bg); color: var(--footer-text); text-align: center; padding: 2rem; border-top: 4px solid var(--accent-color);">
-        <p>© 2026 Inmobiliaria Prestige. Todos los derechos reservados.</p>
+    <footer style="background-color: #0f172a; color: #ffffff; text-align: center; padding: 2.5rem 1rem; border-top: 4px solid #c5a059; font-family: 'Inter', sans-serif;">
+        <div style="margin-bottom: 0.75rem;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 1.4rem; letter-spacing: 0.05em; color: #ffffff;">INMOBILIARIA <span style="color:#c5a059;">PRESTIGE</span></span>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem;">
+            <!-- Instagram -->
+            <a href="#" aria-label="Instagram" style="display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:50%; background-color:#1e293b; color:#c5a059; transition: background 0.3s, color 0.3s; text-decoration:none;" onmouseover="this.style.backgroundColor='#c5a059';this.style.color='#0f172a';" onmouseout="this.style.backgroundColor='#1e293b';this.style.color='#c5a059';">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <!-- X (Twitter) -->
+            <a href="#" aria-label="X (Twitter)" style="display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:50%; background-color:#1e293b; color:#c5a059; transition: background 0.3s, color 0.3s; text-decoration:none;" onmouseover="this.style.backgroundColor='#c5a059';this.style.color='#0f172a';" onmouseout="this.style.backgroundColor='#1e293b';this.style.color='#c5a059';">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="#" aria-label="LinkedIn" style="display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:50%; background-color:#1e293b; color:#c5a059; transition: background 0.3s, color 0.3s; text-decoration:none;" onmouseover="this.style.backgroundColor='#c5a059';this.style.color='#0f172a';" onmouseout="this.style.backgroundColor='#1e293b';this.style.color='#c5a059';">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+        </div>
+        <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">
+            © 2026 Inmobiliaria Prestige. Todos los derechos reservados. | 
+            <a href="#" id="openPrivacyModal" style="color: #c5a059; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#c5a059'">Política de Privacidad</a>
+        </p>
     </footer>
+
+    <!-- MODAL DE PRIVACIDAD -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Política de Privacidad</h2>
+            <p>En <strong>Inmobiliaria Prestige</strong> valoramos su privacidad y nos comprometemos a proteger sus datos personales de acuerdo con el Reglamento General de Protección de Datos (RGPD).</p>
+            
+            <h3>1. Información del Responsable</h3>
+            <p>El responsable del tratamiento de los datos recabados a través de este sitio web es Inmobiliaria Prestige, con domicilio en [Dirección de la empresa] y correo electrónico de contacto: legal@inmobiliariaprestige.com.</p>
+            
+            <h3>2. Finalidad del Tratamiento</h3>
+            <p>Los datos personales que nos facilite serán utilizados exclusivamente para:</p>
+            <ul>
+                <li>Gestionar sus solicitudes de información sobre propiedades prime y servicios de asesoría.</li>
+                <li>Envío de comunicaciones comerciales (solo si ha dado su consentimiento expreso).</li>
+                <li>Mantener la relación comercial y contractual en operaciones off-market y due diligence.</li>
+            </ul>
+            
+            <h3>3. Legitimación</h3>
+            <p>La base legal para el tratamiento de sus datos es el consentimiento explícito otorgado al contactarnos o al solicitar nuestros servicios exclusivos.</p>
+            
+            <h3>4. Conservación y Seguridad</h3>
+            <p>Aplicamos estrictos acuerdos de confidencialidad (NDA) y medidas de seguridad técnicas para evitar el acceso no autorizado. Sus datos se conservarán mientras exista un interés mutuo o durante el tiempo necesario para cumplir con las obligaciones legales.</p>
+            
+            <h3>5. Derechos del Usuario</h3>
+            <p>Usted tiene derecho a acceder, rectificar, limitar y suprimir sus datos en cualquier momento. Para ejercer estos derechos, envíe un correo electrónico a nuestro equipo legal.</p>
+        </div>
+    </div>
 
 <script type="module">
         // 1. Importamos Firebase y la Base de Datos (Firestore)
@@ -681,6 +827,44 @@
     
     <script type="module" src="login.js"></script>
     <script src="prestige-chatbot.js"></script>
+
+    <!-- SCRIPT DEL MODAL DE PRIVACIDAD -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("privacyModal");
+            const btnModal = document.getElementById("openPrivacyModal");
+            const spanClose = document.getElementsByClassName("close-btn")[0];
+
+            if (btnModal && modal && spanClose) {
+                // Abrir modal
+                btnModal.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    modal.style.display = "flex";
+                    setTimeout(() => {
+                        modal.classList.add("show");
+                    }, 10);
+                });
+
+                // Cerrar modal con la X
+                spanClose.addEventListener("click", function() {
+                    modal.classList.remove("show");
+                    setTimeout(() => {
+                        modal.style.display = "none";
+                    }, 300); // Coincide con la transición CSS
+                });
+
+                // Cerrar modal al hacer clic fuera del contenido
+                window.addEventListener("click", function(event) {
+                    if (event.target === modal) {
+                        modal.classList.remove("show");
+                        setTimeout(() => {
+                            modal.style.display = "none";
+                        }, 300);
+                    }
+                });
+            }
+        });
+    </script>
 
     <!-- (Hecho por Miguel) -->
     <button type="button" class="pf-back-to-top" id="pfBackToTop" aria-label="Volver arriba" title="Volver arriba">↑</button>
